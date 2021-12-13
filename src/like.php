@@ -23,9 +23,13 @@
 	</style>
 
 	<?php  
-	require 'config/config.php';
-	include("includes/classes/User.php");
-	include("includes/classes/Post.php");
+	
+	use App\Vend\User;
+	use App\Announce\Post;
+	 
+	include("config/config.php");
+	include("App/Vend/User.php");
+	include("App/Announce/Post.php");
 
 	if (isset($_SESSION['username'])) {
 		$userLoggedIn = $_SESSION['username'];
