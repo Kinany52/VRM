@@ -1,7 +1,10 @@
-<?php 
+<?php
+use App\Vend\User;
+use App\Announce\Post;
+ 
 include("../../config/config.php");
-include("../classes/User.php");
-include("../classes/Post.php");
+include("../../App/Vend/User.php");
+include("../../App/Announce/Post.php");
 
 $limit = 10; //Number of posts to be loaded per call
 

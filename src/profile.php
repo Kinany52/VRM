@@ -1,7 +1,11 @@
 <?php 
+
+use App\Vend\User;
+use App\Announce\Post;
+ 
 include("includes/header.php"); 
-include("includes/classes/User.php");
-include("includes/classes/Post.php");
+include("App/Vend/User.php");
+include("App/Announce/Post.php");
 
 
 if(isset($_GET['profile_username'])) {

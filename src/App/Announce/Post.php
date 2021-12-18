@@ -1,5 +1,12 @@
-<?php 
-class Post {
+<?php
+
+Namespace App\Announce;
+
+use App\Vend\User;
+use DateTime;
+
+class Post 
+{
 	private $user_obj;
 	private $con;
 

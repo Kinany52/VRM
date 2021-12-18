@@ -1,5 +1,9 @@
 <?php 
-class User {
+
+Namespace App\Vend;
+
+class User 
+{
 	private $user;
 	private $con;
 
@@ -50,8 +54,6 @@ class User {
 			return false;
 		}
 	}
-
-
 
 }
 
