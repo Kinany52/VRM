@@ -1,11 +1,11 @@
 <?php
 
-use App\Vend\User;
-use App\Announce\Post;
+use Att\DropShipper\User;
+use Att\Announce\Post;
  
 include("config/config.php");
-include("App/Vend/User.php");
-include("App/Announce/Post.php");
+include("Att/DropShipper/User.php");
+include("Att/Announce/Post.php");
 
 	if (isset($_SESSION['username'])) {
 		$userLoggedIn = $_SESSION['username'];
@@ -89,23 +89,23 @@ include("App/Announce/Post.php");
 				$end_date = new DateTime($date_time_now); //Current time
 				$interval = $start_date->diff($end_date); //Difference between dates
 				if($interval->y >= 1) {
-					if($inverval->y == 1)
+					if($interval->y == 1)
 						$time_message = $interval->y . " year ago";  //1 year ago
 					else
 						$time_message = $interval->y . " years ago";  //1+ year ago
 				}
 				else if($interval->m >= 1) {
-					if($inverval->d == 0){
+					if($interval->d == 0){
 						$days = " ago";  
 					}
-					else if($inverval->d == 1){
+					else if($interval->d == 1){
 						$days = $interval->d . " day ago";  //1 day ago
 					}
 					else{				
 						$days = $interval->d . " days ago";  // days ago
 					}
 				
-					if($inverval->m == 1){
+					if($interval->m == 1){
 						$time_message = $interval->m . " month" . $days;  
 					}
 					else {

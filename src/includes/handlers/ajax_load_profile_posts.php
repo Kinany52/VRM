@@ -1,10 +1,10 @@
 <?php 
-use App\Vend\User;
-use App\Announce\Post;
+use Att\DropShipper\User;
+use Att\Announce\Post;
  
 include("../../config/config.php");
-include("../../App/Vend/User.php");
-include("../../App/Announce/Post.php");
+include("../../Att/DropShipper/User.php");
+include("../../Att/Announce/Post.php");
 
 $limit = 10; //Number of posts to be loaded per call
 

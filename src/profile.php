@@ -1,11 +1,11 @@
 <?php 
 
-use App\Vend\User;
-use App\Announce\Post;
+use Att\DropShipper\User;
+use Att\Announce\Post;
  
 include("includes/header.php"); 
-include("App/Vend/User.php");
-include("App/Announce/Post.php");
+include("Att/DropShipper/User.php");
+include("Att/Announce/Post.php");
 
 
 if(isset($_GET['profile_username'])) {

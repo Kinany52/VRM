@@ -1,8 +1,8 @@
 <?php
 
-Namespace App\Announce;
+Namespace Att\Announce;
 
-use App\Vend\User;
+use Att\DropShipper\User;
 use DateTime;
 
 class Post 

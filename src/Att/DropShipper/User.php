@@ -1,6 +1,6 @@
 <?php 
 
-Namespace App\Vend;
+Namespace Att\DropShipper;
 
 class User 
 {

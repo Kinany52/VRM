@@ -1,0 +1,17 @@
+{
+    "name": "root/app",
+    "description": "\"\"",
+    "autoload": {
+        "psr-4": {
+            "Root\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sarmad Kinany",
+            "email": "draskinany@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
