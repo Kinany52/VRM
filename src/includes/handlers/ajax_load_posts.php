@@ -2,7 +2,7 @@
 use Att\DropShipper\User;
 use Att\Announce\Post;
  
-include("../../config/config.php");
+include("../../../config/config.php");
 include("../../Att/DropShipper/User.php");
 include("../../Att/Announce/Post.php");
 
