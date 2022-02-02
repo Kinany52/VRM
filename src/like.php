@@ -24,8 +24,8 @@
 
 	<?php  
 	
-	use Att\DropShipper\User;
-	use Att\Announce\Post;
+	use App\DropShipper\User;
+	use App\Announce\Post;
 	 
 	include("../config/config.php");
 	include("Att/DropShipper/User.php");

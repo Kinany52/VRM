@@ -1,7 +1,9 @@
 <?php 
 
-use Att\DropShipper\User;
-use Att\Announce\Post;
+require_once __DIR__ . '../../vendor/autoload.php';
+
+use App\DropShipper\User;
+use App\Announce\Post;
  
 include("includes/header.php");
 include("Att/DropShipper/User.php");
