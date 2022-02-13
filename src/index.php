@@ -1,14 +1,10 @@
 <?php 
-
-require_once __DIR__ . '../../vendor/autoload.php';
-
-use App\DropShipper\User;
-use App\Announce\Post;
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+bootstrap();
+use App\Att\User;
+use App\Att\Post;
  
 include("includes/header.php");
-include("Att/DropShipper/User.php");
-include("Att/Announce/Post.php");
-
 
 if(isset($_POST['post'])){
     $post = new Post($con, $userLoggedIn);
@@ -16,8 +12,8 @@ if(isset($_POST['post'])){
     header("Location: index.php"); //Stops the form resubmitting on refresh.
 }
 
-
  ?> 
+
         <div class="user_details column">
             
             <div class="user_details_left_right">

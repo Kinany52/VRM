@@ -1,13 +1,27 @@
 <?php
-ob_start(); //Turns on output buffering
-session_start();
 
-$timezone = date_default_timezone_set("Europe/Berlin");
+if (!function_exists("config")) {
 
-$con = mysqli_connect("localhost", "root", "", "social"); //Connection variable
+	function config() {
 
-if(mysqli_connect_errno()) {
-	echo "Failed to connect:" . mysqli_connect_errno(); 
+		$timezone = date_default_timezone_set("Europe/Berlin");
+
+		$con = mysqli_connect("localhost", "root", "", "social"); //Connection variable
+
+		if(mysqli_connect_errno()) {
+				throw new \Exception("Failed to connect:", mysqli_connect_errno());
+		}
+
+		return $con;
+	}
+
+}
+
+if (!function_exists("bootstrap")) {
+	function bootstrap() {
+		session_start();
+		ob_start();
+	}
 }
 
 ?>

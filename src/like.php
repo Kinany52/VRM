@@ -23,13 +23,17 @@
 	</style>
 
 	<?php  
+	require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 	
-	use App\DropShipper\User;
-	use App\Announce\Post;
-	 
-	include("../config/config.php");
-	include("Att/DropShipper/User.php");
-	include("Att/Announce/Post.php");
+	$con = config();
+	bootstrap();
+	
+	use App\Att\User;
+	use App\Att\Post;
+	
+
+	include("Att/User.php");
+	include("Att/Post.php");
 
 	if (isset($_SESSION['username'])) {
 		$userLoggedIn = $_SESSION['username'];

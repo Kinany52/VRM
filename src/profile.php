@@ -1,12 +1,15 @@
 <?php 
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-use App\DropShipper\User;
-use App\Announce\Post;
+$con = config();
+bootstrap();
+
+use App\Att\User;
+use App\Att\Post;
  
 include("includes/header.php"); 
-include("Att/DropShipper/User.php");
-include("Att/Announce/Post.php");
-
+include("Att/User.php");
+include("Att/Post.php");
 
 if(isset($_GET['profile_username'])) {
   $username = $_GET['profile_username'];

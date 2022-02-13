@@ -1,7 +1,12 @@
 <?php
-require '../config/config.php';
-require 'includes/form_handlers/register_handler.php';
-require 'includes/form_handlers/login_handler.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+bootstrap();
+
+include("includes/form_handlers/register_handler.php");
+include("includes/form_handlers/login_handler.php");
+
+
 ?>
 
 
