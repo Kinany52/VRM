@@ -197,8 +197,8 @@ textarea:focus {
 }
 
 .newsfeedPostOptions iframe {
-    border: 0px;
-    height: 17px;
+    border: 0;
+    height: 15px;
     width: 180px;
 }
 

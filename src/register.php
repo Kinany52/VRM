@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 bootstrap();
@@ -6,9 +7,7 @@ bootstrap();
 include("includes/form_handlers/register_handler.php");
 include("includes/form_handlers/login_handler.php");
 
-
 ?>
-
 
 <!DOCTYPE html>
 <html>

@@ -8,9 +8,6 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendo
 $con = config();
 bootstrap();
 
-include("Att/User.php");
-include("Att/Post.php");
-
 	if (isset($_SESSION['username'])) {
 		$userLoggedIn = $_SESSION['username'];
 		$user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$userLoggedIn'");

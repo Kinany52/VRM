@@ -1,15 +1,14 @@
 <?php 
+
+use App\Att\User;
+use App\Att\Post;
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 $con = config();
 bootstrap();
-
-use App\Att\User;
-use App\Att\Post;
  
 include("includes/header.php"); 
-include("Att/User.php");
-include("Att/Post.php");
 
 if(isset($_GET['profile_username'])) {
   $username = $_GET['profile_username'];
@@ -26,7 +25,6 @@ if(isset($_GET['profile_username'])) {
                   margin-left: -10px;
                   padding-lef: 0px;
               }  
-
         </style>
 
         <div class="profile_left">
@@ -53,25 +51,15 @@ if(isset($_GET['profile_username'])) {
                         echo '<input type="submit" name="remove_friend" class="danger" value="Offboard Vendor"><br>';
                     }
                 }
-
-
                 ?>
-              
-
             </form>
-
         </div>
         
         <div class="main_column column">
             <?php echo $username; ?>
-
-
-          
         </div>
 
-
 <script>
- 
  $(function(){
  
     var userLoggedIn = '<?php echo $userLoggedIn; ?>';

@@ -1,8 +1,11 @@
 <?php 
-require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-bootstrap();
+
 use App\Att\User;
 use App\Att\Post;
+
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+bootstrap();
  
 include("includes/header.php");
 
