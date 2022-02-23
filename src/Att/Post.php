@@ -1,8 +1,8 @@
 <?php
 
-Namespace App\Announce;
+Namespace App\Att;
 
-use App\Vend\User;
+use App\Att\User;
 use DateTime;
 
 class Post 

@@ -1,6 +1,8 @@
 <?php
-require 'config/config.php';
 
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+$con = config();
 
 if (isset($_SESSION['username'])) {
 	$userLoggedIn = $_SESSION['username'];
@@ -12,7 +14,6 @@ else {
 }
 
  ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -29,7 +30,6 @@ else {
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-
 </head>
 <body>
 
@@ -44,9 +44,7 @@ else {
 			<a id="GFG" href="includes/handlers/logout.php">Logout</a>
 		</nav>
 
-
 	</div>
 
 	<div class="wrapper">
 		
-	

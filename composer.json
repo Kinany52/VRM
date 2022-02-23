@@ -1,0 +1,19 @@
+{
+    "name": "root/app",
+    "description": "\"\"",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "App\\Att\\": "src/Att"
+        },
+        "files": ["config/config.php"]
+    },
+    "authors": [
+        {
+            "name": "Sarmad Kinany",
+            "email": "draskinany@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

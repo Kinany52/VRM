@@ -7,5 +7,4 @@ include("includes/header.php");
 	
 	This account is closed.
 	<a href="index.php"> Click here to go back.</a>
-
 </div>

@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_POST['login_button'])) {
 	$email = filter_var($_POST['log_email'], FILTER_SANITIZE_EMAIL); //Sanitize email
 
@@ -20,7 +19,7 @@ if (isset($_POST['login_button'])) {
 		}
 
 		$_SESSION['username'] = $username;
-		header("Location: index.php");
+		header('Location: /Demo/VRM/src/index.php');
 		exit();
 	}
 	else {
