@@ -7,7 +7,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendo
 
 $con = config();
 bootstrap();
- 
+
 include("includes/header.php"); 
 
 if(isset($_GET['profile_username'])) {
