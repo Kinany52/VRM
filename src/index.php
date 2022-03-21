@@ -2,10 +2,9 @@
 
 use App\Att\User;
 use App\Att\Post;
+use App\Entity\PDO;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-
-bootstrap();
  
 include("includes/header.php");
 
@@ -16,7 +15,6 @@ if(isset($_POST['post'])){
 }
 
  ?> 
-
         <div class="user_details column">
             
             <div class="user_details_left_right">

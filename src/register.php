@@ -2,8 +2,6 @@
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-bootstrap();
-
 include("includes/form_handlers/register_handler.php");
 include("includes/form_handlers/login_handler.php");
 
@@ -14,6 +12,7 @@ include("includes/form_handlers/login_handler.php");
 <head>
 	<meta charset="utf-8">
 	<title>Vendor Return Management</title>
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> <! --Prevents favicon error message in console.-->
 	<link rel="stylesheet" type="text/css" href="assets/css/register_style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="assets/js/register.js"></script>

@@ -2,12 +2,10 @@
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-$con = config();
-
 if (isset($_SESSION['username'])) {
 	$userLoggedIn = $_SESSION['username'];
-	$user_details_quer = mysqli_query($con, "SELECT * FROM users WHERE username='$userLoggedIn'");
-	$user = mysqli_fetch_array($user_details_quer);
+	$user_details_quer = PDO::run("SELECT * FROM users WHERE username=?", [$userLoggedIn])->fetch();
+	$user = var_export($user_details_quer);
 } 
 else {
 	header("Location: register.php");

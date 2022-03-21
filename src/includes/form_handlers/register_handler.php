@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\PDO;
+
 //Declaring variables to prevent error
 $fname = ""; //First name
 $lname = ""; //Last name
@@ -9,7 +11,7 @@ $password = ""; //Password
 $password2 = ""; //Password 2
 $date = ""; //Sign up date
 $error_array = array(); //Holds error messages
-$con = config();
+//$con = config();
 
 if (isset($_POST['register_button'])) {
 	
@@ -52,10 +54,11 @@ if (isset($_POST['register_button'])) {
 			$em = filter_var($em, FILTER_VALIDATE_EMAIL);
 
 			//check if email already exists
-			$e_check = mysqli_query($con, "SELECT email FROM users WHERE email='$em'");
+			$e_check = PDO::run("SELECT email FROM users WHERE email=?", [$em])->fetch();
+			var_export($e_check);
 
 			//Count the number of rows returned
-			$num_rows = mysqli_num_rows($e_check);
+			$num_rows = PDOstatement::rowCount($e_check);
 
 			if ($num_rows > 0) {
 				array_push($error_array, "Email already in use<br>");
@@ -99,17 +102,20 @@ if (isset($_POST['register_button'])) {
 
 		//Generate username by concarenating first name and last name
 		$username = strtolower($fname . "_" . $lname);
-		$check_username_query = mysqli_query($con, "SELECT username FROM users WHERE username='$username'");
+		$check_username_query = PDO::run("SELECT username FROM users WHERE username=?", [$username])->fetch();
+		var_export($check_username_query);
 
 		$i = 0;
 		//If username exists add number to username
-		while (mysqli_num_rows($check_username_query) != 0) {
+		while (PDOstatement::rowCount($check_username_query) != 0) {
 			$i++; //Add 1 to i
 			$username = $username . "_" . $i;
-			$check_username_query = mysqli_query($con, "SELECT username FROM users WHERE username='$username'");
+			$check_username_query = PDO::run("SELECT username FROM users WHERE username=?", [$username])->fetch();
+			var_export($check_username_query);
 		}
 
-		$query = mysqli_query($con, "INSERT INTO users VALUES (NULL, '$fname', '$lname', '$username', '$em', '$password', '$date', '', '0', '0', 'no', ',')");
+		$query = PDO::run("INSERT INTO users (id, first_name, last_name, username, email, password, signup_date, profile_pic, num_posts, num_likes, user_closed, friend_array) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $fname, $lname, $username, $em, $password, $date, NULL, 0, 0, no, '']);
+		var_export($query);
 
 		array_push($error_array, "<span style='color: #14C800;'>You're all set! Go ahead and login!</span>");
 
