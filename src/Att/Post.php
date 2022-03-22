@@ -38,7 +38,7 @@ class Post
 			}
 
 			//Insert post
-			$query = mysqli_query($this->con, "INSERT INTO posts VALUES('', '$body', '$added_by', '$user_to', '$date_added', 'no', 'no', '0')");
+			$query = mysqli_query($this->con, "INSERT INTO posts VALUES(NULL, '$body', '$added_by', '$user_to', '$date_added', 'no', 'no', '0')");
 			$returned_id = mysqli_insert_id($this->con);
 
 			//Insert notification
@@ -200,7 +200,7 @@ class Post
 
 				$str .="<div class='status_post' onClick='javascrpt:toggle$id()'>
 									<div class='posted_by' style='color:#ACACAC;'>
-										<a href='$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+										<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message
 										$delete_button
 									</div>
 									<div id='post_body'>

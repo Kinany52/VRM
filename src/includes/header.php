@@ -40,7 +40,7 @@ else {
 		</div>
 
 		<nav>
-			<a id="GFGN" href="<?php echo $userLoggedIn; ?>">Hi there, <?php echo $user['first_name']; ?>!</a>
+			<a id="GFGN" href="profile.php?profile_username=<?php echo $userLoggedIn; ?>">Hi there, <?php echo $user['first_name']; ?>!</a>
 			<a id="GFG" href="includes/handlers/logout.php">Logout</a>
 		</nav>
 

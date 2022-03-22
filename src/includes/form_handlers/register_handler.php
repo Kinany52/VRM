@@ -109,7 +109,7 @@ if (isset($_POST['register_button'])) {
 			$check_username_query = mysqli_query($con, "SELECT username FROM users WHERE username='$username'");
 		}
 
-		$query = mysqli_query($con, "INSERT INTO users VALUES ('', '$fname', '$lname', '$username', '$em', '$password', '$date', '', '0', '0', 'no', ',')");
+		$query = mysqli_query($con, "INSERT INTO users VALUES (NULL, '$fname', '$lname', '$username', '$em', '$password', '$date', '', '0', '0', 'no', ',')");
 
 		array_push($error_array, "<span style='color: #14C800;'>You're all set! Go ahead and login!</span>");
 

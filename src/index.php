@@ -20,7 +20,7 @@ if(isset($_POST['post'])){
         <div class="user_details column">
             
             <div class="user_details_left_right">
-                <a href="<?php echo $userLoggedIn; ?>">
+                <a href="profile.php?profile_username=<?php echo $userLoggedIn; ?>">
                 <?php
                 echo $user['first_name'] . " " . $user['last_name'];
                  ?>

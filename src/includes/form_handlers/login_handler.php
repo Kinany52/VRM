@@ -19,7 +19,7 @@ if (isset($_POST['login_button'])) {
 		}
 
 		$_SESSION['username'] = $username;
-		header('Location: /Demo/VRM/src/index.php');
+		header('Location: index.php');
 		exit();
 	}
 	else {
