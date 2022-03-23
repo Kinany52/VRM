@@ -9,21 +9,24 @@ if (isset($_POST['login_button'])) {
 	
 	$password = md5($_POST['log_password']); //Get password
 
-	$check_database_query = PDO::run("SELECT * FROM users WHERE email=? AND password=?", [$email, $password])->fetch();
-	var_export($check_database_query);
+	$check_database_query = PDO::run("SELECT * FROM users WHERE email=? AND password=?", [$email, $password]);
+	//var_export($check_database_query);
+	
+	$check_login_query = $check_database_query->fetchAll();
 
-	$check_login_query = PDOstatement::rowCount($check_database_query);
+	//$check_login_query = $check_database_query->rowCount();
+	//dd($check_login_query);
 
-	if ($check_login_query == 1) {
-		$row = fetch($check_database_query);
-		$username = $row['username'];
+	if (count($check_login_query) == 1) {
+		//$row = fetch($check_database_query);
+		$username = $check_login_query['username'];
 
 		$user_closed_query = PDO::run("SELECT * FROM users WHERE email=? AND user_closed=?", [$email, 'yes'])->fetch();
-		var_export($user_closed_query);
+		//var_export($user_closed_query);
 		
-		if (PDOstatement::rowCount($user_closed_query) == 1) {
+		if (count($user_closed_query) == 1) {
 			$reopen_account = PDO::run("UPDATE users SET use_closed=? WHERE email=?", ['no', $email]);
-			var_dump($reopen_account);
+			//var_dump($reopen_account);
 		}
 
 		$_SESSION['username'] = $username;
