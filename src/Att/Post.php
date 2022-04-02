@@ -4,6 +4,7 @@ Namespace App\Att;
 
 use App\Att\User;
 use DateTime;
+use App\Entity\PDO;
 
 class Post 
 {
@@ -11,14 +12,12 @@ class Post
 	private $con;
 
 	public function __construct($con, $user) {
-		$this->con = $con;
-		$this->user_obj = new User($con, $user);
+		$this->con = PDO::instance();
+		$this->user_obj = new User(PDO::instance(), $user);
 	}
 
 	public function submitPost($body, $user_to) {
 		$body = strip_tags($body); //removes html tags
-		$body = mysqli_real_escape_string($this->con, $body);
-
 		$body = str_replace('\r\n', '\n', $body); //Allows new line character
 		$body = nl2br($body); //Replace new lines with line breaks
 
@@ -32,21 +31,16 @@ class Post
 			//Get username
 			$added_by = $this->user_obj->getUsername();
 
-			//If user is on own profile, user_to is 'none'
-			if($user_to == $added_by) {
-				$user_to = "none";
-			}
-
 			//Insert post
-			$query = mysqli_query($this->con, "INSERT INTO posts VALUES(NULL, '$body', '$added_by', '$user_to', '$date_added', 'no', 'no', '0')");
-			$returned_id = mysqli_insert_id($this->con);
-
-			//Insert notification
+			$query = PDO::instance()->prepare("INSERT INTO posts VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+			$query->execute([NULL, $body, $added_by, $user_to, $date_added, 'no', 'no', '0']);
+			$returned_id = PDO::instance()->lastInsertId();
 
 			//Update post count for user
 			$num_posts = $this->user_obj->getNumPosts();
 			$num_posts++;
-			$update_query = mysqli_query($this->con, "UPDATE users SET num_posts='$num_posts' WHERE username='$added_by'");
+			$update_query = PDO::instance()->prepare("UPDATE users SET num_posts=? WHERE username=?");
+			$update_query->execute([$num_posts, $added_by]);
 		}
 	}
 
@@ -62,14 +56,16 @@ class Post
 
 
 		$str = ""; //String to return
-		$data_query = mysqli_query($this->con, "SELECT * FROM posts WHERE deleted='no' ORDER BY id DESC");
+		$data_query = PDO::instance()->prepare("SELECT * FROM posts WHERE deleted=? ORDER BY id DESC");
+		$data_query->execute(['no']);
+		//$fetch_data_query = $data_query->fetch();
 
-		if(mysqli_num_rows($data_query) > 0) {
+		if($data_query->rowCount() > 0) {
 
 			$num_iterations = 0; //Number of posts checked (Not necessarily posted)
 			$count = 1;
 
-			while ($row = mysqli_fetch_array($data_query)) {
+			while ($row = $data_query->fetch()) {
 				$id = $row['id'];
 				$body = $row['body'];
 				$added_by = $row['added_by'];
@@ -79,15 +75,9 @@ class Post
 				if($row['user_to'] == "none") {
 					$user_to = "";
 				}
-				else {
-					$user_to_obj = new User($con, $row['user_to']);
-					$user_to_name = $user_to_obj->getFirstAndLastName();
-					$user_to = "to <a href='" . $row['user_to'] ."'>" . $user_to_name . "</a>";
-				}
-
 
 				//Check if user who posted, has their account closed.
-				$added_by_obj = new User($this->con, $row['user_to']);
+				$added_by_obj = new User(PDO::instance(), $row['user_to']);
 				if($added_by_obj->isClosed()) {
 					continue;
 				}
@@ -109,8 +99,9 @@ class Post
 				else
 					$delete_button = "";
 
-				$user_details_query = mysqli_query($this->con, "SELECT first_name, last_name FROM users WHERE username='$added_by'");
-				$user_row = mysqli_fetch_array($user_details_query);
+				$user_details_query = PDO::instance()->prepare("SELECT first_name, last_name FROM users WHERE username=?");
+				$user_details_query->execute([$added_by]);
+				$user_row = $user_details_query->fetch();
 				$first_name = $user_row['first_name'];
 				$last_name = $user_row['last_name'];
 
@@ -132,8 +123,10 @@ class Post
 				</script>
 				<?php
 
-				$comment_check = mysqli_query($this->con, "SELECT * FROM comments WHERE post_id='$id'");
-				$comment_check_num = mysqli_num_rows($comment_check);
+				$comment_check = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=?");
+				$comment_check->execute([$id]);
+				$fetch_comment_check = $comment_check->fetch();
+				$comment_check_num = $comment_check->rowCount();
 
 				//Timeframe
 				$date_time_now = date("Y-m-d H:i:s");

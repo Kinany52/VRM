@@ -5,18 +5,19 @@ use App\Att\Post;
 use App\Entity\PDO;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
- 
+
+bootstrap();
+
 include("includes/header.php");
 
 if(isset($_POST['post'])){
-    $post = new Post($con, $userLoggedIn);
+    $post = new Post(PDO::instance(), $userLoggedIn);
     $post->submitPost($_POST['post_text'], 'none');
-    header("Location: index.php"); //Stops the form resubmitting on refresh.
+    header("Location: index.php"); //Stops the form resubmitting on refresh (duplicate announcement prevention).
 }
 
  ?> 
-        <div class="user_details column">
-            
+        <div class="user_details column">   
             <div class="user_details_left_right">
                 <a href="profile.php?profile_username=<?php echo $userLoggedIn; ?>">
                 <?php
@@ -41,8 +42,6 @@ if(isset($_POST['post'])){
             
              <div class=posts_area></div>
              <img id="loading" src="assets/images/icons/loading.gif">
-
-
         </div>
 
         <script>
@@ -72,13 +71,13 @@ if(isset($_POST['post'])){
                     $('#loading').show();
              
                     var page = $('.posts_area').find('.nextPage').val() || 1; //If .nextPage couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
-             
+                    
                     $.ajax({
                         url: "includes/handlers/ajax_load_posts.php",
                         type: "POST",
                         data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
                         cache:false,
-             
+                        //alert("hello")
                         success: function(response) {
                             $('.posts_area').find('.nextPage').remove(); //Removes current .nextpage 
                             $('.posts_area').find('.noMorePosts').remove(); //Removes current .nextpage 

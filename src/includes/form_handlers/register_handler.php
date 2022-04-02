@@ -55,7 +55,7 @@ if (isset($_POST['register_button'])) {
 
 			//check if email already exists
 			$e_check = PDO::run("SELECT email FROM users WHERE email=?", [$em])->fetch();
-			var_export($e_check);
+			//var_export($e_check);
 
 			//Count the number of rows returned
 			$num_rows = rowCount($e_check);
