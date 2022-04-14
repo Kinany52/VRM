@@ -1,15 +1,18 @@
 <?php 
 
+use App\Entity\PDO;
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-$con = config();
+bootstrap();
 
 	if(isset($_GET['post_id']))
 		$post_id = $_GET['post_id'];
 
 	if(isset($_POST['result'])) {
 		if($_POST['result'] == 'true')
-			$query = mysqli_query($con, "UPDATE posts SET deleted='yes' WHERE id='$post_id'");
+			$query = PDO::instance()->prepare("UPDATE posts SET deleted=? WHERE id=?");
+			$query->execute(['yes', $post_id]);
 	}
 
  ?>

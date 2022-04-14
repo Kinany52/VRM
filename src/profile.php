@@ -2,18 +2,19 @@
 
 use App\Att\User;
 use App\Att\Post;
+use App\Entity\PDO;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-$con = config();
 bootstrap();
 
 include("includes/header.php"); 
 
 if(isset($_GET['profile_username'])) {
   $username = $_GET['profile_username'];
-  $user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$username'");
-  $user_array = mysqli_fetch_array($user_details_query);
+  $user_details_query = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
+  $user_details_query->execute([$username]);
+  $user_array = $user_details_query->fetch();
 
   $num_friends = (substr_count($user_array['friend_array'], ",")) - 1;
 }
@@ -38,12 +39,12 @@ if(isset($_GET['profile_username'])) {
 
             <form action="<?php echo $username; ?>">
                 <?php 
-                $profile_user_obj = new User($con, $username);
+                $profile_user_obj = new User(PDO::instance(), $username);
                 if($profile_user_obj->isClosed()) {
                     header("Location: user_closed.php");
                 }
 
-                $logged_in_user_obj = new User($con, $userLoggedIn);
+                $logged_in_user_obj = new User(PDO::instance(), $userLoggedIn);
 
                 if($userLoggedIn != $username) {
 

@@ -2,16 +2,17 @@
 
 use App\Att\User;
 use App\Att\Post;
+use App\Entity\PDO;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-$con = config();
 bootstrap();
 
 if (isset($_SESSION['username'])) {
 	$userLoggedIn = $_SESSION['username'];
-	$user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$userLoggedIn'");
-	$user = mysqli_fetch_array($user_details_query);
+	$user_details_query = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
+	$user_details_query->execute([$userLoggedIn]);
+	$user = $user_details_query->fetch();
 }
 else {
 	header("Location: register.php");
@@ -22,37 +23,47 @@ if(isset($_GET['post_id'])) {
 	$post_id = $_GET['post_id'];
 }
 
-$get_likes = mysqli_query($con, "SELECT likes, added_by FROM posts WHERE id='$post_id'");
-$row = mysqli_fetch_array($get_likes);
+$get_likes = PDO::instance()->prepare("SELECT likes, added_by FROM posts WHERE id=?");
+$get_likes->execute([$post_id]);
+$row = $get_likes->fetch();
 $total_likes = $row['likes']; 
 $user_liked = $row['added_by'];
 
-$user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$user_liked'");
-$row = mysqli_fetch_array($user_details_query);
+$user_details_query = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
+$user_details_query->execute([$user_liked]);
+$row = $user_details_query->fetch();
 $total_user_likes = $row['num_likes'];
 
 //Like button
 if(isset($_POST['like_button'])) {
 	$total_likes++;
-	$query = mysqli_query($con, "UPDATE posts SET likes='$total_likes' WHERE id='$post_id'");
+	$query = PDO::instance()->prepare("UPDATE posts SET likes=? WHERE id=?");
+	$query->execute([$total_likes, $post_id]);
 	$total_user_likes++;
-	$user_likes = mysqli_query($con, "UPDATE users SET num_likes='$total_user_likes' WHERE username='$user_liked'");
-	$insert_user = mysqli_query($con, "INSERT INTO likes VALUES(NULL, '$userLoggedIn', '$post_id')");
+	$user_likes = PDO::instance()->prepare("UPDATE users SET num_likes=? WHERE username=?");
+	$user_likes->execute([$total_user_likes, $user_liked]);
+	$insert_user = PDO::instance()->prepare("INSERT INTO likes VALUES(?, ?, ?)");
+	$insert_user->execute([NULL, $userLoggedIn, $post_id]);
 
 	//Insert Notification
 }
 //Unlike button
 if(isset($_POST['unlike_button'])) {
 	$total_likes--;
-	$query = mysqli_query($con, "UPDATE posts SET likes='$total_likes' WHERE id='$post_id'");
+	$query = PDO::instance()->prepare("UPDATE posts SET likes=? WHERE id=?");
+	$query->execute([$total_likes, $post_id]);
 	$total_user_likes--;
-	$user_likes = mysqli_query($con, "UPDATE users SET num_likes='$total_user_likes' WHERE username='$user_liked'");
-	$insert_user = mysqli_query($con, "DELETE FROM likes WHERE username='$userLoggedIn' AND post_id='$post_id'");
+	$user_likes = PDO::instance()->prepare("UPDATE users SET num_likes=? WHERE username=?");
+	$user_likes->execute([$total_user_likes, $user_liked]);
+	$insert_user = PDO::instance()->prepare("DELETE FROM likes WHERE username=? AND post_id=?");
+	$insert_user->execute([$userLoggedIn, $post_id]);
 }
 
 //Check for previous likes
-$check_query = mysqli_query($con, "SELECT * FROM likes WHERE username='$userLoggedIn' AND post_id='$post_id'");
-$num_rows = mysqli_num_rows($check_query);
+$check_query = PDO::instance()->prepare("SELECT * FROM likes WHERE username=? AND post_id=?");
+$check_query->execute([$userLoggedIn, $post_id]);
+$fetch_check_query = $check_query->fetch();
+$num_rows = $check_query->rowCount();
 
 if($num_rows > 0) {
 	echo '<form action="like.php?post_id=' . $post_id . '" method="POST">

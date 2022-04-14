@@ -6,13 +6,11 @@ if (!function_exists("config")) {
 
 		$timezone = date_default_timezone_set("Europe/Berlin");
 
-		$con = mysqli_connect("mysql", "root", "pass", "social"); //Connection variable
-
-		if(mysqli_connect_errno()) {
-				throw new \Exception("Failed to connect:", mysqli_connect_errno());
-		}
-
-		return $con;
+		define('DB_HOST', 'mysql');
+		define('DB_NAME', 'social');
+		define('DB_USER', 'root');
+		define('DB_PASS', 'pass');
+		define('DB_CHAR', 'utf8');
 	}
 
 }
