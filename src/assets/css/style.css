@@ -80,7 +80,7 @@ nav a:hover {
 	position: relative;
 	padding: 30px 10px;
 	width: 75%;
-	min-width: 950px;
+	min-width: 950px;	
 }
 
 .column {
@@ -232,6 +232,8 @@ textarea:focus {
 	height: 100%;
 	float: left;
 	position: relative;
+	margin-left: -170px;
+    padding-lef: 0px;
 	
 	background-color: #125D98;
 	border-right: 10px solid #DDDDDD;
