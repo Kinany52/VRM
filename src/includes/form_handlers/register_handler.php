@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\PDO;
+use App\Library\PDO;
 
 //Declaring variables to prevent error
 $fname = ""; //First name
@@ -114,8 +114,7 @@ if (isset($_POST['register_button'])) {
 			//var_export($check_username_query);
 		}
 
-		$query = PDO::run("INSERT INTO users (id, first_name, last_name, username, email, password, signup_date, profile_pic, num_posts, num_likes, user_closed, friend_array) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $fname, $lname, $username, $em, $password, $date, NULL, 0, 0, no, '']);
-		//var_export($query);
+		$query = PDO::run("INSERT INTO users (id, first_name, last_name, username, email, password, signup_date, num_posts, num_likes, user_closed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $fname, $lname, $username, $em, $password, $date, 0, 0, no]);
 
 		array_push($error_array, "<span style='color: #14C800;'>You're all set! Go ahead and login!</span>");
 
