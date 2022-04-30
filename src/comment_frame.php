@@ -52,7 +52,7 @@ bootstrap();
  		$post_id = $_GET['post_id'];
  	}
 
- 	$user_query = PDO::instance()->prepare("SELECT added_by, user_to FROM posts WHERE id=?");
+ 	$user_query = PDO::instance()->prepare("SELECT added_by FROM posts WHERE id=?");
  	$user_query->execute([$post_id]);
  	$row = $user_query->fetch();
 
@@ -61,8 +61,8 @@ bootstrap();
  	if(isset($_POST['postComment' . $post_id])) {
  		$post_body = $_POST['post_body'];
  		$date_time_now = date("Y-m-d H:i:s");
- 		$insert_post = PDO::instance()->prepare("INSERT INTO comments VALUES (?, ?, ?, ?, ?, ?, ?)");
- 		$insert_post->execute([NULL, $post_body, $userLoggedIn, $posted_to, $date_time_now, 'no', $post_id]);
+ 		$insert_post = PDO::instance()->prepare("INSERT INTO comments VALUES (?, ?, ?, ?, ?, ?)");
+ 		$insert_post->execute([NULL, $post_body, $userLoggedIn, $posted_to, $date_time_now, $post_id]);
  			echo "<p>Comment Posted! </p>";
  	}
  	?>
@@ -85,7 +85,6 @@ bootstrap();
 				$posted_to = $comment['posted_to'];
 				$posted_by = $comment['posted_by'];
 				$date_added = $comment['date_added'];
-				$removed = $comment['removed'];
 				
 				//Timeframe
 				$date_time_now = date("Y-m-d H:i:s");
