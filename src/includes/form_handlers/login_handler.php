@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\PDO;
+use App\Library\PDO;
 
 if (isset($_POST['login_button'])) {
 	$email = filter_var($_POST['log_email'], FILTER_SANITIZE_EMAIL); //Sanitize email
