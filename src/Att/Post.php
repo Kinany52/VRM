@@ -16,7 +16,7 @@ class Post
 		$this->user_obj = new User(PDO::instance(), $user);
 	}
 
-	public function submitPost($body, $user_to) {
+	public function submitPost($body) {
 		$body = strip_tags($body); //removes html tags
 		$body = str_replace('\r\n', '\n', $body); //Allows new line character
 		$body = nl2br($body); //Replace new lines with line breaks
@@ -32,8 +32,8 @@ class Post
 			$added_by = $this->user_obj->getUsername();
 
 			//Insert post
-			$query = PDO::instance()->prepare("INSERT INTO posts VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-			$query->execute([NULL, $body, $added_by, $user_to, $date_added, 'no', 'no', '0']);
+			$query = PDO::instance()->prepare("INSERT INTO posts VALUES(?, ?, ?, ?, ?, ?)");
+			$query->execute([NULL, $body, $added_by, $date_added, 'no', '0']);
 			$returned_id = PDO::instance()->lastInsertId();
 
 			//Update post count for user
@@ -70,11 +70,6 @@ class Post
 				$body = $row['body'];
 				$added_by = $row['added_by'];
 				$date_time = $row['date_added'];
-
-				//Prepare user to string so it can be included even if not posted to a user
-				if($row['user_to'] == "none") {
-					$user_to = "";
-				}
 
 				if($num_iterations++ < $start)
 					continue;
@@ -187,7 +182,7 @@ class Post
 
 				$str .="<div class='status_post' onClick='javascrpt:toggle$id()'>
 									<div class='posted_by' style='color:#ACACAC;'>
-										<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+										<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
 										$delete_button
 									</div>
 									<div id='post_body'>

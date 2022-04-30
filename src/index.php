@@ -12,7 +12,7 @@ include("includes/header.php");
 
 if(isset($_POST['post'])){
     $post = new Post(PDO::instance(), $userLoggedIn);
-    $post->submitPost($_POST['post_text'], 'none');
+    $post->submitPost($_POST['post_text']);
     header("Location: index.php"); //Stops the form resubmitting on refresh (duplicate announcement prevention).
 }
 
