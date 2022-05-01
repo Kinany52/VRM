@@ -5,7 +5,21 @@ declare(strict_types=1);
 namespace App\Entity;
 
 class UsersEntity extends AbstractEntity
-{
+{   
+    public function __construct(
+        public readonly int $id,
+        public readonly string $first_name,
+        public readonly string $last_name,
+        public readonly string $username,
+        public readonly string $email,
+        public readonly string $password,
+        public readonly DateTimeImmutable $signup_date,
+        public readonly int $num_post,
+        public readonly int $num_likes,
+        public readonly bool $user_closed
+    )
+    {}
+
     public function __get($id): ?int
     {
         return $this->$id;
@@ -36,7 +50,7 @@ class UsersEntity extends AbstractEntity
         return $this->$password;
     }
 
-    public function __get($signup_date): ?int
+    public function __get($signup_date): DateTimeImmutable
     {
         return $this->$signup_date;
     }
