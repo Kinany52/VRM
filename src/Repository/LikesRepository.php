@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Repository;
+
+use App\Library\PDO;
+use App\Entity\LikesEntity;
+
+class LikesRepository
+{
+	public static function setLikeByAll(int $id, string $username, int $post_id): LikesEntity
+	{
+		$insertLike = PDO::instance()->prepare("INSERT INTO likes VALUES(?, ?, ?)");
+		$insertLike->execute([NULL, $userLoggedIn, $post_id]);
+	}
+
+	public static function deleteLikeByUsernameAndPostId(string $username, int $post_id): LikesEntity
+	{
+		$deleteLike = PDO::instance()->prepare("DELETE FROM likes WHERE username=? AND post_id=?");
+		$deleteLike->execute([$userLoggedIn, $post_id]);
+	}
+
+	public static function getLikeByUsernameAndPostId(string $username, int $post_id): LikesEntity
+	{
+		$checkLike = PDO::instance()->prepare("SELECT * FROM likes WHERE username=? AND post_id=?");
+		$checkLike->execute([$userLoggedIn, $post_id]);
+		
+		return new LikesEntity(...$checkLike->fetch());
+	}
+}
