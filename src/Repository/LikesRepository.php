@@ -23,9 +23,9 @@ class LikesRepository
 
 	public static function getLikeByUsernameAndPostId(string $username, int $post_id): LikesEntity
 	{
-		$checkLike = PDO::instance()->prepare("SELECT * FROM likes WHERE username=? AND post_id=?");
-		$checkLike->execute([$userLoggedIn, $post_id]);
+		$getLikes = PDO::instance()->prepare("SELECT * FROM likes WHERE username=? AND post_id=?");
+		$getLikes->execute([$userLoggedIn, $post_id]);
 		
-		return new LikesEntity(...$checkLike->fetch());
+		return new LikesEntity(...$getLikes->fetch());
 	}
 }
