@@ -58,7 +58,6 @@ class Post
 		$str = ""; //String to return
 		$data_query = PDO::instance()->prepare("SELECT * FROM posts WHERE deleted=? ORDER BY id DESC");
 		$data_query->execute(['no']);
-		//$fetch_data_query = $data_query->fetch();
 
 		if($data_query->rowCount() > 0) {
 
