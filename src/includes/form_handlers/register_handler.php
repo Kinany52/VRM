@@ -55,7 +55,6 @@ if (isset($_POST['register_button'])) {
 
 			//check if email already exists
 			$e_check = PDO::run("SELECT email FROM users WHERE email=?", [$em])->fetch();
-			//var_export($e_check);
 
 			//Count the number of rows returned
 			$num_rows = rowCount($e_check);
@@ -103,7 +102,6 @@ if (isset($_POST['register_button'])) {
 		//Generate username by concarenating first name and last name
 		$username = strtolower($fname . "_" . $lname);
 		$check_username_query = PDO::run("SELECT username FROM users WHERE username=?", [$username])->fetch();
-		//var_export($check_username_query);
 
 		$i = 0;
 		//If username exists add number to username
@@ -111,7 +109,6 @@ if (isset($_POST['register_button'])) {
 			$i++; //Add 1 to i
 			$username = $username . "_" . $i;
 			$check_username_query = PDO::run("SELECT username FROM users WHERE username=?", [$username])->fetch();
-			//var_export($check_username_query);
 		}
 
 		$query = PDO::run("INSERT INTO users (id, first_name, last_name, username, email, password, signup_date, num_posts, num_likes, user_closed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $fname, $lname, $username, $em, $password, $date, 0, 0, no]);
