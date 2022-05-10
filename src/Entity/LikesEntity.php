@@ -25,6 +25,6 @@ class LikesEntity extends AbstractEntity
 
     public function __get($post_id): ?int 
     {
-        return $this->$post_id
+        return $this->$post_id;
     }
 }

@@ -5,6 +5,8 @@ Namespace App\Att;
 use App\Att\User;
 use DateTime;
 use App\Library\PDO;
+use App\Entity\PostsEntity;
+use App\Repository\PostsRepository;
 
 class Post 
 {
@@ -30,12 +32,8 @@ class Post
 			$date_added = date("Y-m-d H:i:s");
 			//Get username
 			$added_by = $this->user_obj->getUsername();
-
 			//Insert post
-			$query = PDO::instance()->prepare("INSERT INTO posts VALUES(?, ?, ?, ?, ?, ?)");
-			$query->execute([NULL, $body, $added_by, $date_added, 'no', '0']);
-			$returned_id = PDO::instance()->lastInsertId();
-
+			$announce = PostsRepository::setPostByAll('0', $body, $added_by, $date_added, 'no', '0');
 			//Update post count for user
 			$num_posts = $this->user_obj->getNumPosts();
 			$num_posts++;
@@ -48,32 +46,35 @@ class Post
 
 		$page = $data['page'];
 		$userLoggedIn = $this->user_obj->getUsername();
-
+		
 		if($page == 1)
 			$start = 0;
 		else
 			$start = ($page - 1) * $limit;
 
-
 		$str = ""; //String to return
-		$data_query = PDO::instance()->prepare("SELECT * FROM posts WHERE deleted=? ORDER BY id DESC");
-		$data_query->execute(['no']);
-
-		if($data_query->rowCount() > 0) {
-
+		
+		$rowPosts = PostsRepository::getRowPostByNotDeleted('no');
+		
+		if($rowPosts > 0) {
+		
 			$num_iterations = 0; //Number of posts checked (Not necessarily posted)
 			$count = 1;
 
-			while ($row = $data_query->fetch()) {
-				$id = $row['id'];
-				$body = $row['body'];
-				$added_by = $row['added_by'];
-				$date_time = $row['date_added'];
+			foreach (PostsRepository::getPostByNotDeleted('no') as $loadAnnouncements) {
+				
+				$id = $loadAnnouncements->id;
+				
+				$body = $loadAnnouncements->body;
+				
+				$date_time = $loadAnnouncements->date_added;
+
+				$added_by = $loadAnnouncements->added_by;
 
 				if($num_iterations++ < $start)
 					continue;
 
-
+				
 				//Once 10 posts have been loaded, break
 				if($count > $limit) {
 					break;
@@ -83,6 +84,7 @@ class Post
 				}
 
 				if($userLoggedIn == $added_by)
+
 					$delete_button = "<button class='delete_button btn-danger' id='post$id'>X</button>";
 				else
 					$delete_button = "";
@@ -92,7 +94,7 @@ class Post
 				$user_row = $user_details_query->fetch();
 				$first_name = $user_row['first_name'];
 				$last_name = $user_row['last_name'];
-
+				
 				?>
 				<script>
 					function toggle<?php echo $id; ?>() {
