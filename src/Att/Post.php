@@ -62,7 +62,7 @@ class Post
 			$count = 1;
 
 			foreach (PostsRepository::getPostByNotDeleted('no') as $loadAnnouncements) {
-				
+			
 				$id = $loadAnnouncements->id;
 				
 				$body = $loadAnnouncements->body;

@@ -10,7 +10,7 @@ use App\Entity\CommentsEntity;
 class CommentsRepository
 {
 	//comment_frame.php.64
-	public static function setCommentByAll(int $id, string $post_body, string $posted_by, string $posted_to, DateTimeImmutable $date_added, int $post_id): CommentsEntity
+	public static function setCommentByAll(int $id, string $post_body, string $posted_by, string $posted_to, mixed $date_added, int $post_id)
 	{
 		$insertComment = PDO::instance()->prepare("INSERT INTO comments VALUES (?, ?, ?, ?, ?, ?)");
  		$insertComment->execute([$id, $post_body, $posted_by, $posted_to, $date_added, $post_id]);

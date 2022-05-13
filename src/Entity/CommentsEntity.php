@@ -11,11 +11,12 @@ class CommentsEntity extends AbstractEntity
         public readonly string $post_body,
         public readonly string $posted_by,
         public readonly string $posted_to,
-        public readonly DateTimeImmutable $date_added,
+        public readonly mixed $date_added,
         public readonly int $post_id,
     )
     {}
 
+    /*
     public function __get($id): ?int
     {
         return $this->$id;
@@ -45,4 +46,5 @@ class CommentsEntity extends AbstractEntity
     {
         return $this->$post_id;
     }
+    */
 }
