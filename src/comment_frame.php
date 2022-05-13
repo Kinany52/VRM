@@ -3,6 +3,7 @@
 use App\Att\User;
 use App\Att\Post;
 use App\Library\PDO;
+use App\Repository\PostsRepository;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -51,12 +52,10 @@ bootstrap();
  	if(isset($_GET['post_id'])) {
  		$post_id = $_GET['post_id'];
  	}
-
- 	$user_query = PDO::instance()->prepare("SELECT added_by FROM posts WHERE id=?");
- 	$user_query->execute([$post_id]);
- 	$row = $user_query->fetch();
-
- 	$posted_to = $row['added_by'];
+ 	$posted_to = ""; //declared empty to prevent error message in foreach loop of generator function.
+ 	foreach (PostsRepository::getPosterByPostId('$post_id') as $postPoster) {
+		$posted_to = $postPoster->added_by;
+	}
 
  	if(isset($_POST['postComment' . $post_id])) {
  		$post_body = $_POST['post_body'];
