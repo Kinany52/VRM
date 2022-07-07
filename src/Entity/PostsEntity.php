@@ -6,18 +6,29 @@ namespace App\Entity;
 
 class PostsEntity extends AbstractEntity
 {
-    
     public function __construct(
-        public readonly int $id,
-        public readonly string $body,
-        public readonly string $added_by,
-        public readonly mixed $date_added,
-        public readonly mixed $deleted,
-        public readonly int $likes,
+        public string $body,
+        public string $added_by,
+        public mixed $date_added,
+        public int $id=0,
+        public string $deleted='no',
+        public int $likes=0
     )
     {}
-    
+
+    public function toArray(): array
+    {
+        return [$this->id, $this->body, $this->added_by, $this->date_added, $this->deleted, $this->likes];
+    }
     /*
+    public function __get($property) 
+    {
+        if(property_exists($this, $property)) {
+            return $this->{$property};
+        }
+        throw new InvalidArgumentException();
+    }
+    
     public function __get($id): ?int
     {
         return $this->$id;

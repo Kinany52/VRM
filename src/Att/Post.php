@@ -33,7 +33,7 @@ class Post
 			//Get username
 			$added_by = $this->user_obj->getUsername();
 			//Insert post
-			$announce = PostsRepository::setPostByAll('0', $body, $added_by, $date_added, 'no', '0');
+			PostsRepository::persistEntity(new PostsEntity(date_added: $date_added, body: $body, added_by: $added_by, id: 0));
 			//Update post count for user
 			$num_posts = $this->user_obj->getNumPosts();
 			$num_posts++;
