@@ -76,12 +76,6 @@ class Post
 					$user_to = "";
 				}
 
-				//Check if user who posted, has their account closed.
-				$added_by_obj = new User(PDO::instance(), $row['user_to']);
-				if($added_by_obj->isClosed()) {
-					continue;
-				}
-
 				if($num_iterations++ < $start)
 					continue;
 
@@ -207,12 +201,11 @@ class Post
 											Comments($comment_check_num)&nbsp;&nbsp;&nbsp;
 											<iframe src='like.php?post_id=$id' scrolling='no'></iframe>
 									</div>
-
-								</div>
-								<div class='post_comment' id='toggleComment$id' style='display:none;'>
-									<iframe src='comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
-								</div>
-								<hr>";
+						</div>
+						<div class='post_comment' id='toggleComment$id' style='display:none;'>
+							<iframe src='comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
+						</div>
+						<hr>";
 
 				?>
 				<script>

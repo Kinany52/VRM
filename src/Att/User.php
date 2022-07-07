@@ -36,20 +36,6 @@ class User
 		return $row['first_name'] . " " . $row['last_name'];
 	}
 
-	public function isClosed() {
-		$username = isset($this->user['username']);
-		$query = PDO::instance()->prepare("SELECT user_closed FROM users WHERE username=?");
-		$query->execute([$username]);
-		$row = $query->fetch();
-
-		if (isset($row['user_closed']) =='yes') {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
 
 	public function isFriend($username_to_check) {
 		$usernameComma = "," . $username_to_check . ",";
