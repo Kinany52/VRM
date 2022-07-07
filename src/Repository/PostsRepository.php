@@ -10,10 +10,10 @@ use App\Entity\PostsEntity;
 class PostsRepository
 {
 	//Post.php:35.d
-	public static function setPostByAll(int $id, string $body, string $added_by, mixed $date_added, mixed $deleted, int $likes)
+	public static function persistEntity(PostsEntity $entity)
 	{
 		$insertPost = PDO::instance()->prepare("INSERT INTO posts VALUES(?, ?, ?, ?, ?, ?)");
-		$insertPost->execute([$id, $body, $added_by, $date_added, $deleted, $likes]);
+		$insertPost->execute($entity->toArray());
 	}
 	//Post.php:59.d
 	public static function getPostByNotDeleted()
@@ -21,7 +21,7 @@ class PostsRepository
 		$getPosts = PDO::instance()->prepare("SELECT * FROM posts WHERE deleted=? ORDER BY id DESC");
 		$getPosts->execute(['no']);
 		while ($postRow = $getPosts->fetch())
-			yield new PostsEntity(...$postRow);
+		yield new PostsEntity(...$postRow);
 	}
 	//Post.php:59.d
 	public static function getRowPostByNotDeleted(mixed $deleted)
@@ -38,27 +38,26 @@ class PostsRepository
 		$userQuery = PDO::instance()->prepare("SELECT added_by FROM posts WHERE id=?");
 	 	$userQuery->execute(['$post_id']);
 		while ($poster = $userQuery->fetch())
-		 	yield new PostsEntity(...$poster);
+		yield new PostsEntity(...$poster);
 	}
-	//like.php.26
-	public static function getPosterAndNumberOfLikesByPostId()
+	//like.php.26.d
+	public static function getPosterAndTotalOfLikesByPostId()
 	{
 		$getLikes = PDO::instance()->prepare("SELECT likes, added_by FROM posts WHERE id=?");
 		$getLikes->execute(['$post_id']);
-		
-		//$row = $get_likes->fetch();
-		return new PostsEntity(...$getLikes->fetch());
+		while ($posterAndLikes = $getLikes->fetch())
+		yield new PostsEntity(...$posterAndLikes);
 	}
-	//like.php.40.53
-	public static function updateLikesByPostId(int $post_id): PostsEntity
+	//like.php.40.53.sd
+	public static function updateLikesByPostId(int $likes, int $id)
 	{
 		$query = PDO::instance()->prepare("UPDATE posts SET likes=? WHERE id=?");
-		$query->execute([$likes, $post_id]);
+		$query->execute([$likes, $id]);
 	}
-	//delete_post.php.14
-	public static function deletePostByPostId(int $post_id): PostsEntity
+	//delete_post.php.14.d
+	public static function deletePostByPostId(mixed $deleted, int $id)
 	{
 		$query = PDO::instance()->prepare("UPDATE posts SET deleted=? WHERE id=?");
-		$query->execute(['yes', $post_id]);
+		$query->execute([$deleted, $id]);
 	}
 }

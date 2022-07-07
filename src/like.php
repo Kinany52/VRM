@@ -3,6 +3,7 @@
 use App\Att\User;
 use App\Att\Post;
 use App\Library\PDO;
+use App\Repository\PostsRepository;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -23,11 +24,12 @@ if(isset($_GET['post_id'])) {
 	$post_id = $_GET['post_id'];
 }
 
-$get_likes = PDO::instance()->prepare("SELECT likes, added_by FROM posts WHERE id=?");
-$get_likes->execute([$post_id]);
-$row = $get_likes->fetch();
-$total_likes = $row['likes']; 
-$user_liked = $row['added_by'];
+$total_likes = ""; //declared empty to prevent error message in foreach loop of generator function.
+$user_liked = ""; //declared empty to prevent error message in foreach loop of generator function.
+foreach (PostsRepository::getPosterAndTotalOfLikesByPostId('$post_id') as $postPosterAndLikes) {
+	$total_likes = $postPosterAndLikes->likes;
+	$user_liked = $postPosterAndLikes->added_by;
+}
 
 $user_details_query = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
 $user_details_query->execute([$user_liked]);
@@ -37,8 +39,8 @@ $total_user_likes = $row['num_likes'];
 //Like button
 if(isset($_POST['like_button'])) {
 	$total_likes++;
-	$query = PDO::instance()->prepare("UPDATE posts SET likes=? WHERE id=?");
-	$query->execute([$total_likes, $post_id]);
+	$updateLikes = PostsRepository::updateLikesByPostId($total_likes, $post_id);
+	var_dump($updateLikes);
 	$total_user_likes++;
 	$user_likes = PDO::instance()->prepare("UPDATE users SET num_likes=? WHERE username=?");
 	$user_likes->execute([$total_user_likes, $user_liked]);
@@ -50,8 +52,8 @@ if(isset($_POST['like_button'])) {
 //Unlike button
 if(isset($_POST['unlike_button'])) {
 	$total_likes--;
-	$query = PDO::instance()->prepare("UPDATE posts SET likes=? WHERE id=?");
-	$query->execute([$total_likes, $post_id]);
+	$updateUnlikes = PostsRepository::updateLikesByPostId($total_likes, $post_id);
+	var_dump($updateUnlikes);
 	$total_user_likes--;
 	$user_likes = PDO::instance()->prepare("UPDATE users SET num_likes=? WHERE username=?");
 	$user_likes->execute([$total_user_likes, $user_liked]);
