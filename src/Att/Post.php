@@ -7,6 +7,7 @@ use DateTime;
 use App\Library\PDO;
 use App\Entity\PostsEntity;
 use App\Repository\PostsRepository;
+use App\Repository\CommentsRepository;
 
 class Post 
 {
@@ -33,7 +34,12 @@ class Post
 			//Get username
 			$added_by = $this->user_obj->getUsername();
 			//Insert post
-			PostsRepository::persistEntity(new PostsEntity(date_added: $date_added, body: $body, added_by: $added_by, id: 0));
+			PostsRepository::persistEntity(new PostsEntity(
+				date_added: $date_added, 
+				body: $body, 
+				added_by: $added_by, 
+				id: 0
+			));
 			//Update post count for user
 			$num_posts = $this->user_obj->getNumPosts();
 			$num_posts++;
@@ -54,14 +60,14 @@ class Post
 
 		$str = ""; //String to return
 		
-		$rowPosts = PostsRepository::getRowPostByNotDeleted('no');
+		$rowPosts = PostsRepository::getRowPosts('no');
 		
 		if($rowPosts > 0) {
 		
 			$num_iterations = 0; //Number of posts checked (Not necessarily posted)
 			$count = 1;
 
-			foreach (PostsRepository::getPostByNotDeleted('no') as $loadAnnouncements) {
+			foreach (PostsRepository::getPosts('no') as $loadAnnouncements) {
 			
 				$id = $loadAnnouncements->id;
 				
@@ -112,12 +118,8 @@ class Post
 			 		}
 				</script>
 				<?php
-
-				$comment_check = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=?");
-				$comment_check->execute([$id]);
-				$fetch_comment_check = $comment_check->fetch();
-				$comment_check_num = $comment_check->rowCount();
-
+				//Check number of comments on each post.
+				$numComments = CommentsRepository::getRowComments($id);
 				//Timeframe
 				$date_time_now = date("Y-m-d H:i:s");
 				$start_date = new DateTime($date_time); //Time of post
@@ -194,7 +196,7 @@ class Post
 									</div>
 
 									<div class='newsfeedPostOptions'>
-											Comments($comment_check_num)&nbsp;&nbsp;&nbsp;
+											Comments($numComments)&nbsp;&nbsp;&nbsp;
 											<iframe src='like.php?post_id=$id' scrolling='no'></iframe>
 									</div>
 						</div>

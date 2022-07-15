@@ -12,7 +12,7 @@ bootstrap();
 
 	if(isset($_POST['result'])) {
 		if($_POST['result'] == 'true')
-			PostsRepository::deletePostByPostId('yes', $post_id);
+			PostsRepository::deletePost('yes', $post_id);
 	}
 
  ?>

@@ -26,9 +26,12 @@ if(isset($_GET['post_id'])) {
 
 $total_likes = ""; //declared empty to prevent error message in foreach loop of generator function.
 $user_liked = ""; //declared empty to prevent error message in foreach loop of generator function.
-foreach (PostsRepository::getPosterAndTotalOfLikesByPostId('$post_id') as $postPosterAndLikes) {
+
+foreach (PostsRepository::getLikes('$post_id') as $totalLikes) {
 	$total_likes = $postPosterAndLikes->likes;
-	$user_liked = $postPosterAndLikes->added_by;
+}
+foreach (PostsRepository::getPoster('$post_id') as $poster) {
+	$user_liked = $poster->added_by;
 }
 
 $user_details_query = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
@@ -39,7 +42,7 @@ $total_user_likes = $row['num_likes'];
 //Like button
 if(isset($_POST['like_button'])) {
 	$total_likes++;
-	$updateLikes = PostsRepository::updateLikesByPostId($total_likes, $post_id);
+	$updateLikes = PostsRepository::updateLikes($total_likes, $post_id);
 	var_dump($updateLikes);
 	$total_user_likes++;
 	$user_likes = PDO::instance()->prepare("UPDATE users SET num_likes=? WHERE username=?");
@@ -52,7 +55,7 @@ if(isset($_POST['like_button'])) {
 //Unlike button
 if(isset($_POST['unlike_button'])) {
 	$total_likes--;
-	$updateUnlikes = PostsRepository::updateLikesByPostId($total_likes, $post_id);
+	$updateUnlikes = PostsRepository::updateLikes($total_likes, $post_id);
 	var_dump($updateUnlikes);
 	$total_user_likes--;
 	$user_likes = PDO::instance()->prepare("UPDATE users SET num_likes=? WHERE username=?");

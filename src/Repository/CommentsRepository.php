@@ -9,27 +9,26 @@ use App\Entity\CommentsEntity;
 
 class CommentsRepository
 {
-	//comment_frame.php.64
-	public static function setCommentByAll(int $id, string $post_body, string $posted_by, string $posted_to, mixed $date_added, int $post_id)
+	//comment_frame.php.64.d
+	public static function persistEntity(CommentsEntity $CommentsEntity)
 	{
 		$insertComment = PDO::instance()->prepare("INSERT INTO comments VALUES (?, ?, ?, ?, ?, ?)");
- 		$insertComment->execute([$id, $post_body, $posted_by, $posted_to, $date_added, $post_id]);
+ 		$insertComment->execute($CommentsEntity->toArray());
 	}
-	//comment_frame.php.78
-	public static function getCommentByPostIdOrdered(int $post_id): CommentsEntity
+	//comment_frame.php.78.d.Posts.php.114.d
+	public static function getRowComments(int $post_id)
 	{
 		$getComments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=? ORDER BY id ASC");
 		$getComments->execute([$post_id]);
 
-		return new CommentsEntity(...$getComments->fetch());
+		return $getComments->rowCount();
 	}
-	//Posts.php.114
-	public static function getCommentByPostId(int $post_id): CommentsEntity
+	//comment_frame.php.78.d
+	public static function getComments(int $post_id)
 	{
-		$getComments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=?");
-		$getComments->execute([$id]);
-
-		return new CommentsEntity(...$getComments->fetch());
+		$getComments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=? ORDER BY id ASC");
+		$getComments->execute([$post_id]);
+		while ($commentsRow = $getComments->fetch())
+		yield new CommentsEntity(...$commentsRow);
 	}
-
 }

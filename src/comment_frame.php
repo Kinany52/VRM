@@ -2,7 +2,9 @@
 
 use App\Att\User;
 use App\Att\Post;
+use App\Entity\CommentsEntity;
 use App\Library\PDO;
+use App\Repository\CommentsRepository;
 use App\Repository\PostsRepository;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
@@ -53,16 +55,21 @@ bootstrap();
  		$post_id = $_GET['post_id'];
  	}
  	$posted_to = ""; //declared empty to prevent error message in foreach loop of generator function.
- 	foreach (PostsRepository::getPosterByPostId('$post_id') as $postPoster) {
+ 	foreach (PostsRepository::getPoster('$post_id') as $postPoster) {
 		$posted_to = $postPoster->added_by;
 	}
 
  	if(isset($_POST['postComment' . $post_id])) {
  		$post_body = $_POST['post_body'];
  		$date_time_now = date("Y-m-d H:i:s");
- 		$insert_post = PDO::instance()->prepare("INSERT INTO comments VALUES (?, ?, ?, ?, ?, ?)");
- 		$insert_post->execute([NULL, $post_body, $userLoggedIn, $posted_to, $date_time_now, $post_id]);
- 			echo "<p>Comment Posted! </p>";
+		CommentsRepository::persistEntity(new CommentsEntity(
+			post_body: $post_body, 
+			posted_by: $userLoggedIn, 
+			posted_to: $posted_to, 
+			date_added: $date_time_now, 
+			post_id: $post_id
+		));
+ 		echo "<p>Comment Posted! </p>";
  	}
  	?>
  	<form action="comment_frame.php?post_id=<?php echo $post_id; ?>" id="comment_form" name="postComment<?php echo $post_id; ?>" method="POST">
@@ -74,16 +81,17 @@ bootstrap();
 
 
 	<?php 
-		$get_comments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=? ORDER BY id ASC");
-		$get_comments->execute([$post_id]);
-		$count = $get_comments->rowCount();
+		$rowComments = CommentsRepository::getRowComments($post_id);
+		//$get_comments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=? ORDER BY id ASC");
+		//$get_comments->execute([$post_id]);
+		//$count = $get_comments->rowCount();
 		
-		if ($count !=0) {
-			while($comment = $get_comments->fetch()) {
-				$comment_body = $comment['post_body'];
-				$posted_to = $comment['posted_to'];
-				$posted_by = $comment['posted_by'];
-				$date_added = $comment['date_added'];
+		if ($rowComments !=0) {
+			foreach (CommentsRepository::getComments("$post_id") as $loadComments) {
+				$comment_body = $loadComments->post_body;
+				$posted_to = $loadComments->posted_to;
+				$posted_by = $loadComments->posted_by;
+				$date_added = $loadComments->date_added;
 				
 				//Timeframe
 				$date_time_now = date("Y-m-d H:i:s");

@@ -20,6 +20,7 @@ class PostsEntity extends AbstractEntity
     {
         return [$this->id, $this->body, $this->added_by, $this->date_added, $this->deleted, $this->likes];
     }
+    
     /*
     public function __get($property) 
     {
