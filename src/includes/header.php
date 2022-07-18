@@ -1,14 +1,13 @@
 <?php
 
 use App\Library\PDO;
+use App\Repository\UsersRepository;
 
 //require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 if (isset($_SESSION['username'])) {
 	$userLoggedIn = $_SESSION['username'];
-	$user_details_quer = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
-	$user_details_quer->execute([$userLoggedIn]);
-	$user = $user_details_quer->fetch();
+	$user = UsersRepository::validateSession($userLoggedIn);
 	}
 else {
 	header("Location: register.php");

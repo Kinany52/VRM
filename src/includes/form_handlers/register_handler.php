@@ -1,6 +1,8 @@
 <?php
 
+use App\Entity\UsersEntity;
 use App\Library\PDO;
+use App\Repository\UsersRepository;
 
 //Declaring variables to prevent error
 $fname = ""; //First name
@@ -54,20 +56,15 @@ if (isset($_POST['register_button'])) {
 			$em = filter_var($em, FILTER_VALIDATE_EMAIL);
 
 			//check if email already exists
-			$e_check = PDO::run("SELECT email FROM users WHERE email=?", [$em])->fetch();
+			$e_check = UsersRepository::validateEmail($em);
 
-			//Count the number of rows returned
-			$num_rows = rowCount($e_check);
-
-			if ($num_rows > 0) {
+			if (!empty($e_check)) {
 				array_push($error_array, "Email already in use<br>");
 			}
-
 		}
 		else {
 			array_push($error_array, "Invalid email format<br>");
 		}
-
 	}
 	else {
 		array_push($error_array, "Emails don't match<br>");
@@ -105,13 +102,20 @@ if (isset($_POST['register_button'])) {
 
 		$i = 0;
 		//If username exists add number to username
-		while (rowCount($check_username_query) != 0) {
+		while ($check_username_query->rowCount() != 0) {
 			$i++; //Add 1 to i
 			$username = $username . "_" . $i;
 			$check_username_query = PDO::run("SELECT username FROM users WHERE username=?", [$username])->fetch();
 		}
 
-		$query = PDO::run("INSERT INTO users (id, first_name, last_name, username, email, password, signup_date, num_posts, num_likes, user_closed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $fname, $lname, $username, $em, $password, $date, 0, 0, no]);
+		UsersRepository::persistEntity(new UsersEntity(
+			first_name: $fname, 
+			last_name: $lname, 
+			username: $username, 
+			email: $em, 
+			password: $password, 
+			signup_date: $date
+		));
 
 		array_push($error_array, "<span style='color: #14C800;'>You're all set! Go ahead and login!</span>");
 

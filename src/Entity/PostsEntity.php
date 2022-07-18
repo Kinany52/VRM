@@ -20,45 +20,5 @@ class PostsEntity extends AbstractEntity
     {
         return [$this->id, $this->body, $this->added_by, $this->date_added, $this->deleted, $this->likes];
     }
-    
-    /*
-    public function __get($property) 
-    {
-        if(property_exists($this, $property)) {
-            return $this->{$property};
-        }
-        throw new InvalidArgumentException();
-    }
-    
-    public function __get($id): ?int
-    {
-        return $this->$id;
-    }
-    
-    public function __get($body): string
-    { 
-        return $this->$body;
-    }
-    
-    public function __get($added_by): string
-    {
-        return $this->added_by;
-    }
-   
-    public function __get($date_added): mixed
-    {
-        return $this->$date_added;
-    }
-
-    public function __get($deleted): mixed
-    {
-        return $this->$deleted;
-    }
-
-    public function __get($likes): ?int
-    {
-        return $this->$likes;
-    }
-    */
 }
 

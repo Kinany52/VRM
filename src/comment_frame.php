@@ -13,9 +13,6 @@ bootstrap();
 
 	if (isset($_SESSION['username'])) {
 		$userLoggedIn = $_SESSION['username'];
-		$user_details_query = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
-		$user_details_query->execute([$userLoggedIn]);
-		$user = $user_details_query->fetch();
 	} 
 	else {
 		header("Location: register.php");
