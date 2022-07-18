@@ -54,10 +54,10 @@ bootstrap();
  	if(isset($_GET['post_id'])) {
  		$post_id = $_GET['post_id'];
  	}
- 	$posted_to = ""; //declared empty to prevent error message in foreach loop of generator function.
- 	foreach (PostsRepository::getPoster('$post_id') as $postPoster) {
-		$posted_to = $postPoster->added_by;
-	}
+ 	//$posted_to = ""; //declared empty to prevent error message in foreach loop of generator function.
+ 	//foreach (PostsRepository::getPoster($post_id) as $postPoster) {
+		$posted_to = PostsRepository::getPoster($post_id);
+	//}
 
  	if(isset($_POST['postComment' . $post_id])) {
  		$post_body = $_POST['post_body'];

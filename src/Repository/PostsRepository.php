@@ -31,27 +31,31 @@ class PostsRepository
 		while ($postRow = $getPosts->fetch())
 		yield new PostsEntity(...$postRow);
 	}
+	//like.php.26.d
+	public static function getLikes(int $id)
+	{
+		$getLikesNum = PDO::instance()->prepare("SELECT * FROM posts WHERE id=?");
+		$getLikesNum->execute([$id]);
+		while ($numberLikes = $getLikesNum->fetch())
+		yield new PostsEntity(...$numberLikes);
+
+	}
 	//comment_frame.php:55.d
-	public static function getPoster()
+	public static function getPoster(int $id)
 	{
 		$userQuery = PDO::instance()->prepare("SELECT added_by FROM posts WHERE id=?");
-	 	$userQuery->execute(['$post_id']);
-		while ($poster = $userQuery->fetch())
-		yield new PostsEntity(...$poster);
-	}
-	//like.php.26.d
-	public static function getLikes()
-	{
-		$getLikes = PDO::instance()->prepare("SELECT likes FROM posts WHERE id=?");
-		$getLikes->execute(['$post_id']);
-		while ($likes = $getLikes->fetch())
-		yield new PostsEntity(...$likes);
+	 	$userQuery->execute([$id]);
+		//while ($poster = $userQuery->fetch())
+		//yield new PostsEntity(...$poster);
+		return $userQuery->rowCount();
 	}
 	//like.php.40.53.sd
 	public static function updateLikes(int $likes, int $id)
 	{
 		$query = PDO::instance()->prepare("UPDATE posts SET likes=? WHERE id=?");
 		$query->execute([$likes, $id]);
+
+		//return $query->rowCount();
 	}
 	//delete_post.php.14.d
 	public static function deletePost(mixed $deleted, int $id)

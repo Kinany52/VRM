@@ -7,24 +7,14 @@ namespace App\Entity;
 class LikesEntity extends AbstractEntity
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $username,
-        public readonly int $post_id,
+        public string $username,
+        public int $post_id,
+        public int $id=0,
     )
     {}
 
-    public function __get($id): ?int
+    public function toArray(): array
     {
-        return $this->$id;
-    }
-
-    public function __get($username): string
-    {
-        return $this->$username;
-    }
-
-    public function __get($post_id): ?int 
-    {
-        return $this->$post_id;
+        return [$this->id, $this->username, $this->post_id];
     }
 }
