@@ -1,6 +1,5 @@
 <?php
 
-use App\Library\PDO;
 use App\Repository\UsersRepository;
 
 if (isset($_POST['login_button'])) {
@@ -20,8 +19,7 @@ if (isset($_POST['login_button'])) {
 			$checkUserStatus = UsersRepository::inquireStatus($email, 'yes');
 			
 			if (empty($user_closed_query_count)) {
-				$reopen_account = PDO::instance()->prepare("UPDATE users SET user_closed=? WHERE email=?");
-				$reopen_account->execute(['no', $email]);
+				UsersRepository::reactivateUser('no', $email);
 			}
 
 			$_SESSION['username'] = $username;

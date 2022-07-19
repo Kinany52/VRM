@@ -8,6 +8,7 @@ use App\Library\PDO;
 use App\Entity\PostsEntity;
 use App\Repository\PostsRepository;
 use App\Repository\CommentsRepository;
+use App\Repository\UsersRepository;
 
 class Post 
 {
@@ -43,8 +44,7 @@ class Post
 			//Update post count for user
 			$num_posts = $this->user_obj->getNumPosts();
 			$num_posts++;
-			$update_query = PDO::instance()->prepare("UPDATE users SET num_posts=? WHERE username=?");
-			$update_query->execute([$num_posts, $added_by]);
+			UsersRepository::aggregatePosts($num_posts, $added_by);
 		}
 	}
 
@@ -95,6 +95,12 @@ class Post
 				else
 					$delete_button = "";
 
+				/*
+					foreach (UsersRepository::authenticateFullname($added_by) as $user_details_query) {
+					$first_name = $user_details_query->first_name;
+					$last_name = $user_details_query->last_name;
+				}
+				*/
 				$user_details_query = PDO::instance()->prepare("SELECT first_name, last_name FROM users WHERE username=?");
 				$user_details_query->execute([$added_by]);
 				$user_row = $user_details_query->fetch();

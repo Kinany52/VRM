@@ -1,7 +1,6 @@
 <?php
 
 use App\Entity\UsersEntity;
-use App\Library\PDO;
 use App\Repository\UsersRepository;
 
 //Declaring variables to prevent error
@@ -92,20 +91,19 @@ if (isset($_POST['register_button'])) {
 		array_push($error_array, "Your password must be between 5 and 30 characters<br>");
 	}
 
-
 	if (empty($error_array)) {
 		$password = md5($password); //Encrypt passord before sending to database
 
 		//Generate username by concarenating first name and last name
 		$username = strtolower($fname . "_" . $lname);
-		$check_username_query = PDO::run("SELECT username FROM users WHERE username=?", [$username])->fetch();
+		$check_username_query = UsersRepository::validateUsername($username);
 
 		$i = 0;
 		//If username exists add number to username
-		while ($check_username_query->rowCount() != 0) {
+		while (!empty($check_username_query)) {
 			$i++; //Add 1 to i
 			$username = $username . "_" . $i;
-			$check_username_query = PDO::run("SELECT username FROM users WHERE username=?", [$username])->fetch();
+			$check_username_query = UsersRepository::validateUsername($username);
 		}
 
 		UsersRepository::persistEntity(new UsersEntity(
