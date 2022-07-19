@@ -18,6 +18,7 @@ class CommentsEntity extends AbstractEntity
 
     public function toArray(): array
     {
-        return [$this->id, $this->post_body, $this->posted_by, $this->posted_to, $this->date_added, $this->post_id];
+        $attributes = [$this->id, $this->post_body, $this->posted_by, $this->posted_to, $this->date_added, $this->post_id];
+        return $this->prepareAttributeForPersisting($attributes);
     }
 }
