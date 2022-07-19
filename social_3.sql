@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Mar 21, 2022 at 03:48 PM
+-- Generation Time: Apr 30, 2022 at 05:05 PM
 -- Server version: 8.0.28
 -- PHP Version: 8.0.16
 
@@ -83,7 +83,15 @@ INSERT INTO `comments` (`id`, `post_body`, `posted_by`, `posted_to`, `date_added
 (39, 'Test comment GUŁA with Polish Ł', 'wojciech_guła', 'john_bettiol', '2022-02-27 17:49:06', 'no', 57),
 (40, '', 'georgie_kinany', 'john_bettiol', '2022-02-27 19:24:33', 'no', 54),
 (41, 'Testing comment (Wojciech one)', 'wojciech_guła', 'john_bettiol', '2022-03-07 23:59:18', 'no', 63),
-(42, 'Testing comment (Wojciech two)', 'wojciech_gula', 'john_bettiol', '2022-03-07 23:59:43', 'no', 63);
+(42, 'Testing comment (Wojciech two)', 'wojciech_gula', 'john_bettiol', '2022-03-07 23:59:43', 'no', 63),
+(43, 'working?', 'sarmad_kinany_1', 'wojciech_guła', '2022-03-30 23:47:46', 'no', 73),
+(44, 'Working? (2)', 'sarmad_kinany_1', 'wojciech_guła', '2022-03-30 23:47:55', 'no', 73),
+(45, 'Working? (3)', 'sarmad_kinany_1', 'wojciech_guła', '2022-03-30 23:48:06', 'no', 73),
+(46, 'VRM 4', 'wojciech_gula', 'john_bettiol', '2022-04-02 18:56:42', 'no', 87),
+(47, 'VRM 5', 'wojciech_gula', 'john_bettiol', '2022-04-02 18:57:00', 'no', 87),
+(48, 'Comment 1', 'wojciech_guła', 'michael_feinbier', '2022-04-02 19:15:52', 'no', 82),
+(49, 'Comment 2\r\n\r\nStill comment 2', 'wojciech_guła', 'michael_feinbier', '2022-04-02 19:16:04', 'no', 82),
+(50, 'Visible', 'wojciech_gula', 'michael_feinbier', '2022-04-20 19:34:01', 'no', 89);
 
 -- --------------------------------------------------------
 
@@ -138,7 +146,14 @@ INSERT INTO `likes` (`id`, `username`, `post_id`) VALUES
 (80, 'georgie_kinany', 27),
 (81, 'georgie_kinany', 28),
 (82, 'georgie_kinany', 12),
-(83, 'georgie_kinany', 63);
+(83, 'georgie_kinany', 63),
+(84, 'john_bettiol', 71),
+(86, 'john_bettiol', 74),
+(87, 'john_bettiol', 75),
+(88, 'wojciech_gula', 87),
+(89, 'wojciech_guła', 82),
+(90, 'sarmad_kinany_1', 46),
+(91, 'wojciech_gula', 89);
 
 -- --------------------------------------------------------
 
@@ -207,7 +222,7 @@ INSERT INTO `posts` (`id`, `body`, `added_by`, `user_to`, `date_added`, `user_cl
 (43, 'Classes modification test. TO BE CONFIRMED FOR TESTING', 'wojciech_guła', 'none', '2021-12-13 00:04:49', 'no', 'no', 4),
 (44, 'Test #2', 'wojciech_guła', 'none', '2021-12-13 00:08:27', 'no', 'no', 2),
 (45, 'Test #2 (part two). To be deleted.', 'wojciech_guła', 'none', '2021-12-13 00:08:51', 'no', 'yes', 0),
-(46, 'Testing second account with the name Wojciech to test the profile page (last name containing all English letters for this second account). TO BE CONFIRMED. ', 'wojciech_gula', 'none', '2021-12-13 00:19:04', 'no', 'no', 2),
+(46, 'Testing second account with the name Wojciech to test the profile page (last name containing all English letters for this second account). TO BE CONFIRMED. ', 'wojciech_gula', 'none', '2021-12-13 00:19:04', 'no', 'no', 3),
 (47, 'Test 2 DELECT\n', 'wojciech_gula', 'none', '2021-12-13 00:19:24', 'no', 'yes', 1),
 (48, 'Config dir moved (next to src)', 'john_bettiol', 'none', '2022-01-16 17:59:32', 'no', 'no', 1),
 (49, 'TST (new)', 'wojciech_gula', 'none', '2022-01-26 11:24:42', 'no', 'no', 1),
@@ -225,18 +240,35 @@ INSERT INTO `posts` (`id`, `body`, `added_by`, `user_to`, `date_added`, `user_cl
 (61, 'Confirms fixed.', 'georgie_kinany', 'none', '2022-02-28 08:33:24', 'no', 'no', 0),
 (62, 'ProfilePage_nginx_404 not yet fixed.', 'michael_feinbier', 'none', '2022-03-01 13:30:38', 'no', 'no', 0),
 (63, 'href\'s fixed on index, header, comment_frame, Post', 'john_bettiol', 'none', '2022-03-07 23:58:16', 'no', 'no', 1),
-(64, 'Test.', 'wojciech_guła', 'none', '2022-03-08 14:11:17', 'no', 'yes', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `test`
---
-
-CREATE TABLE `test` (
-  `id` int NOT NULL,
-  `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+(64, 'Test.', 'wojciech_guła', 'none', '2022-03-08 14:11:17', 'no', 'yes', 0),
+(65, 'Test?', 'georgie_kinany', 'none', '2022-03-30 22:29:19', 'no', 'no', 0),
+(66, 'Test?', 'georgie_kinany', 'none', '2022-03-30 22:29:39', 'no', 'no', 0),
+(67, 'Test?', 'georgie_kinany', 'none', '2022-03-30 22:30:43', 'no', 'no', 0),
+(68, 'Test (single_line post)', 'georgie_kinany', 'none', '2022-03-30 22:35:23', 'no', 'no', 0),
+(69, '1 2 3', 'georgie_kinany', 'none', '2022-03-30 22:35:40', 'no', 'no', 0),
+(70, '3 2 1', 'wojciech_guła', 'none', '2022-03-30 22:36:10', 'no', 'no', 0),
+(71, 'TTEESSTT', 'wojciech_guła', 'none', '2022-03-30 22:40:06', 'no', 'no', 1),
+(72, 'tteesstt (2)', 'wojciech_guła', 'none', '2022-03-30 22:40:24', 'no', 'no', 0),
+(73, 'T?', 'wojciech_guła', 'none', '2022-03-30 22:59:16', 'no', 'no', 0),
+(74, 'T', 'wojciech_guła', 'none', '2022-03-30 22:59:36', 'no', 'no', 1),
+(75, 'w', 'sarmad_kinany_1', 'none', '2022-03-30 23:48:16', 'no', 'no', 1),
+(76, '1', 'john_bettiol', 'none', '2022-03-31 00:03:56', 'no', 'no', 0),
+(77, 'n', 'john_bettiol', 'none', '2022-03-31 00:37:57', 'no', 'no', 0),
+(78, 'Hi there.', 'michael_feinbier', 'none', '2022-03-31 13:07:16', 'no', 'yes', 0),
+(79, 'Hi there 2', 'michael_feinbier', 'none', '2022-03-31 13:07:32', 'no', 'no', 0),
+(80, 'HI there 3', 'michael_feinbier', 'none', '2022-03-31 13:07:41', 'no', 'yes', 0),
+(81, 'Hi there 3', 'michael_feinbier', 'none', '2022-03-31 13:37:20', 'no', 'no', 0),
+(82, 'Hi there -new', 'michael_feinbier', 'none', '2022-03-31 13:37:47', 'no', 'no', 1),
+(83, 'tst', 'michael_feinbier', 'none', '2022-03-31 13:38:41', 'no', 'no', 0),
+(84, 'ttt', 'michael_feinbier', 'none', '2022-03-31 13:47:15', 'no', 'no', 0),
+(85, 'Wojciech', 'michael_feinbier', 'none', '2022-03-31 14:23:19', 'no', 'no', 0),
+(86, 'Wojciech 2', 'michael_feinbier', 'none', '2022-03-31 14:23:29', 'no', 'no', 0),
+(87, 'A. VRM<br />\r\n<br />\r\nB. VRM 2<br />\r\n<br />\r\nc. VRM 3', 'john_bettiol', 'none', '2022-04-02 18:56:06', 'no', 'no', 1),
+(88, 'test (user_closed)', 'michael_feinbier', 'none', '2022-04-20 19:31:37', 'no', 'yes', 0),
+(89, 'test 110', 'michael_feinbier', 'none', '2022-04-20 19:33:32', 'no', 'no', 1),
+(90, 'test 112', 'georgie_kinany', 'none', '2022-04-21 18:54:16', 'no', 'no', 0),
+(91, 'Test profile_p_register_handler', 'john_bettiol', 'none', '2022-04-30 18:44:47', 'no', 'no', 0),
+(92, 'Test profile_p_register_handler droppedViaDB', 'john_bettiol', 'none', '2022-04-30 18:48:32', 'no', 'no', 0);
 
 -- --------------------------------------------------------
 
@@ -252,25 +284,23 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `signup_date` date NOT NULL,
-  `profile_pic` varchar(255) NOT NULL,
   `num_posts` int NOT NULL,
   `num_likes` int NOT NULL,
-  `user_closed` varchar(3) NOT NULL,
-  `friend_array` text NOT NULL
+  `user_closed` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `password`, `signup_date`, `profile_pic`, `num_posts`, `num_likes`, `user_closed`, `friend_array`) VALUES
-(1, 'Sarmad', 'Kinany', 'sarmad_kinany', 'sarmad@gmail.com', 'Password', '2021-03-09', 'gccvjv', 1, 1, 'no', ''),
-(2, 'Sarmad', 'Kinany', 'sarmad_kinany_1', 'Dsarmad@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-07-18', '', 10, 6, 'no', ','),
-(3, 'Michael', 'Feinbier', 'michael_feinbier', 'Michael@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-07-19', '', 1, 1, 'no', ','),
-(4, 'Georgie', 'Kinany', 'georgie_kinany', 'Georgie@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-07-19', '', 10, 9, 'no', ''),
-(5, 'John', 'Bettiol', 'john_bettiol', 'John@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-10-19', '', 16, 11, 'no', ','),
-(6, 'Wojciech', 'Guła', 'wojciech_guła', 'Wojciech@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-12-13', '', 4, 6, 'no', ','),
-(7, 'Wojciech', 'Gula', 'wojciech_gula', 'Wojciech2@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-12-13', '', 4, 4, 'no', ',');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `password`, `signup_date`, `num_posts`, `num_likes`, `user_closed`) VALUES
+(1, 'Sarmad', 'Kinany', 'sarmad_kinany', 'sarmad@gmail.com', 'Password', '2021-03-09', 1, 1, 'no'),
+(2, 'Sarmad', 'Kinany', 'sarmad_kinany_1', 'Dsarmad@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-07-18', 11, 7, 'no'),
+(3, 'Michael', 'Feinbier', 'michael_feinbier', 'Michael@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-07-19', 12, 3, 'yes'),
+(4, 'Georgie', 'Kinany', 'georgie_kinany', 'Georgie@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-07-19', 14, 9, 'no'),
+(5, 'John', 'Bettiol', 'john_bettiol', 'John@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-10-19', 21, 12, 'no'),
+(6, 'Wojciech', 'Guła', 'wojciech_guła', 'Wojciech@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-12-13', 9, 9, 'no'),
+(7, 'Wojciech', 'Gula', 'wojciech_gula', 'Wojciech2@gmail.com', 'dc647eb65e6711e155375218212b3964', '2021-12-13', 9, 9, 'no');
 
 --
 -- Indexes for dumped tables
@@ -308,19 +338,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT for table `users`
