@@ -51,6 +51,13 @@ class UsersRepository
 	{
 		PDO::run("SELECT email FROM users WHERE email=?", [$email])->fetch();
 	}
+	public static function getNumLikes(string $username)
+	{
+		$userNumLikes = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
+		$userNumLikes->execute([$username]);
+		while ($numLikes = $userNumLikes->fetch())
+		yield new UsersEntity(...$numLikes);
+	}	
 	public static function aggregateLikes(int $num_likes, string $username)
 	{
 		$userLikes = PDO::instance()->prepare("UPDATE users SET num_likes=? WHERE username=?");

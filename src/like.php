@@ -25,17 +25,19 @@ if(isset($_GET['post_id'])) {
 }
 
 $total_likes = ""; //declared empty to prevent error message in foreach loop of generator function.
-$user_liked = PostsRepository::getPoster($post_id);
+$user_liked = "";
 
 foreach (PostsRepository::getLikes($post_id) as $previousLikes) {
 	$total_likes = $previousLikes->likes;
 }
 
-//Getting info about user who made the post.
-$user_details_query = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
-$user_details_query->execute([$user_liked]);
-$row = $user_details_query->fetch();
-$total_user_likes = $row->num_likes;
+foreach (PostsRepository::getPoster("$post_id") as $poster) {
+	$user_liked = $poster->added_by;
+}
+
+foreach (UsersRepository::getNumLikes($user_liked) as $likesnumber) {
+	$total_user_likes = $likesnumber->num_likes;
+}
 
 //Like button
 if(isset($_POST['like_button'])) {

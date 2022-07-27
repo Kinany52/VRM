@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeInterface;
+
 class CommentsEntity extends AbstractEntity
 {
     public function __construct(
         public string $post_body,
         public string $posted_by,
         public string $posted_to,
-        public mixed $date_added,
+        public string $date_added,
         public int $post_id,
         public int $id=0,
     )

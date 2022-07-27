@@ -51,7 +51,10 @@ bootstrap();
  	if(isset($_GET['post_id'])) {
  		$post_id = $_GET['post_id'];
  	}
-	$posted_to = PostsRepository::getPoster($post_id);
+	foreach (PostsRepository::getPoster("$post_id") as $poster) 
+	{
+		$posted_to = $poster->added_by;
+	}
 
  	if(isset($_POST['postComment' . $post_id])) {
  		$post_body = $_POST['post_body'];

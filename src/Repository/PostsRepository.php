@@ -34,14 +34,13 @@ class PostsRepository
 		$getLikesNum->execute([$id]);
 		while ($numberLikes = $getLikesNum->fetch())
 		yield new PostsEntity(...$numberLikes);
-
 	}
 	public static function getPoster(int $id)
 	{
-		$userQuery = PDO::instance()->prepare("SELECT added_by FROM posts WHERE id=?");
+		$userQuery = PDO::instance()->prepare("SELECT * FROM posts WHERE id=?");
 	 	$userQuery->execute([$id]);
-
-		return $userQuery->rowCount();
+		while ($postPoster = $userQuery->fetch())
+		yield new PostsEntity(...$postPoster);
 	}
 	public static function updateLikes(int $likes, int $id)
 	{
