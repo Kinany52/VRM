@@ -2,7 +2,11 @@
 
 use App\Att\User;
 use App\Att\Post;
-use App\Entity\PDO;
+use App\Entity\LikesEntity;
+use App\Library\PDO;
+use App\Repository\LikesRepository;
+use App\Repository\PostsRepository;
+use App\Repository\UsersRepository;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -10,9 +14,6 @@ bootstrap();
 
 if (isset($_SESSION['username'])) {
 	$userLoggedIn = $_SESSION['username'];
-	$user_details_query = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
-	$user_details_query->execute([$userLoggedIn]);
-	$user = $user_details_query->fetch();
 }
 else {
 	header("Location: register.php");
@@ -23,47 +24,42 @@ if(isset($_GET['post_id'])) {
 	$post_id = $_GET['post_id'];
 }
 
-$get_likes = PDO::instance()->prepare("SELECT likes, added_by FROM posts WHERE id=?");
-$get_likes->execute([$post_id]);
-$row = $get_likes->fetch();
-$total_likes = $row['likes']; 
-$user_liked = $row['added_by'];
+$total_likes = ""; //declared empty to prevent error message in foreach loop of generator function.
+$user_liked = "";
 
-$user_details_query = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
-$user_details_query->execute([$user_liked]);
-$row = $user_details_query->fetch();
-$total_user_likes = $row['num_likes'];
+foreach (PostsRepository::getLikes($post_id) as $previousLikes) {
+	$total_likes = $previousLikes->likes;
+}
+
+foreach (PostsRepository::getPoster("$post_id") as $poster) {
+	$user_liked = $poster->added_by;
+}
+
+foreach (UsersRepository::getNumLikes($user_liked) as $likesnumber) {
+	$total_user_likes = $likesnumber->num_likes;
+}
 
 //Like button
 if(isset($_POST['like_button'])) {
 	$total_likes++;
-	$query = PDO::instance()->prepare("UPDATE posts SET likes=? WHERE id=?");
-	$query->execute([$total_likes, $post_id]);
+	$updateLikes = PostsRepository::updateLikes($total_likes, $post_id);
 	$total_user_likes++;
-	$user_likes = PDO::instance()->prepare("UPDATE users SET num_likes=? WHERE username=?");
-	$user_likes->execute([$total_user_likes, $user_liked]);
-	$insert_user = PDO::instance()->prepare("INSERT INTO likes VALUES(?, ?, ?)");
-	$insert_user->execute([NULL, $userLoggedIn, $post_id]);
-
-	//Insert Notification
+	UsersRepository::aggregateLikes($total_user_likes, $user_liked);
+	LikesRepository::persistEntity(new LikesEntity(
+		username: $userLoggedIn, 
+		post_id: $post_id
+	));
 }
 //Unlike button
 if(isset($_POST['unlike_button'])) {
 	$total_likes--;
-	$query = PDO::instance()->prepare("UPDATE posts SET likes=? WHERE id=?");
-	$query->execute([$total_likes, $post_id]);
+	$updateUnlikes = PostsRepository::updateLikes($total_likes, $post_id);
 	$total_user_likes--;
-	$user_likes = PDO::instance()->prepare("UPDATE users SET num_likes=? WHERE username=?");
-	$user_likes->execute([$total_user_likes, $user_liked]);
-	$insert_user = PDO::instance()->prepare("DELETE FROM likes WHERE username=? AND post_id=?");
-	$insert_user->execute([$userLoggedIn, $post_id]);
+	UsersRepository::aggregateLikes($total_user_likes, $user_liked);
+	LikesRepository::dislike($userLoggedIn, $post_id);
 }
-
-//Check for previous likes
-$check_query = PDO::instance()->prepare("SELECT * FROM likes WHERE username=? AND post_id=?");
-$check_query->execute([$userLoggedIn, $post_id]);
-$fetch_check_query = $check_query->fetch();
-$num_rows = $check_query->rowCount();
+//Check for previous likes by the currently-loggedin user.
+$num_rows = LikesRepository::getRowLikes($userLoggedIn, $post_id);
 
 if($num_rows > 0) {
 	echo '<form action="like.php?post_id=' . $post_id . '" method="POST">

@@ -4,7 +4,11 @@ Namespace App\Att;
 
 use App\Att\User;
 use DateTime;
-use App\Entity\PDO;
+use App\Library\PDO;
+use App\Entity\PostsEntity;
+use App\Repository\PostsRepository;
+use App\Repository\CommentsRepository;
+use App\Repository\UsersRepository;
 
 class Post 
 {
@@ -16,7 +20,7 @@ class Post
 		$this->user_obj = new User(PDO::instance(), $user);
 	}
 
-	public function submitPost($body, $user_to) {
+	public function submitPost($body) {
 		$body = strip_tags($body); //removes html tags
 		$body = str_replace('\r\n', '\n', $body); //Allows new line character
 		$body = nl2br($body); //Replace new lines with line breaks
@@ -30,17 +34,17 @@ class Post
 			$date_added = date("Y-m-d H:i:s");
 			//Get username
 			$added_by = $this->user_obj->getUsername();
-
 			//Insert post
-			$query = PDO::instance()->prepare("INSERT INTO posts VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-			$query->execute([NULL, $body, $added_by, $user_to, $date_added, 'no', 'no', '0']);
-			$returned_id = PDO::instance()->lastInsertId();
-
+			PostsRepository::persistEntity(new PostsEntity(
+				date_added: $date_added, 
+				body: $body, 
+				added_by: $added_by, 
+				id: 0
+			));
 			//Update post count for user
 			$num_posts = $this->user_obj->getNumPosts();
 			$num_posts++;
-			$update_query = PDO::instance()->prepare("UPDATE users SET num_posts=? WHERE username=?");
-			$update_query->execute([$num_posts, $added_by]);
+			UsersRepository::aggregatePosts($num_posts, $added_by);
 		}
 	}
 
@@ -48,38 +52,35 @@ class Post
 
 		$page = $data['page'];
 		$userLoggedIn = $this->user_obj->getUsername();
-
+		
 		if($page == 1)
 			$start = 0;
 		else
 			$start = ($page - 1) * $limit;
 
-
 		$str = ""; //String to return
-		$data_query = PDO::instance()->prepare("SELECT * FROM posts WHERE deleted=? ORDER BY id DESC");
-		$data_query->execute(['no']);
-		//$fetch_data_query = $data_query->fetch();
-
-		if($data_query->rowCount() > 0) {
-
+		
+		$rowPosts = PostsRepository::getRowPosts('no');
+		
+		if($rowPosts > 0) {
+		
 			$num_iterations = 0; //Number of posts checked (Not necessarily posted)
 			$count = 1;
 
-			while ($row = $data_query->fetch()) {
-				$id = $row['id'];
-				$body = $row['body'];
-				$added_by = $row['added_by'];
-				$date_time = $row['date_added'];
+			foreach (PostsRepository::getPosts('no') as $loadAnnouncements) {
+			
+				$id = $loadAnnouncements->id;
+				
+				$body = $loadAnnouncements->body;
+				
+				$date_time = $loadAnnouncements->date_added;
 
-				//Prepare user to string so it can be included even if not posted to a user
-				if($row['user_to'] == "none") {
-					$user_to = "";
-				}
+				$added_by = $loadAnnouncements->added_by;
 
 				if($num_iterations++ < $start)
 					continue;
 
-
+				
 				//Once 10 posts have been loaded, break
 				if($count > $limit) {
 					break;
@@ -89,16 +90,23 @@ class Post
 				}
 
 				if($userLoggedIn == $added_by)
+
 					$delete_button = "<button class='delete_button btn-danger' id='post$id'>X</button>";
 				else
 					$delete_button = "";
 
+				/*
+					foreach (UsersRepository::authenticateFullname($added_by) as $user_details_query) {
+					$first_name = $user_details_query->first_name;
+					$last_name = $user_details_query->last_name;
+				}
+				*/
 				$user_details_query = PDO::instance()->prepare("SELECT first_name, last_name FROM users WHERE username=?");
 				$user_details_query->execute([$added_by]);
 				$user_row = $user_details_query->fetch();
 				$first_name = $user_row['first_name'];
 				$last_name = $user_row['last_name'];
-
+				
 				?>
 				<script>
 					function toggle<?php echo $id; ?>() {
@@ -116,12 +124,8 @@ class Post
 			 		}
 				</script>
 				<?php
-
-				$comment_check = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=?");
-				$comment_check->execute([$id]);
-				$fetch_comment_check = $comment_check->fetch();
-				$comment_check_num = $comment_check->rowCount();
-
+				//Check number of comments on each post.
+				$numComments = CommentsRepository::getRowComments($id);
 				//Timeframe
 				$date_time_now = date("Y-m-d H:i:s");
 				$start_date = new DateTime($date_time); //Time of post
@@ -187,7 +191,7 @@ class Post
 
 				$str .="<div class='status_post' onClick='javascrpt:toggle$id()'>
 									<div class='posted_by' style='color:#ACACAC;'>
-										<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+										<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
 										$delete_button
 									</div>
 									<div id='post_body'>
@@ -198,7 +202,7 @@ class Post
 									</div>
 
 									<div class='newsfeedPostOptions'>
-											Comments($comment_check_num)&nbsp;&nbsp;&nbsp;
+											Comments($numComments)&nbsp;&nbsp;&nbsp;
 											<iframe src='like.php?post_id=$id' scrolling='no'></iframe>
 									</div>
 						</div>

@@ -2,7 +2,7 @@
 
 use App\Att\User;
 use App\Att\Post;
-use App\Entity\PDO;
+use App\Library\PDO;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -12,7 +12,7 @@ include("includes/header.php");
 
 if(isset($_POST['post'])){
     $post = new Post(PDO::instance(), $userLoggedIn);
-    $post->submitPost($_POST['post_text'], 'none');
+    $post->submitPost($_POST['post_text']);
     header("Location: index.php"); //Stops the form resubmitting on refresh (duplicate announcement prevention).
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-Namespace App\Entity;
+Namespace App\Library;
 
 class PDO extends \PDO 
 {

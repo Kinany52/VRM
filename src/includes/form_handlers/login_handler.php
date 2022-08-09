@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\PDO;
+use App\Repository\UsersRepository;
 
 if (isset($_POST['login_button'])) {
 	$email = filter_var($_POST['log_email'], FILTER_SANITIZE_EMAIL); //Sanitize email
@@ -8,32 +8,27 @@ if (isset($_POST['login_button'])) {
 	$_SESSION['log_email'] = $email; //Store email into session variable
 	
 	$password = md5($_POST['log_password']); //Get password
+	//$password = password_hash($_POST['log_password'], PASSWORD_DEFAULT);
 
-	$check_database_query = PDO::instance()->prepare("SELECT * FROM users WHERE email=? AND password=?");
-	
-	$check_database_query->execute([$email, $password]);
-	
-	$check_login_query = $check_database_query->fetch();
+	foreach (UsersRepository::authenticateUser($email, $password) as $userRow) {
 
-	if ($check_database_query->rowCount() == 1) {
+		if ($userRow == 1) {
 
-		$username = $check_login_query['username'];
+			$username = $userRow->username;
+			
+			$checkUserStatus = UsersRepository::inquireStatus($email, 'yes');
+			
+			if (empty($user_closed_query_count)) {
+				UsersRepository::reactivateUser('no', $email);
+			}
 
-		$user_closed_query = PDO::instance()->prepare("SELECT * FROM users WHERE email=? AND user_closed=?");
-		$user_closed_query->execute([$email, 'yes']);
-		$user_closed_query_count = $user_closed_query->fetch();
-		
-		if (empty($user_closed_query_count)) {
-			$reopen_account = PDO::instance()->prepare("UPDATE users SET user_closed=? WHERE email=?");
-			$reopen_account->execute(['no', $email]);
+			$_SESSION['username'] = $username;
+			header("Location: index.php");
+			exit();
 		}
-
-		$_SESSION['username'] = $username;
-		header("Location: index.php");
-		exit();
-	}
-	else {
-		array_push($error_array, "Email or password was incorrect<br>");
+		else {
+			array_push($error_array, "Email or password was incorrect<br>");
+		}
 	}
 }
 
