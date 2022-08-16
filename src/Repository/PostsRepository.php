@@ -6,6 +6,10 @@ namespace App\Repository;
 
 use App\Library\PDO;
 use App\Entity\PostsEntity;
+use ReflectionClass;
+use ReflectionParameter;
+use ReflectionProperty;
+use DateTime;
 
 class PostsRepository
 {
@@ -25,22 +29,98 @@ class PostsRepository
 	{
 		$getPosts = PDO::instance()->prepare("SELECT * FROM posts WHERE deleted=? ORDER BY id DESC");
 		$getPosts->execute(['no']);
-		while ($postRow = $getPosts->fetch())
-		yield new PostsEntity(...$postRow);
+
+		/** @var array<$column_name : string => $column_value : mixed> $postRow */
+		$postRow = [];
+
+		while ($postRow = $getPosts->fetch()) {
+			$entityReflection = new ReflectionClass(PostsEntity::class);
+
+			$attributesWithTypes = [];
+
+			foreach ($entityReflection->getProperties() as $property) {
+				$attributesWithTypes[$property->getName()] = $property->getType()->getName();
+			}
+
+			array_walk($postRow, function (string &$column_value, mixed $column_name) use ($attributesWithTypes) {
+				if (array_key_exists($column_name, $attributesWithTypes)
+					&& $attributesWithTypes[$column_name] === DateTime::class
+				) {
+					$column_value = DateTime::createFromFormat('Y-m-d H:i:s', $column_value);
+				}
+				if (array_key_exists($column_name, $attributesWithTypes)
+				&& $attributesWithTypes[$column_name] === 'int'
+				) {
+					$column_value = intval($column_value);
+				}
+			});
+			//dd($postRow, $attributesWithTypes);
+			yield new PostsEntity(...$postRow);
+		}
 	}
 	public static function getLikes(int $id)
 	{
 		$getLikesNum = PDO::instance()->prepare("SELECT * FROM posts WHERE id=?");
 		$getLikesNum->execute([$id]);
-		while ($numberLikes = $getLikesNum->fetch())
-		yield new PostsEntity(...$numberLikes);
+		
+		/** @var array<$column_name : string => $column_value : mixed> $postRow */
+		$numberLikes = [];
+
+		while ($numberLikes = $getLikesNum->fetch()) {
+			$entityReflection = new ReflectionClass(PostsEntity::class);
+
+			$attributesWithTypes = [];
+
+			foreach ($entityReflection->getProperties() as $property) {
+				$attributesWithTypes[$property->getName()] = $property->getType()->getName();
+			}
+			
+			array_walk($numberLikes, function(string &$column_value, mixed $column_name) use ($attributesWithTypes) {
+				if(array_key_exists($column_name, $attributesWithTypes)
+				&& $attributesWithTypes[$column_name] === DateTime::class
+				) {
+					$column_value = DateTime::createFromFormat('Y-m-d H:i:s', $column_value);
+				}
+				if(array_key_exists($column_name, $attributesWithTypes)
+				&& $attributesWithTypes[$column_name] === 'int'
+				) {
+					$column_value = intval($column_value);
+				}
+			});
+			yield new PostsEntity(...$numberLikes);
+		}	
 	}
 	public static function getPoster(int $id)
 	{
 		$userQuery = PDO::instance()->prepare("SELECT * FROM posts WHERE id=?");
 	 	$userQuery->execute([$id]);
-		while ($postPoster = $userQuery->fetch())
-		yield new PostsEntity(...$postPoster);
+
+		/** @var array<$column_name : string => $column_value : mixed> $postRow */
+		$postPoster = [];
+
+		while ($postPoster = $userQuery->fetch()) {
+			$entityReflection = new ReflectionClass(PostsEntity::class);
+
+			$attributesWithTypes = [];
+
+			foreach ($entityReflection->getProperties() as $property) {
+				$attributesWithTypes[$property->getName()] = $property->getType()->getName();
+			}
+			
+			array_walk($postPoster, function(string &$column_value, mixed $column_name) use ($attributesWithTypes) {
+				if(array_key_exists($column_name, $attributesWithTypes)
+				&& $attributesWithTypes[$column_name] === DateTime::class
+				) {
+					$column_value = DateTime::createFromFormat('Y-m-d H:i:s', $column_value);
+				}
+				if(array_key_exists($column_name, $attributesWithTypes)
+				&& $attributesWithTypes[$column_name] === 'int'
+				) {
+					$column_value = intval($column_value);
+				}
+			});
+			yield new PostsEntity(...$postPoster);
+		}
 	}
 	public static function updateLikes(int $likes, int $id)
 	{

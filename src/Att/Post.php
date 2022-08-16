@@ -31,7 +31,7 @@ class Post
 
 
 			//Current date and time
-			$date_added = date("Y-m-d H:i:s");
+			$date_added = new DateTime();
 			//Get username
 			$added_by = $this->user_obj->getUsername();
 			//Insert post
@@ -128,11 +128,13 @@ class Post
 				$numComments = CommentsRepository::getRowComments($id);
 				//Timeframe
 				$date_time_now = date("Y-m-d H:i:s");
-				$start_date = new DateTime($date_time); //Time of post
+				$start_date = $date_time; //Time of post
 				$end_date = new DateTime($date_time_now); //Current time
 				$interval = $start_date->diff($end_date); //Difference between dates
 				if($interval->y >= 1) {
-					if($interval == 1)
+					if($interval == true) // "== 1" is relaplaced with "== true" to avoid
+					//a notice on the browser: 'Notice: Object of class DateInterval could 
+					//not be converted to int in /app/src/Att/Post.php on line 135'
 						$time_message = $interval->y . " year ago"; //1 year ago
 					else
 						$time_message = $interval->y . " years ago"; //1+ year ago

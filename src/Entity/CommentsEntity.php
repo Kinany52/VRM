@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use DateTimeInterface;
 
 class CommentsEntity extends AbstractEntity
@@ -18,7 +19,7 @@ class CommentsEntity extends AbstractEntity
     )
     {}
 
-    public function toArray(): array
+    public function _toArray(): array
     {
         $attributes = [$this->id, $this->post_body, $this->posted_by, $this->posted_to, $this->date_added, $this->post_id];
         return $this->prepareAttributeForPersisting($attributes);
