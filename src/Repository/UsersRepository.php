@@ -32,8 +32,8 @@ class UsersRepository
 	{
 		$userQuery = PDO::instance()->prepare("SELECT first_name, last_name FROM users WHERE username=?");
 		$userQuery->execute([$username]);
-		while ($userFullname = $userQuery->fetch())
-		yield new UsersEntity(...$userFullname);
+		
+		return $userQuery->fetch();
 	}
 
 	public static function inquireStatus(string $email)

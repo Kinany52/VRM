@@ -1,7 +1,7 @@
 <?php  
 
-use App\Att\User;
-use App\Att\Post;
+use App\Controller\User;
+use App\Controller\Post;
 use App\Entity\LikesEntity;
 use App\Library\PDO;
 use App\Repository\LikesRepository;

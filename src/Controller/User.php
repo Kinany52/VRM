@@ -1,6 +1,6 @@
 <?php 
 
-Namespace App\Att;
+Namespace App\Controller;
 
 use App\Library\PDO;
 

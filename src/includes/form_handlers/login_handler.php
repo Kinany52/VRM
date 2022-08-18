@@ -18,7 +18,7 @@ if (isset($_POST['login_button'])) {
 			
 			$checkUserStatus = UsersRepository::inquireStatus($email, 'yes');
 			
-			if (empty($user_closed_query_count)) {
+			if (empty($checkUserStatus)) {
 				UsersRepository::reactivateUser('no', $email);
 			}
 

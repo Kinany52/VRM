@@ -1,8 +1,8 @@
 <?php
 
-Namespace App\Att;
+Namespace App\Controller;
 
-use App\Att\User;
+use App\Controller\User;
 use DateTime;
 use App\Library\PDO;
 use App\Entity\PostsEntity;
@@ -95,18 +95,10 @@ class Post
 				else
 					$delete_button = "";
 
-				/*
-					foreach (UsersRepository::authenticateFullname($added_by) as $user_details_query) {
-					$first_name = $user_details_query->first_name;
-					$last_name = $user_details_query->last_name;
-				}
-				*/
-				$user_details_query = PDO::instance()->prepare("SELECT first_name, last_name FROM users WHERE username=?");
-				$user_details_query->execute([$added_by]);
-				$user_row = $user_details_query->fetch();
-				$first_name = $user_row['first_name'];
-				$last_name = $user_row['last_name'];
-				
+				$user_details_query = UsersRepository::authenticateFullname($added_by);
+				$first_name = $user_details_query['first_name'];
+				$last_name = $user_details_query['last_name'];
+
 				?>
 				<script>
 					function toggle<?php echo $id; ?>() {
@@ -134,7 +126,7 @@ class Post
 				if($interval->y >= 1) {
 					if($interval == true) // "== 1" is relaplaced with "== true" to avoid
 					//a notice on the browser: 'Notice: Object of class DateInterval could 
-					//not be converted to int in /app/src/Att/Post.php on line 135'
+					//not be converted to int in /app/src/Controller/Post.php on line 135'
 						$time_message = $interval->y . " year ago"; //1 year ago
 					else
 						$time_message = $interval->y . " years ago"; //1+ year ago

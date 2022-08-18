@@ -1,7 +1,7 @@
 <?php 
 
-use App\Att\User;
-use App\Att\Post;
+use App\Controller\User;
+use App\Controller\Post;
 use App\Library\PDO;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
