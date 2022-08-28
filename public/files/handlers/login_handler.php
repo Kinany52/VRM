@@ -23,7 +23,7 @@ if (isset($_POST['login_button'])) {
 			}
 
 			$_SESSION['username'] = $username;
-			header("Location: index.php");
+			header("Location: homepage.php");
 			exit();
 		}
 		else {

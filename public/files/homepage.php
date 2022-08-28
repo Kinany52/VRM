@@ -4,16 +4,16 @@ use App\Controller\User;
 use App\Controller\Post;
 use App\Library\PDO;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 bootstrap();
 
-include("includes/header.php");
+include("handlers/header.php");
 
 if(isset($_POST['post'])){
     $post = new Post(PDO::instance(), $userLoggedIn);
     $post->submitPost($_POST['post_text']);
-    header("Location: index.php"); //Stops the form resubmitting on refresh (duplicate announcement prevention).
+    header("Location: homepage.php"); //Stops the form resubmitting on refresh (duplicate announcement prevention).
 }
 
  ?> 
@@ -33,7 +33,7 @@ if(isset($_POST['post'])){
         </div>
 
         <div class="main_column column">
-            <form class="post_form" action="index.php" method="POST">
+            <form class="post_form" action="homepage.php" method="POST">
                 <textarea name="post_text" id="post_text" placeholder="Has a return recently arrived?"></textarea>
                 <input type="submit" name="post" id="post_buttom" value="Announce">
                 <hr>
@@ -41,7 +41,7 @@ if(isset($_POST['post'])){
             </form>
             
              <div class=posts_area></div>
-             <img id="loading" src="assets/images/icons/loading.gif">
+             <img id="loading" src="/assets/images/icons/loading.gif">
         </div>
 
         <script>
@@ -73,7 +73,7 @@ if(isset($_POST['post'])){
                     var page = $('.posts_area').find('.nextPage').val() || 1; //If .nextPage couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
                     
                     $.ajax({
-                        url: "includes/handlers/ajax_load_posts.php",
+                        url: "handlers/ajax_load_posts.php",
                         type: "POST",
                         data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
                         cache:false,

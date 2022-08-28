@@ -4,11 +4,11 @@ use App\Controller\User;
 use App\Controller\Post;
 use App\Library\PDO;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 bootstrap();
 
-include("includes/header.php"); 
+include("handlers/header.php"); 
 
 if(isset($_GET['profile_username'])) {
   $username = $_GET['profile_username'];

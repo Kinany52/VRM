@@ -197,11 +197,11 @@ class Post
 
 									<div class='newsfeedPostOptions'>
 											Comments($numComments)&nbsp;&nbsp;&nbsp;
-											<iframe src='like.php?post_id=$id' scrolling='no'></iframe>
+											<iframe src='handlers/like.php?post_id=$id' scrolling='no'></iframe>
 									</div>
 						</div>
 						<div class='post_comment' id='toggleComment$id' style='display:none;'>
-							<iframe src='comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
+							<iframe src='handlers/comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
 						</div>
 						<hr>";
 
