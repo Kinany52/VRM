@@ -1,6 +1,5 @@
 <?php
 
-use App\Library\PDO;
 use App\Repository\UsersRepository;
 
 if (isset($_SESSION['username'])) {

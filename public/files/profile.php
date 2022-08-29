@@ -3,6 +3,7 @@
 use App\Controller\User;
 use App\Controller\Post;
 use App\Library\PDO;
+use App\Repository\UsersRepository;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -12,12 +13,10 @@ include("handlers/header.php");
 
 if(isset($_GET['profile_username'])) {
   $username = $_GET['profile_username'];
-  $user_details_query = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
-  $user_details_query->execute([$username]);
-  $user_array = $user_details_query->fetch();
+  $userArray = UsersRepository::validateSession($username);
 }
 
-if($user_array['user_closed'] == 'yes') {
+if($userArray['user_closed'] == 'yes') {
     header("Location: user_closed.php");
 }
 
@@ -25,21 +24,21 @@ if($user_array['user_closed'] == 'yes') {
 
         <div class="profile_left">
             <div class="profile_info">
-                <p><?php echo "Announcements: " . $user_array['num_posts']; ?></p>
-                <p><?php echo "Confirms: " . $user_array['num_likes']; ?></p>
+                <p><?php echo "Announcements: " . $userArray['num_posts']; ?></p>
+                <p><?php echo "Confirms: " . $userArray['num_likes']; ?></p>
             </div>
         </div>
         
         <div class="main_column column">
-            <?php $profile_user_obj = new User(PDO::instance(), $user_array['username']);
+            <?php $profile_user_obj = new User(PDO::instance(), $userArray['username']);
             echo 'Username: ' . $profile_user_obj->getUsername(); ?>
             <br>
-            <?php $profile_user_obj = new User(PDO::instance(), $user_array['username']);
+            <?php $profile_user_obj = new User(PDO::instance(), $userArray['username']);
             echo 'Contact person: ' . $profile_user_obj->getFirstAndLastName(); ?>
             <br>
-            <?php echo 'Vendor ID: ' . '110' . $user_array['id']; ?>
+            <?php echo 'Vendor ID: ' . '110' . $userArray['id']; ?>
             <br>
-            <?php echo 'Registered since: ' . $user_array['signup_date']; ?>
+            <?php echo 'Registered since: ' . $userArray['signup_date']; ?>
         </div>
 
     </div>

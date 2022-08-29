@@ -3,7 +3,6 @@
 use App\Controller\User;
 use App\Controller\Post;
 use App\Entity\LikesEntity;
-use App\Library\PDO;
 use App\Repository\LikesRepository;
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
