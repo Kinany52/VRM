@@ -1,6 +1,5 @@
 <?php 
 
-use App\Controller\User;
 use App\Controller\Post;
 use App\Library\PDO;
 

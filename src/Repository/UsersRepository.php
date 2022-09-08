@@ -14,7 +14,7 @@ class UsersRepository
 		$insertUser = PDO::instance()->prepare("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		$insertUser->execute($UsersEntity->toArray());
 	}
-	public static function validateSession(string $username)
+	public static function queryUser(string $username)
 	{
 		$userQuery = PDO::instance()->prepare("SELECT * FROM users WHERE username=?");
 		$userQuery->execute([$username]);

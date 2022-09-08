@@ -13,7 +13,7 @@ include("handlers/header.php");
 
 if(isset($_GET['profile_username'])) {
   $username = $_GET['profile_username'];
-  $userArray = UsersRepository::validateSession($username);
+  $userArray = UsersRepository::queryUser($username);
 }
 
 if($userArray['user_closed'] == 'yes') {

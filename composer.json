@@ -3,7 +3,8 @@
     "description": "\"\"",
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Core\\": "Core/"
         },
         "files": ["config/config.php"]
     },

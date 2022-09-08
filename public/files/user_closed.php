@@ -10,7 +10,7 @@ include("handlers/header.php");
 
 if (isset($_SESSION['username'])) {
 	$userLoggedIn = $_SESSION['username'];
-	$user = UsersRepository::validateSession($userLoggedIn);
+	$user = UsersRepository::queryUser($userLoggedIn);
 	}
 else {
 	header("Location: register.php");
