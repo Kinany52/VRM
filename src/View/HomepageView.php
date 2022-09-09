@@ -24,7 +24,7 @@
 			</div>
 
 			<nav>
-				<a id="GFGN" href="profile.php?profile_username=<?php echo $userLoggedIn; ?>">Hi there, <?php echo $user['first_name']; ?>!</a>
+				<a id="GFGN" href="profile.php?profile_username=<?php echo $user['username']; ?>">Hi there, <?php echo $user['first_name']; ?>!</a>
 				<a id="GFG" href="handlers/logout.php">Logout</a>
 			</nav>
 
@@ -33,7 +33,7 @@
 		<div class="wrapper">
             <div class="user_details column">   
                 <div class="user_details_left_right">
-                    <a href="profile.php?profile_username=<?php echo $userLoggedIn; ?>">
+                    <a href="profile.php?profile_username=<?php echo $user['username']; ?>">
                     <?php
                     echo $user['first_name'] . " " . $user['last_name'];
                     ?>
@@ -61,7 +61,7 @@
             <script>
             $(function(){
 
-                    var userLoggedIn = '<?php echo $userLoggedIn; ?>';
+                    var userLoggedIn = '<?php echo $user['username']; ?>';
                     var inProgress = false;
                 
                     loadPosts(); //Load first posts
@@ -87,7 +87,7 @@
                         var page = $('.posts_area').find('.nextPage').val() || 1; //If .nextPage couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
                         
                         $.ajax({
-                            url: "handlers/ajax_load_posts.php",
+                            url: "/files/handlers/ajax_load_posts.php",
                             type: "POST",
                             data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
                             cache:false,

@@ -10,13 +10,18 @@ use App\Repository\UsersRepository;
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 bootstrap();
+$userLoggedIn = "wojciech_gula";
 
+/*
 if (isset($_SESSION['username'])) {
-	$userLoggedIn = $_SESSION['username'];
+	$userLoggedIn = "wojciech_gula"; //$_SESSION['username'];
 }
 else {
-	header("Location: register.php");
+	//header("Location: register.php");
+	echo 'We are here.';
 }
+*/
+
 
 //Get id of post
 if(isset($_GET['post_id'])) {

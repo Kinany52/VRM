@@ -60,6 +60,7 @@ abstract class BaseController
             //header("Location: files/homepage.php");
             }
         else {
+            //echo 'Session is NOT ongoing.';
             header("Location: files/register.php");
         }
         return false;

@@ -10,13 +10,15 @@ use App\Repository\PostsRepository;
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 bootstrap();
-
+	/*
 	if (isset($_SESSION['username'])) {
-		$userLoggedIn = $_SESSION['username'];
+		$userLoggedIn = "wojciech_gula"; //$_SESSION['username'];
 	} 
 	else {
-		header("Location: register.php");
+		//header("Location: register.php");
+		//echo 'Comments go here.';
 	}
+	*/
 ?>
 <!DOCTYPE html>
 <html>
