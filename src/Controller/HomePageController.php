@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-//require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 use App\Controller\Post;
 use App\Library\PDO;
@@ -16,6 +16,7 @@ Class HomepageController extends BaseController
         $userLoggedIn = "wojciech_gula";
 	    $user = UsersRepository::queryUser($userLoggedIn);
         if(isset($_POST['post'])){
+            var_dump($_POST['post']);
             $post = new Post(PDO::instance(), $userLoggedIn);
             $post->submitPost($_POST['post_text']);
             //header("Location: homepage.php"); //Stops the form resubmitting on refresh (duplicate announcement prevention).
@@ -29,6 +30,9 @@ Class HomepageController extends BaseController
     }
 
     public function show() {
-        echo 'Hello from show method!';
+        echo 'Hello from show action method!';
+        //return $this->index(); //testcalling method action from same controller
+        //$teto = new AuthenticationController;
+        //return $teto->authenticate(); //testcalling method action from different controller
     }
 }

@@ -12,7 +12,8 @@ Class SessionController
             $user = UsersRepository::queryUser($userLoggedIn);
             }
         else {
-            header("Location: register.php");
+            //header("Location: register.php");
+            echo "Hello from right here.<br>";
         }
     }
 }
