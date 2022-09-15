@@ -20,12 +20,12 @@
 		<div class="top_bar">
 			
 			<div class="logo">
-				<a id="GFG" href="homepage.php">Vendor Return Management</a>
+				<a id="GFG" href="<?php echo '/'; ?>">Vendor Return Management</a>
 			</div>
 
 			<nav>
 				<a id="GFGN" href="profile.php?profile_username=<?php echo $user['username']; ?>">Hi there, <?php echo $user['first_name']; ?>!</a>
-				<a id="GFG" href="handlers/logout.php">Logout</a>
+				<a id="GFG" href="logged_out">Logout</a>
 			</nav>
 
 		</div>

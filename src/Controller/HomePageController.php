@@ -9,12 +9,18 @@ use App\Library\PDO;
 use App\Repository\UsersRepository;
 use Core\BaseController;
 use Core\Template;
+use App\Controller\AuthenticationController;
 
-Class HomepageController extends BaseController
+Class HomepageController
 {
     public function index() {
-        $userLoggedIn = "wojciech_gula";
-	    $user = UsersRepository::queryUser($userLoggedIn);
+        if(isset($_SESSION['username'])) {
+            $userLoggedIn = $_SESSION['username'];
+	        $user = UsersRepository::queryUser($userLoggedIn);
+        } else {
+            $auth = new AuthenticationController();
+            return $auth->authenticate();
+        }
         if(isset($_POST['post'])){
             var_dump($_POST['post']);
             $post = new Post(PDO::instance(), $userLoggedIn);
@@ -25,8 +31,6 @@ Class HomepageController extends BaseController
         echo $template->render('HomepageView.php', [
             'user' => $user
         ]);
-        
-        //header("Location: files/homepage.php");
     }
 
     public function show() {

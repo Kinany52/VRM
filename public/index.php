@@ -11,8 +11,8 @@ $router = new Router();
 // Add the routes
 $router->add('', ['controller' => 'HomepageController', 'action' => 'index']);
 $router->add('pesto', ['controller' => 'HomepageController', 'action' => 'show']);
-$router->add('auth', ['controller' => 'authenticationController', 'action' => 'authenticate']);
-//$router->add('/regi', ['controller' => 'AuthenticationController', 'action' => 'handleRegister']);
+$router->add('auth', ['controller' => 'AuthenticationController', 'action' => 'authenticate']);
+$router->add('logged_out', ['controller' => 'LogoutController', 'action' => 'logout']);
 $router->add('{controller}/{action}');
 $router->add('{controller}/{id:\d+}/{action}');
 

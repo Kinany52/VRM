@@ -1,5 +1,10 @@
-<?php 
+<?php
+
+use App\Controller\AuthenticationController;
+
 session_start();
 session_destroy();
-header("Location: ../register.php");
+$auth = new AuthenticationController();
+return $auth->authenticate();
+//header("Location: ../register.php");
  ?>
