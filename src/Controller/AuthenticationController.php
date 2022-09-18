@@ -21,9 +21,10 @@ Class AuthenticationController
             $_SESSION['log_email'] = $email; //Store email into session variable    
             $password = md5($_POST['log_password']); //Get password
             //$password = password_hash($_POST['log_password'], PASSWORD_DEFAULT);
-            
+            if(UsersRepository::authenticateUser($email, $password) !== false) {
+                array_push($this->error_array, "Email or password was incorrect<br>");
+            }
             foreach (UsersRepository::authenticateUser($email, $password) as $userRow) {
-                if (empty($userRow) != TRUE) {
                     $username = $userRow->username;
                     $checkUserStatus = UsersRepository::inquireStatus($email, 'yes');
                     if (empty($checkUserStatus)) {
@@ -31,10 +32,6 @@ Class AuthenticationController
                     }
                     $_SESSION['username'] = $username;
                     header("Location: /");
-                } 
-                else {
-                    array_push($this->error_array, "Email or password was incorrect<br>");
-                }
             }
         }
 
