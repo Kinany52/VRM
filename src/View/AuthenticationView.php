@@ -38,7 +38,7 @@
 			</div>	
 
 			<div id="first">	
-				<form action="" method="POST">
+				<form action="<?php echo '/auth'; ?>" method="POST">
 					<input type="email" name="log_email" placeholder="Email Address" value="<?php
 					if (isset($_SESSION['log_email'])) {
 						echo $_SESSION['log_email'];
@@ -57,7 +57,7 @@
 			<br>
 
 			<div id="second">
-				<form action="AuthenticationController.php" method="POST">
+				<form action="<?php echo '/auth'; ?>" method="POST">
 					<input type="text" name="reg_fname" placeholder="First Name" value="<?php
 					if (isset($_SESSION['reg_fname'])) {
 						echo $_SESSION['reg_fname'];

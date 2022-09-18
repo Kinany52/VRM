@@ -51,7 +51,7 @@ abstract class BaseController
     /**
      * Before filter - called before an action method.
      *
-     * @return void
+     * @return bool
      */
     protected function before()
     {

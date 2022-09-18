@@ -7,51 +7,50 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' .
 use App\Entity\UsersEntity;
 use App\Repository\UsersRepository;
 use Core\Template;
-use App\Controller\HomepageController;
-use Core\BaseController;
 
 Class AuthenticationController
 {
+    public array $error_array = [];
+
     public function authenticate() {
+
+        //$error_array = []; //Holds error messages
 
         if (isset($_POST['login_button'])) {
             $email = filter_var($_POST['log_email'], FILTER_SANITIZE_EMAIL); //Sanitize email
-        
-            $_SESSION['log_email'] = $email; //Store email into session variable
-            
+            $_SESSION['log_email'] = $email; //Store email into session variable    
             $password = md5($_POST['log_password']); //Get password
             //$password = password_hash($_POST['log_password'], PASSWORD_DEFAULT);
             
             foreach (UsersRepository::authenticateUser($email, $password) as $userRow) {
-        
-                if ($userRow == TRUE) {
-        
+                if (empty($userRow) != TRUE) {
                     $username = $userRow->username;
-                    
                     $checkUserStatus = UsersRepository::inquireStatus($email, 'yes');
-                    
                     if (empty($checkUserStatus)) {
                         UsersRepository::reactivateUser('no', $email);
                     }
-        
                     $_SESSION['username'] = $username;
                     header("Location: /");
-                    //$HomepageController = new HomepageController();
-                    //return $HomepageController->index();
-                    //echo 'Right here!';
-                    //header("Location: homepage.php");
-                    //exit();
-                }
+                } 
                 else {
-                    array_push($error_array, "Email or password was incorrect<br>");
+                    array_push($this->error_array, "Email or password was incorrect<br>");
                 }
             }
         }
 
         if (isset($_POST['register_button'])) {
-	
+
+            //Declaring variables to prevent error
+            $fname = ""; //First name
+            $lname = ""; //Last name
+            $em = ""; //Email
+            $em2 = ""; //Email 2
+            $password = ""; //Password
+            $password2 = ""; //Password 2
+            $date = ""; //Sign up date
+            //$error_array = []; //Holds error messages
+
             //Registeration form value
-        
             //First name
             $fname = strip_tags($_POST['reg_fname']); //remove html tags
             $fname = str_replace(' ', '', $fname); //remove spaces
@@ -92,40 +91,40 @@ Class AuthenticationController
                     $e_check = UsersRepository::validateEmail($em);
         
                     if (!empty($e_check)) {
-                        array_push($error_array, "Email already in use<br>");
+                        array_push($this->error_array, "Email already in use<br>");
                     }
                 }
                 else {
-                    array_push($error_array, "Invalid email format<br>");
+                    array_push($this->error_array, "Invalid email format<br>");
                 }
             }
             else {
-                array_push($error_array, "Emails don't match<br>");
+                array_push($this->error_array, "Emails don't match<br>");
             }
         
         
             if (strlen($fname) > 25 || strlen($fname) < 2) {
-                array_push($error_array, "Your first name must be between 2 and 25 characters<br>");
+                array_push($this->error_array, "Your first name must be between 2 and 25 characters<br>");
             }
         
             if (strlen($lname) > 25 || strlen($lname) < 2) {
-                array_push($error_array, "Your last name must be between 2 and 25 characters<br>");
+                array_push($this->error_array, "Your last name must be between 2 and 25 characters<br>");
             }
         
             if ($password != $password2) {
-                array_push($error_array, "Your passwords do not match<br>");
+                array_push($this->error_array, "Your passwords do not match<br>");
             }
             else {
                 if (preg_match('/[^A-Za-z0-9]/', $password)) {
-                    array_push($error_array, "Your password can only contain English characters or numbers<br>");
+                    array_push($this->error_array, "Your password can only contain English characters or numbers<br>");
                 }
             }
         
             if (strlen($password) > 30 || strlen($password) < 5) {
-                array_push($error_array, "Your password must be between 5 and 30 characters<br>");
+                array_push($this->error_array, "Your password must be between 5 and 30 characters<br>");
             }
         
-            if (empty($error_array)) {
+            if (empty($this->error_array)) {
                 $password = md5($password); //Encrypt passord before sending to database
         
                 //Generate username by concarenating first name and last name
@@ -149,7 +148,7 @@ Class AuthenticationController
                     signup_date: $date
                 ));
         
-                array_push($error_array, "<span style='color: #14C800;'>You're all set! Go ahead and login!</span>");
+                array_push($this->error_array, "<span style='color: #14C800;'>You're all set! Go ahead and login!</span>");
         
                 //Clear session variables
                 $_SESSION['reg_fname'] = "";
@@ -162,7 +161,9 @@ Class AuthenticationController
 
         $template = new Template('../src/View');
         echo $template->render('AuthenticationView.php', [
-            'error_array' => $error_array = array()
+            'error_array' => $this->error_array
         ]);
+
+        
     }
 }
