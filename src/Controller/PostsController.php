@@ -1,8 +1,8 @@
 <?php
 
-Namespace App\Controller;
+namespace App\Controller;
 
-use App\Controller\User;
+use App\Controller\UserController;
 use DateTime;
 use App\Library\PDO;
 use App\Entity\PostsEntity;
@@ -18,7 +18,7 @@ class PostsController
 
 	public function __construct($con, $user) {
 		$this->con = PDO::instance();
-		$this->user_obj = new User(PDO::instance(), $user);
+		$this->user_obj = new UserController(PDO::instance(), $user);
 	}
 
 	public function submitPost($body) {

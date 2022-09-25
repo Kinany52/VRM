@@ -1,6 +1,6 @@
 <?php
 
-Namespace App\Controller;
+namespace App\Controller;
 
 use App\Repository\UsersRepository;
 use Core\Template;
@@ -25,7 +25,7 @@ Class ProfileController
         }
           
         if ($this->userArray['user_closed'] == 'yes') {
-              header("Location: user_closed.php");
+              header("Location: /user_closed");
         }
         
         $template = new Template('../src/View');

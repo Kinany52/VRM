@@ -1,6 +1,6 @@
 <?php  
 
-use App\Controller\User;
+use App\Controller\UserController;
 use App\Controller\PostsController;
 use App\Entity\LikesEntity;
 use App\Repository\LikesRepository;

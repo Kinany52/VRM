@@ -8,20 +8,15 @@ use App\Controller\PostsController;
 use App\Library\PDO;
 use App\Repository\UsersRepository;
 use Core\Template;
-use App\Controller\AuthenticationController;
-use App\Controller\User;
 
 Class HomepageController
 {
-    //public array $user = [];
-
     public function index() {
         if(isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
 	        $user = UsersRepository::queryUser($userLoggedIn);
         } else {
-            $auth = new AuthenticationController();
-            return $auth->authenticate();
+            header("Location: /auth");
         }
         if(isset($_POST['post'])){
             $post = new PostsController(PDO::instance(), $userLoggedIn);
@@ -32,12 +27,5 @@ Class HomepageController
         echo $template->render('HomepageView.php', [
             'user' => $user
         ]);
-    }
-
-    public function show() {
-        echo 'Hello from show action method!';
-        //return $this->index(); //testcalling method action from same controller
-        //$teto = new AuthenticationController;
-        //return $teto->authenticate(); //testcalling method action from different controller
     }
 }

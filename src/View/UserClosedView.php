@@ -30,24 +30,20 @@
 
 		</div>
 
-		<div class="wrapper">
-			<div class="profile_left">
-				<div class="profile_info">
-					<p><?php echo "Announcements: " . $userArray['num_posts']; ?></p>
-					<p><?php echo "Confirms: " . $userArray['num_likes']; ?></p>
-				</div>
-			</div>
-			
-			<div class="main_column column">
-				<?php echo 'Username: ' . $userArray['username']; ?>
-				<br>
-				<?php echo 'Contact person: ' . $userArray['first_name'] . " " . $userArray['last_name']; ?>
-				<br>
-				<?php echo 'Vendor ID: ' . '110' . $userArray['id']; ?>
-				<br>
-				<?php echo 'Registered since: ' . $userArray['signup_date']; ?>
-			</div>
-
-    	</div>
-	</body>
+        <div class="wrapper">
+            <div class="main_column column" id="main_column">
+                <h4>User Closed</h4>
+                <h9>This account is closed.</h9>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <a href="<?php echo '/'; ?>"> Click here to go back.</a>
+            </div>
+        </div>
+        
+    </body>
 </html>

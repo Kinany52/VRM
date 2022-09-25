@@ -1,10 +1,10 @@
 <?php 
 
-Namespace App\Controller;
+namespace App\Controller;
 
 use App\Library\PDO;
 
-class User 
+class UserController 
 {
 	private $user;
 	private $con;

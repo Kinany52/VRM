@@ -1,6 +1,6 @@
 <?php
 
-use App\Controller\User;
+use App\Controller\UserController;
 use App\Controller\PostsController;
 use App\Entity\CommentsEntity;
 use App\Library\PDO;
@@ -154,7 +154,7 @@ bootstrap();
 					}
 				}
 				
-				$user_obj = new User(PDO::instance(), $posted_by);
+				$user_obj = new UserController(PDO::instance(), $posted_by);
 
 
 				?>

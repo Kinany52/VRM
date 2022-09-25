@@ -1,6 +1,6 @@
 <?php 
 
-use App\Controller\User;
+use App\Controller\UserController;
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
 use App\Library\PDO;
@@ -17,7 +17,7 @@ bootstrap();
 			PostsRepository::deletePost('yes', $post_id);
 			//Update post count for user
 			$user = $userLoggedIn = $_SESSION['username'];
-			$userObj = new User(PDO::instance(), $user);
+			$userObj = new UserController(PDO::instance(), $user);
 			$added_by = $userObj->getUsername();
 			$num_posts = $userObj->getNumPosts();
 			$num_posts--;
