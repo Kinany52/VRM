@@ -1,7 +1,7 @@
 <?php
 
 use App\Controller\User;
-use App\Controller\Post;
+use App\Controller\PostsController;
 use App\Entity\CommentsEntity;
 use App\Library\PDO;
 use App\Repository\CommentsRepository;
@@ -159,7 +159,7 @@ bootstrap();
 
 				?>
 				<div class="comment_section">
-					<a href="profile.php?profile_username=<?php echo $posted_by; ?>" target="_parent"> <b> <?php echo $user_obj->getFirstAndLastName(); ?></b></a>
+					<a href="profile?profile_username=<?php echo $posted_by; ?>" target="_parent"> <b> <?php echo $user_obj->getFirstAndLastName(); ?></b></a>
 					&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $time_message . "<br>" . $comment_body; ?>
 					<hr>
 				</div>

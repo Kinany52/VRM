@@ -14,8 +14,6 @@ Class AuthenticationController
 
     public function authenticate() {
 
-        //$error_array = []; //Holds error messages
-
         if (isset($_POST['login_button'])) {
             $email = filter_var($_POST['log_email'], FILTER_SANITIZE_EMAIL); //Sanitize email
             $_SESSION['log_email'] = $email; //Store email into session variable    
@@ -36,7 +34,6 @@ Class AuthenticationController
         }
 
         if (isset($_POST['register_button'])) {
-
             //Declaring variables to prevent error
             $fname = ""; //First name
             $lname = ""; //Last name
@@ -45,7 +42,6 @@ Class AuthenticationController
             $password = ""; //Password
             $password2 = ""; //Password 2
             $date = ""; //Sign up date
-            //$error_array = []; //Holds error messages
 
             //Registeration form value
             //First name
@@ -159,8 +155,6 @@ Class AuthenticationController
         $template = new Template('../src/View');
         echo $template->render('AuthenticationView.php', [
             'error_array' => $this->error_array
-        ]);
-
-        
+        ]);   
     }
 }

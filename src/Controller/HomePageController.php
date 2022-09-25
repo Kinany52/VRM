@@ -4,15 +4,17 @@ namespace App\Controller;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-use App\Controller\Post;
+use App\Controller\PostsController;
 use App\Library\PDO;
 use App\Repository\UsersRepository;
-use Core\BaseController;
 use Core\Template;
 use App\Controller\AuthenticationController;
+use App\Controller\User;
 
 Class HomepageController
 {
+    //public array $user = [];
+
     public function index() {
         if(isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
@@ -22,10 +24,9 @@ Class HomepageController
             return $auth->authenticate();
         }
         if(isset($_POST['post'])){
-            var_dump($_POST['post']);
-            $post = new Post(PDO::instance(), $userLoggedIn);
+            $post = new PostsController(PDO::instance(), $userLoggedIn);
             $post->submitPost($_POST['post_text']);
-            //header("Location: homepage.php"); //Stops the form resubmitting on refresh (duplicate announcement prevention).
+            header("Location: /"); //Stops the form resubmitting on refresh (duplicate announcement prevention).
         }
         $template = new Template('../src/View');
         echo $template->render('HomepageView.php', [

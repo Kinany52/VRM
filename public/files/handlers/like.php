@@ -1,7 +1,7 @@
 <?php  
 
 use App\Controller\User;
-use App\Controller\Post;
+use App\Controller\PostsController;
 use App\Entity\LikesEntity;
 use App\Repository\LikesRepository;
 use App\Repository\PostsRepository;
@@ -10,18 +10,14 @@ use App\Repository\UsersRepository;
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 bootstrap();
-$userLoggedIn = "wojciech_gula";
 
-/*
+
 if (isset($_SESSION['username'])) {
-	$userLoggedIn = "wojciech_gula"; //$_SESSION['username'];
+	$userLoggedIn = $_SESSION['username'];
 }
 else {
-	//header("Location: register.php");
-	echo 'We are here.';
+	header("Location: /auth");
 }
-*/
-
 
 //Get id of post
 if(isset($_GET['post_id'])) {

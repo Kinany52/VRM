@@ -24,7 +24,7 @@
 			</div>
 
 			<nav>
-				<a id="GFGN" href="profile.php?profile_username=<?php echo $user['username']; ?>">Hi there, <?php echo $user['first_name']; ?>!</a>
+				<a id="GFGN" href="profile?profile_username=<?php echo $user['username']; ?>">Hi there, <?php echo $user['first_name']; ?>!</a>
 				<a id="GFG" href="logged_out">Logout</a>
 			</nav>
 
@@ -33,7 +33,7 @@
 		<div class="wrapper">
             <div class="user_details column">   
                 <div class="user_details_left_right">
-                    <a href="profile.php?profile_username=<?php echo $user['username']; ?>">
+                    <a href="profile?profile_username=<?php echo $user['username']; ?>">
                     <?php
                     echo $user['first_name'] . " " . $user['last_name'];
                     ?>
@@ -47,13 +47,11 @@
             </div>
 
             <div class="main_column column">
-                <form class="post_form" action="homepage.php" method="POST">
+                <form class="post_form" action="<?php echo '/'; ?>" method="POST">
                     <textarea name="post_text" id="post_text" placeholder="Has a return recently arrived?"></textarea>
                     <input type="submit" name="post" id="post_buttom" value="Announce">
                     <hr>
-
                 </form>
-                
                 <div class=posts_area></div>
                 <img id="loading" src="/assets/images/icons/loading.gif">
             </div>

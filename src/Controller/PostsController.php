@@ -9,8 +9,9 @@ use App\Entity\PostsEntity;
 use App\Repository\PostsRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\UsersRepository;
+use Core\Template;
 
-class Post 
+class PostsController 
 {
 	private $user_obj;
 	private $con;
@@ -28,8 +29,6 @@ class Post
 		$check_empty = preg_replace('/\s+/', '', $body); //Deletes all spaces
 
 		if($check_empty != "") {
-
-
 			//Current date and time
 			$date_added = new DateTime();
 			//Get username
@@ -70,16 +69,12 @@ class Post
 			foreach (PostsRepository::getPosts('no') as $loadAnnouncements) {
 			
 				$id = $loadAnnouncements->id;
-				
 				$body = $loadAnnouncements->body;
-				
 				$date_time = $loadAnnouncements->date_added;
-
 				$added_by = $loadAnnouncements->added_by;
 
 				if($num_iterations++ < $start)
 					continue;
-
 				
 				//Once 10 posts have been loaded, break
 				if($count > $limit) {
@@ -124,9 +119,7 @@ class Post
 				$end_date = new DateTime($date_time_now); //Current time
 				$interval = $start_date->diff($end_date); //Difference between dates
 				if($interval->y >= 1) {
-					if($interval == true) // "== 1" is relaplaced with "== true" to avoid
-					//a notice on the browser: 'Notice: Object of class DateInterval could 
-					//not be converted to int in /app/src/Controller/Post.php on line 135'
+					if($interval == true) 
 						$time_message = $interval->y . " year ago"; //1 year ago
 					else
 						$time_message = $interval->y . " years ago"; //1+ year ago
@@ -185,7 +178,7 @@ class Post
 
 				$str .="<div class='status_post' onClick='javascrpt:toggle$id()'>
 									<div class='posted_by' style='color:#ACACAC;'>
-										<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+										<a href='profile?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
 										$delete_button
 									</div>
 									<div id='post_body'>
@@ -206,25 +199,7 @@ class Post
 						<hr>";
 
 				?>
-				<script>
-
-					$(document).ready(function() {
-
-						$('#post<?php echo $id; ?>').on('click', function() {
-							bootbox.confirm("Are you sure you want to delete this announcement?", function(result) {
-
-								$.post("./handlers/delete_post.php?post_id=<?php echo $id; ?>", {result:result});
-
-								if(result)
-									location.reload();
-
-							});
-						});
-
-
-					});
-
-				</script>
+				
 				<?php
 
 
@@ -238,6 +213,12 @@ class Post
 		}	
 
 		echo $str;
+		/*
+		$template = new Template('../src/View');
+        echo $template->render('PostsView.php', [
+            'id' => $id
+        ]);
+		*/
 	}
 
 }

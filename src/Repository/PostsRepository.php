@@ -63,7 +63,7 @@ class PostsRepository
 		$getLikesNum = PDO::instance()->prepare("SELECT * FROM posts WHERE id=?");
 		$getLikesNum->execute([$id]);
 		
-		/** @var array<$column_name : string => $column_value : mixed> $postRow */
+		/** @var array<$column_name : string => $column_value : mixed> $numberLikes */
 		$numberLikes = [];
 
 		while ($numberLikes = $getLikesNum->fetch()) {
@@ -95,7 +95,7 @@ class PostsRepository
 		$userQuery = PDO::instance()->prepare("SELECT * FROM posts WHERE id=?");
 	 	$userQuery->execute([$id]);
 
-		/** @var array<$column_name : string => $column_value : mixed> $postRow */
+		/** @var array<$column_name : string => $column_value : mixed> $postPoster */
 		$postPoster = [];
 
 		while ($postPoster = $userQuery->fetch()) {

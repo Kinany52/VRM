@@ -1,7 +1,7 @@
 <?php 
 
 use App\Controller\User;
-use App\Controller\Post;
+use App\Controller\PostsController;
 use App\Library\PDO;
 use App\Repository\UsersRepository;
 
