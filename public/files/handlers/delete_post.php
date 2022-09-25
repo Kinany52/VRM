@@ -13,7 +13,7 @@ bootstrap();
 		$post_id = $_GET['post_id'];
 
 	if(isset($_POST['result'])) {
-		if($_POST['result'] == 'true')
+		if($_POST['result'] == 'true') {
 			PostsRepository::deletePost('yes', $post_id);
 			//Update post count for user
 			$user = $userLoggedIn = $_SESSION['username'];
@@ -22,4 +22,5 @@ bootstrap();
 			$num_posts = $userObj->getNumPosts();
 			$num_posts--;
 			UsersRepository::aggregatePosts($num_posts, $added_by);
+		}
 	}

@@ -199,6 +199,20 @@ class PostsController
 						<hr>";
 
 				?>
+				<script>
+					$(document).ready(function() {
+						$('#post<?php echo $id; ?>').on('click', function() {
+							bootbox.confirm("Are you sure you want to delete this announcement?", function(result) {
+
+								$.post("./files/handlers/delete_post.php?post_id=<?php echo $id; ?>", {result:result});
+
+								if(result)
+									location.reload();
+
+							});
+						});
+					});
+				</script>
 				
 				<?php
 
