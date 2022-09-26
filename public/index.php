@@ -14,6 +14,7 @@ $router->add('pesto', ['controller' => 'HomepageController', 'action' => 'show']
 $router->add('auth', ['controller' => 'AuthenticationController', 'action' => 'authenticate']);
 $router->add('profile', ['controller' => 'ProfileController', 'action' => 'index']);
 $router->add('user_closed', ['controller' => 'UserClosedController', 'action' => 'index']);
+$router->add('delete_post', ['controller' => 'DeletePostController', 'action' => 'postDelete']);
 $router->add('post', ['controller' => 'PostsController', 'action' => 'loadPostsFriends']);
 $router->add('submit', ['controller' => 'PostsController', 'action' => 'submitPost']);
 $router->add('logged_out', ['controller' => 'LogoutController', 'action' => 'logout']);

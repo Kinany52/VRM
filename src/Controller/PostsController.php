@@ -204,7 +204,7 @@ class PostsController
 						$('#post<?php echo $id; ?>').on('click', function() {
 							bootbox.confirm("Are you sure you want to delete this announcement?", function(result) {
 
-								$.post("./files/handlers/delete_post.php?post_id=<?php echo $id; ?>", {result:result});
+								$.post("<?php echo '/delete_post?post_id=' . $id; ?>", {result:result});
 
 								if(result)
 									location.reload();
