@@ -85,7 +85,7 @@
                         var page = $('.posts_area').find('.nextPage').val() || 1; //If .nextPage couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
                         
                         $.ajax({
-                            url: "/files/handlers/ajax_load_posts.php",
+                            url: "<?php echo '/ajax_load'; ?>",
                             type: "POST",
                             data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
                             cache:false,

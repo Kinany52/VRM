@@ -15,6 +15,7 @@ $router->add('auth', ['controller' => 'AuthenticationController', 'action' => 'a
 $router->add('profile', ['controller' => 'ProfileController', 'action' => 'index']);
 $router->add('user_closed', ['controller' => 'UserClosedController', 'action' => 'index']);
 $router->add('delete_post', ['controller' => 'DeletePostController', 'action' => 'postDelete']);
+$router->add('ajax_load', ['controller' => 'AjaxLoadPostController', 'action' => 'loadPostAjax']);
 $router->add('post', ['controller' => 'PostsController', 'action' => 'loadPostsFriends']);
 $router->add('submit', ['controller' => 'PostsController', 'action' => 'submitPost']);
 $router->add('logged_out', ['controller' => 'LogoutController', 'action' => 'logout']);
