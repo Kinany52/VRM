@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Library\PDO;
 use App\Repository\UsersRepository;
 use Core\Template;
 use App\Controller\PostsController;
@@ -17,7 +16,7 @@ Class HomepageController
             header("Location: /auth");
         }
         if(isset($_POST['post'])){
-            $post = new PostsController(PDO::instance(), $userLoggedIn);
+            $post = new PostsController();
             $post->submitPost($_POST['post_text']);
             header("Location: /"); //Stops the form resubmitting on refresh (duplicate announcement prevention).
         }

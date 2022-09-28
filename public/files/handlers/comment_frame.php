@@ -149,8 +149,7 @@ bootstrap();
 					}
 				}
 				
-				$userArray = UsersRepository::queryUser($userLoggedIn);
-
+				$userArray = UsersRepository::queryUser($posted_by);
 
 				?>
 				<div class="comment_section">

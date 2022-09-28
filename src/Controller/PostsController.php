@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Controller\UserController;
 use DateTime;
-use App\Library\PDO;
 use App\Entity\PostsEntity;
 use App\Repository\PostsRepository;
 use App\Repository\CommentsRepository;
@@ -13,14 +11,6 @@ use Core\Template;
 
 class PostsController 
 {
-	private $user_obj;
-	private $con;
-
-	public function __construct($con, $user) {
-		$this->con = PDO::instance();
-		$this->user_obj = new UserController(PDO::instance(), $user);
-	}
-
 	public function submitPost($body) {
 		$body = strip_tags($body); //removes html tags
 		$body = str_replace('\r\n', '\n', $body); //Allows new line character
