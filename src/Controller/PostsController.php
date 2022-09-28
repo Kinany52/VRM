@@ -182,7 +182,7 @@ class PostsController
 
 									<div class='newsfeedPostOptions'>
 											Comments($numComments)&nbsp;&nbsp;&nbsp;
-											<iframe src='./files/handlers/like.php?post_id=$id' scrolling='no'></iframe>
+											<iframe src='/confirm_post?post_id=$id' scrolling='no'></iframe>
 									</div>
 						</div>
 						<div class='post_comment' id='toggleComment$id' style='display:none;'>

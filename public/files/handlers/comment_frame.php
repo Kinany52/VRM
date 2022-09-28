@@ -76,9 +76,6 @@ bootstrap();
 
 	<?php 
 		$rowComments = CommentsRepository::getRowComments($post_id);
-		//$get_comments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=? ORDER BY id ASC");
-		//$get_comments->execute([$post_id]);
-		//$count = $get_comments->rowCount();
 		
 		if ($rowComments !=0) {
 			foreach (CommentsRepository::getComments("$post_id") as $loadComments) {
