@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Controller\UserController;
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
-use App\Library\PDO;
 
 Class DeletePostController
 {
@@ -18,10 +16,10 @@ Class DeletePostController
             if($_POST['result'] == 'true') {
                 PostsRepository::deletePost('yes', $post_id);
                 //Update post count for user
-                $user = $userLoggedIn = $_SESSION['username'];
-                $userObj = new UserController(PDO::instance(), $user);
-                $added_by = $userObj->getUsername();
-                $num_posts = $userObj->getNumPosts();
+                $userLoggedIn = $_SESSION['username'];
+                $userArray = UsersRepository::queryUser($userLoggedIn);
+                $added_by = $userArray['username'];
+                $num_posts = $userArray['num_posts'];
                 $num_posts--;
                 UsersRepository::aggregatePosts($num_posts, $added_by);
             }

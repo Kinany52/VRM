@@ -32,7 +32,8 @@ class PostsController
 			//Current date and time
 			$date_added = new DateTime();
 			//Get username
-			$added_by = $this->user_obj->getUsername();
+
+			$added_by = $_SESSION['username'];
 			//Insert post
 			PostsRepository::persistEntity(new PostsEntity(
 				date_added: $date_added, 
@@ -41,7 +42,8 @@ class PostsController
 				id: 0
 			));
 			//Update post count for user
-			$num_posts = $this->user_obj->getNumPosts();
+			$userArray = UsersRepository::queryUser($added_by);
+			$num_posts = $userArray['num_posts'];
 			$num_posts++;
 			UsersRepository::aggregatePosts($num_posts, $added_by);
 		}
@@ -50,7 +52,7 @@ class PostsController
 	public function loadPostsFriends($data, $limit) {
 
 		$page = $data['page'];
-		$userLoggedIn = $this->user_obj->getUsername();
+		$userLoggedIn = $_SESSION['username'];
 		
 		if($page == 1)
 			$start = 0;

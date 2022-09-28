@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Controller\PostsController;
 use App\Library\PDO;
 use App\Repository\UsersRepository;
 use Core\Template;
+use App\Controller\PostsController;
 
 Class HomepageController
 {

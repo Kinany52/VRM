@@ -1,24 +1,19 @@
 <?php
 
-use App\Controller\UserController;
-use App\Controller\PostsController;
+
 use App\Entity\CommentsEntity;
-use App\Library\PDO;
 use App\Repository\CommentsRepository;
 use App\Repository\PostsRepository;
+use App\Repository\UsersRepository;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 bootstrap();
-	/*
+	
 	if (isset($_SESSION['username'])) {
-		$userLoggedIn = "wojciech_gula"; //$_SESSION['username'];
+		$userLoggedIn = $_SESSION['username'];
 	} 
-	else {
-		//header("Location: register.php");
-		//echo 'Comments go here.';
-	}
-	*/
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -154,12 +149,12 @@ bootstrap();
 					}
 				}
 				
-				$user_obj = new UserController(PDO::instance(), $posted_by);
+				$userArray = UsersRepository::queryUser($userLoggedIn);
 
 
 				?>
 				<div class="comment_section">
-					<a href="profile?profile_username=<?php echo $posted_by; ?>" target="_parent"> <b> <?php echo $user_obj->getFirstAndLastName(); ?></b></a>
+					<a href="profile?profile_username=<?php echo $posted_by; ?>" target="_parent"> <b> <?php echo $userArray['first_name'] . " " . $userArray['last_name']; ?></b></a>
 					&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $time_message . "<br>" . $comment_body; ?>
 					<hr>
 				</div>
