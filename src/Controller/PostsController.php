@@ -186,7 +186,7 @@ class PostsController
 									</div>
 						</div>
 						<div class='post_comment' id='toggleComment$id' style='display:none;'>
-							<iframe src='./files/handlers/comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
+							<iframe src='/comment_frame?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
 						</div>
 						<hr>";
 
