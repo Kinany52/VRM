@@ -8,9 +8,9 @@ use App\Repository\CommentsRepository;
 use App\Repository\UsersRepository;
 use Core\Template;
 
-class PostsController 
+class LoadPostController 
 {
-	public function loadPostsFriends($data, $limit) {
+	public function loadPost($data, $limit) {
 
 		$page = $data['page'];
 		$userLoggedIn = $_SESSION['username'];
@@ -57,23 +57,6 @@ class PostsController
 				$first_name = $user_details_query['first_name'];
 				$last_name = $user_details_query['last_name'];
 
-				?>
-				<script>
-					function toggle<?php echo $id; ?>() {
-
-						var target = $(event.target);
-						if (!target.is("a")) {
-								var element = document.getElementById("toggleComment<?php echo $id; ?>");
-
-					 			if(element.style.display == "block")
-					 				element.style.display = "none";
-					 			else
-					 				element.style.display = "block";
-						}
-
-			 		}
-				</script>
-				<?php
 				//Check number of comments on each post.
 				$numComments = CommentsRepository::getRowComments($id);
 				//Timeframe
@@ -138,7 +121,7 @@ class PostsController
 						$time_message = $interval->s . " seconds ago";
 					}
 				}
-
+				
 				$str .="<div class='status_post' onClick='javascrpt:toggle$id()'>
 							<div class='posted_by' style='color:#ACACAC;'>
 								<a href='profile?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
@@ -159,6 +142,7 @@ class PostsController
 							<iframe src='/comment_frame?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
 						</div>
 						<hr>";
+				
 				?>
 				<script>
 					$(document).ready(function() {
@@ -175,6 +159,7 @@ class PostsController
 					});
 				</script>
 				<?php
+				
 			}	//End while loop 
 
 			if($count > $limit)
@@ -184,11 +169,11 @@ class PostsController
 				$str .= "<input type='hidden' class='noMorePosts' value='true'><p style='text-align: centre;'> No more announcements to show! </p>";
 		}	
 		echo $str;
-		/*
+		
 		$template = new Template('../src/View');
-        echo $template->render('PostsView.php', [
-            'id' => $id
+        echo $template->render('LoadPostView.php', [
+            'id' => $id,
         ]);
-		*/
+		
 	}
 }

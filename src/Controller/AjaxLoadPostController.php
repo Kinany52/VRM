@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Controller\PostsController;
+use App\Controller\LoadPostController;
 
 Class AjaxLoadPostController
 {
     public function loadPostAjax() {
         $limit = 10; //Number of posts to be loaded per call
-        $posts = new PostsController();
-        $posts->loadPostsFriends($_REQUEST, $limit);
+        $posts = new LoadPostController();
+        $posts->loadPost($_REQUEST, $limit);
     }
 }
