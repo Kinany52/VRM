@@ -56,7 +56,21 @@ class LoadPostController
 				$user_details_query = UsersRepository::authenticateFullname($added_by);
 				$first_name = $user_details_query['first_name'];
 				$last_name = $user_details_query['last_name'];
+				?>
+				<script>
+					function toggle<?php echo $id; ?>() { 
+						var target = $(event.target);
+						if (!target.is("a")) {
+							var element = document.getElementById("toggleComment<?php echo $id; ?>");
 
+							if(element.style.display == "block")
+								element.style.display = "none";
+							else
+								element.style.display = "block";
+						}
+			 		}
+				</script>
+				<?php
 				//Check number of comments on each post.
 				$numComments = CommentsRepository::getRowComments($id);
 				//Timeframe
@@ -169,11 +183,5 @@ class LoadPostController
 				$str .= "<input type='hidden' class='noMorePosts' value='true'><p style='text-align: centre;'> No more announcements to show! </p>";
 		}	
 		echo $str;
-		
-		$template = new Template('../src/View');
-        echo $template->render('LoadPostView.php', [
-            'id' => $id,
-        ]);
-		
 	}
 }

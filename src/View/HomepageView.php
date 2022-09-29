@@ -6,12 +6,12 @@
 
 		<!-- JavaScript -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		<script src="/assets/js/bootstrap.js"></script>
-		<script src="/assets/js/bootbox.min.js"></script>
+		<script src="./assets/js/bootstrap.js"></script>
+		<script src="./assets/js/bootbox.min.js"></script>
 		
 		<!-- CSS -->
-		<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+		<link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="./assets/css/style.css">
 
 	</head>
 	
@@ -53,7 +53,7 @@
                     <hr>
                 </form>
                 <div class=posts_area></div>
-                <img id="loading" src="/assets/images/icons/loading.gif">
+                <img id="loading" src="./assets/images/icons/loading.gif">
             </div>
 
             <script>

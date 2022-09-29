@@ -4,9 +4,9 @@
 	<meta charset="utf-8">
 	<title>Vendor Return Management</title>
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> <! --Prevents favicon error message in console.-->
-	<link rel="stylesheet" type="text/css" href="/assets/css/register_style.css">
+	<link rel="stylesheet" type="text/css" href="./assets/css/register_style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script src="/assets/js/register.js"></script>
+	<script src="./assets/js/register.js"></script>
 </head>
 <body>
 
