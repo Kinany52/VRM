@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use DateTime;
-use App\Entity\PostsEntity;
 use App\Repository\PostsRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\UsersRepository;
@@ -11,34 +10,6 @@ use Core\Template;
 
 class PostsController 
 {
-	public function submitPost($body) {
-		$body = strip_tags($body); //removes html tags
-		$body = str_replace('\r\n', '\n', $body); //Allows new line character
-		$body = nl2br($body); //Replace new lines with line breaks
-
-		$check_empty = preg_replace('/\s+/', '', $body); //Deletes all spaces
-
-		if($check_empty != "") {
-			//Current date and time
-			$date_added = new DateTime();
-			//Get username
-
-			$added_by = $_SESSION['username'];
-			//Insert post
-			PostsRepository::persistEntity(new PostsEntity(
-				date_added: $date_added, 
-				body: $body, 
-				added_by: $added_by, 
-				id: 0
-			));
-			//Update post count for user
-			$userArray = UsersRepository::queryUser($added_by);
-			$num_posts = $userArray['num_posts'];
-			$num_posts++;
-			UsersRepository::aggregatePosts($num_posts, $added_by);
-		}
-	}
-
 	public function loadPostsFriends($data, $limit) {
 
 		$page = $data['page'];
@@ -169,27 +140,25 @@ class PostsController
 				}
 
 				$str .="<div class='status_post' onClick='javascrpt:toggle$id()'>
-									<div class='posted_by' style='color:#ACACAC;'>
-										<a href='profile?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
-										$delete_button
-									</div>
-									<div id='post_body'>
-											$body
-											<br>
-											<br>
-											<br>
-									</div>
-
-									<div class='newsfeedPostOptions'>
-											Comments($numComments)&nbsp;&nbsp;&nbsp;
-											<iframe src='/confirm_post?post_id=$id' scrolling='no'></iframe>
-									</div>
+							<div class='posted_by' style='color:#ACACAC;'>
+								<a href='profile?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+								$delete_button
+							</div>
+							<div id='post_body'>
+									$body
+									<br>
+									<br>
+									<br>
+							</div>
+							<div class='newsfeedPostOptions'>
+									Comments($numComments)&nbsp;&nbsp;&nbsp;
+									<iframe src='/confirm_post?post_id=$id' scrolling='no'></iframe>
+							</div>
 						</div>
 						<div class='post_comment' id='toggleComment$id' style='display:none;'>
 							<iframe src='/comment_frame?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
 						</div>
 						<hr>";
-
 				?>
 				<script>
 					$(document).ready(function() {
@@ -205,10 +174,7 @@ class PostsController
 						});
 					});
 				</script>
-				
 				<?php
-
-
 			}	//End while loop 
 
 			if($count > $limit)
@@ -217,7 +183,6 @@ class PostsController
 			else
 				$str .= "<input type='hidden' class='noMorePosts' value='true'><p style='text-align: centre;'> No more announcements to show! </p>";
 		}	
-
 		echo $str;
 		/*
 		$template = new Template('../src/View');
@@ -226,7 +191,4 @@ class PostsController
         ]);
 		*/
 	}
-
 }
-
-?>
