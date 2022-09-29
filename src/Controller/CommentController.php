@@ -30,13 +30,14 @@ Class CommentController
 
         if(isset($_POST['postComment' . $post_id])) {
             $post_body = $_POST['post_body'];
-            $date_time_now = date("Y-m-d H:i:s");
+            $date_time_now = new DateTime();
         CommentsRepository::persistEntity(new CommentsEntity(
             post_body: $post_body, 
             posted_by: $userLoggedIn, 
             posted_to: $posted_to, 
             date_added: $date_time_now, 
-            post_id: $post_id
+            post_id: $post_id,
+            id: 0
         ));
             echo "<p>Comment Posted! </p>";
         }
@@ -54,7 +55,7 @@ Class CommentController
                 
                 //Timeframe
                 $date_time_now = date("Y-m-d H:i:s");
-                $start_date = new DateTime($date_added);  //Time of post
+                $start_date = $date_added;  //Time of post
                 $end_date = new DateTime($date_time_now); //Current time
                 $interval = $start_date->diff($end_date); //Difference between dates
                 if($interval->y >= 1) {

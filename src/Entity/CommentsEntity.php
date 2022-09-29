@@ -10,12 +10,12 @@ use DateTimeInterface;
 class CommentsEntity extends AbstractEntity
 {
     public function __construct(
+        public int $id,
         public string $post_body,
         public string $posted_by,
         public string $posted_to,
-        public string $date_added,
-        public int $post_id,
-        public int $id=0,
+        public DateTime $date_added,
+        public int $post_id
     )
     {}
 

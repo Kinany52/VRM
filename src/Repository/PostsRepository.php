@@ -7,8 +7,6 @@ namespace App\Repository;
 use App\Library\PDO;
 use App\Entity\PostsEntity;
 use ReflectionClass;
-use ReflectionParameter;
-use ReflectionProperty;
 use DateTime;
 
 class PostsRepository
@@ -54,7 +52,6 @@ class PostsRepository
 					$column_value = intval($column_value);
 				}
 			});
-			//dd($postRow, $attributesWithTypes);
 			yield new PostsEntity(...$postRow);
 		}
 	}

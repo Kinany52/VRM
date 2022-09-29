@@ -21,7 +21,8 @@ class PostsEntity extends AbstractEntity
 
     public function _toArray(): array
     {
-       return [$this->id, $this->body, $this->added_by, $this->date_added, $this->deleted, $this->likes];
+        $attributes = [$this->id, $this->body, $this->added_by, $this->date_added, $this->deleted, $this->likes];
+        return $this->prepareAttributeForPersisting($attributes);
     }
 }
 

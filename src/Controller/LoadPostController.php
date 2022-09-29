@@ -6,7 +6,6 @@ use DateTime;
 use App\Repository\PostsRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\UsersRepository;
-use Core\Template;
 
 class LoadPostController 
 {
@@ -29,7 +28,7 @@ class LoadPostController
 			$num_iterations = 0; //Number of posts checked (Not necessarily posted)
 			$count = 1;
 
-			foreach (PostsRepository::getPosts('no') as $loadAnnouncements) {
+			foreach (PostsRepository::getPosts() as $loadAnnouncements) {
 			
 				$id = $loadAnnouncements->id;
 				$body = $loadAnnouncements->body;
@@ -79,12 +78,12 @@ class LoadPostController
 				$end_date = new DateTime($date_time_now); //Current time
 				$interval = $start_date->diff($end_date); //Difference between dates
 				if($interval->y >= 1) {
-					if($interval == true) 
+					if($interval == 1) 
 						$time_message = $interval->y . " year ago"; //1 year ago
 					else
 						$time_message = $interval->y . " years ago"; //1+ year ago
 				}
-				else if($interval-> m >= 1) {
+				else if($interval->m >= 1) {
 					if($interval->d == 0) {
 						$days = " ago";
 					}

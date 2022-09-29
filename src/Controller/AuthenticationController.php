@@ -22,9 +22,9 @@ Class AuthenticationController
             }
             foreach (UsersRepository::authenticateUser($email, $password) as $userRow) {
                     $username = $userRow->username;
-                    $checkUserStatus = UsersRepository::inquireStatus($email, 'yes');
+                    $checkUserStatus = UsersRepository::inquireStatus($email);
                     if (empty($checkUserStatus)) {
-                        UsersRepository::reactivateUser('no', $email);
+                        UsersRepository::reactivateUser($email);
                     }
                     $_SESSION['username'] = $username;
                     header("Location: /");
