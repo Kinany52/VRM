@@ -23,7 +23,7 @@ Class CommentController
         if(isset($_GET['post_id'])) {
             $post_id = $_GET['post_id'];
         }
-        foreach (PostsRepository::getPoster("$post_id") as $poster) 
+        foreach (PostsRepository::getPoster($post_id) as $poster) 
         {
             $posted_to = $poster->added_by;
         }
@@ -47,7 +47,7 @@ Class CommentController
         $rowComments = CommentsRepository::getRowComments($post_id);
         
         if ($rowComments !=0) {
-            foreach (CommentsRepository::getComments("$post_id") as $loadComments) {
+            foreach (CommentsRepository::getComments($post_id) as $loadComments) {
                 $comment_body = $loadComments->post_body;
                 $posted_to = $loadComments->posted_to;
                 $posted_by = $loadComments->posted_by;

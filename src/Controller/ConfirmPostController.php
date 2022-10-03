@@ -27,7 +27,7 @@ Class ConfirmPostController
             $total_likes = $previousLikes->likes;
         }
         
-        foreach (PostsRepository::getPoster("$post_id") as $poster) {
+        foreach (PostsRepository::getPoster($post_id) as $poster) {
             $user_liked = $poster->added_by;
         }
         

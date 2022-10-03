@@ -28,7 +28,7 @@ class CommentsRepository
 		$getComments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=? ORDER BY id ASC");
 		$getComments->execute([$post_id]);
 		
-		/** @var array<$column_name : string => $column_value : mixed> $commentRow */
+		/** @var array[ $column_name : string => $column_value : mixed ] $commentRow */
 		$commentRow = [];
 
 		while ($commentRow = $getComments->fetch()) {

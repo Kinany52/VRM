@@ -5,4 +5,6 @@ parameters:
   ignoreErrors:
     - '/Variable [\$a-zA-Z0-9\\_]+ might not be defined./'
     - '/Constant [a-zA-Z0-9\\_]+ not found./'
+    - '/Call to an undefined method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\)./'
+    - '/Parameter #1 [\$a-zA-Z0-9\\_]+ of function [a-zA-Z0-9\\_]+ is passed by reference, so it expects variables only./'
   earlyTerminatingMethodCalls:
