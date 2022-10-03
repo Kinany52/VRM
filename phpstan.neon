@@ -1,0 +1,8 @@
+parameters:
+  level: 
+  paths:
+  excludes_analyse:
+  ignoreErrors:
+    - '/Variable [\$a-zA-Z0-9\\_]+ might not be defined./'
+    - '/Constant [a-zA-Z0-9\\_]+ not found./'
+  earlyTerminatingMethodCalls:
