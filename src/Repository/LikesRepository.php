@@ -9,17 +9,17 @@ use App\Entity\LikesEntity;
 
 class LikesRepository
 {
-	public static function persistEntity(LikesEntity $LikesEntity)
+	public static function persistEntity(LikesEntity $LikesEntity): void
 	{
 		$insertLike = PDO::instance()->prepare("INSERT INTO likes VALUES(?, ?, ?)");
 		$insertLike->execute($LikesEntity->toArray());
 	}
-	public static function dislike(string $username, int $post_id)
+	public static function dislike(string $username, int $post_id): void
 	{
 		$deleteLike = PDO::instance()->prepare("DELETE FROM likes WHERE username=? AND post_id=?");
 		$deleteLike->execute([$username, $post_id]);
 	}
-	public static function getRowLikes(string $username, int $post_id)
+	public static function getRowLikes(string $username, int $post_id): int
 	{
 		$getLikes = PDO::instance()->prepare("SELECT * FROM likes WHERE username=? AND post_id=?");
 		$getLikes->execute([$username, $post_id]);

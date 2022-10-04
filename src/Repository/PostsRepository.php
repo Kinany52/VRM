@@ -11,24 +11,24 @@ use DateTime;
 
 class PostsRepository
 {
-	public static function persistEntity(PostsEntity $PostsEntity)
+	public static function persistEntity(PostsEntity $PostsEntity): void
 	{
 		$insertPost = PDO::instance()->prepare("INSERT INTO posts VALUES(?, ?, ?, ?, ?, ?)");
 		$insertPost->execute($PostsEntity->toArray());
 	}
-	public static function getRowPosts(mixed $deleted)
+	public static function getRowPosts(mixed $deleted): int
 	{
 		$getPosts = PDO::instance()->prepare("SELECT * FROM posts WHERE deleted=? ORDER BY id DESC");
 		$getPosts->execute([$deleted]);
 
 		return $getPosts->rowCount();
 	}
-	public static function getPosts()
+	public static function getPosts(): \Generator
 	{
 		$getPosts = PDO::instance()->prepare("SELECT * FROM posts WHERE deleted=? ORDER BY id DESC");
 		$getPosts->execute(['no']);
 
-		/** @var array[ $column_name : string => $column_value : mixed ] $postRow */
+		/** @var array{'column_name': string, 'column_value': mixed} $postRow */
 		$postRow = [];
 
 		while ($postRow = $getPosts->fetch()) {
@@ -55,12 +55,12 @@ class PostsRepository
 			yield new PostsEntity(...$postRow);
 		}
 	}
-	public static function getLikes(int $id)
+	public static function getLikes(int $id): \Generator
 	{
 		$getLikesNum = PDO::instance()->prepare("SELECT * FROM posts WHERE id=?");
 		$getLikesNum->execute([$id]);
 		
-		/** @var array => $column_name : string => $column_value : mixed => $numberLikes */
+		/** @var array{'column_name' : string, 'column_value' : mixed} $numberLikes */
 		$numberLikes = [];
 
 		while ($numberLikes = $getLikesNum->fetch()) {
@@ -87,12 +87,12 @@ class PostsRepository
 			yield new PostsEntity(...$numberLikes);
 		}	
 	}
-	public static function getPoster(int $id)
+	public static function getPoster(int $id): \Generator
 	{
 		$userQuery = PDO::instance()->prepare("SELECT * FROM posts WHERE id=?");
 	 	$userQuery->execute([$id]);
 
-		/** @var array[ $column_name : string => $column_value : mixed ] $postPoster */
+		/** @var array{'column_name' : string, 'column_value' : mixed} $postPoster */
 		$postPoster = [];
 
 		while ($postPoster = $userQuery->fetch()) {
@@ -119,13 +119,13 @@ class PostsRepository
 			yield new PostsEntity(...$postPoster);
 		}
 	}
-	public static function updateLikes(int $likes, int $id)
+	public static function updateLikes(int $likes, int $id): void
 	{
 		$query = PDO::instance()->prepare("UPDATE posts SET likes=? WHERE id=?");
 		$query->execute([$likes, $id]);
 
 	}
-	public static function deletePost(mixed $deleted, int $id)
+	public static function deletePost(mixed $deleted, int $id): void
 	{
 		$query = PDO::instance()->prepare("UPDATE posts SET deleted=? WHERE id=?");
 		$query->execute([$deleted, $id]);

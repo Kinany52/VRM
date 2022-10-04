@@ -11,24 +11,24 @@ use DateTime;
 
 class CommentsRepository
 {
-	public static function persistEntity(CommentsEntity $CommentsEntity)
+	public static function persistEntity(CommentsEntity $CommentsEntity): void
 	{
 		$insertComment = PDO::instance()->prepare("INSERT INTO comments VALUES (?, ?, ?, ?, ?, ?)");
  		$insertComment->execute($CommentsEntity->toArray());
 	}
-	public static function getRowComments(int $post_id)
+	public static function getRowComments(int $post_id): int
 	{
 		$getComments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=? ORDER BY id ASC");
 		$getComments->execute([$post_id]);
 
 		return $getComments->rowCount();
 	}
-	public static function getComments(int $post_id)
+	public static function getComments(int $post_id): \Generator
 	{
 		$getComments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=? ORDER BY id ASC");
 		$getComments->execute([$post_id]);
 		
-		/** @var array[ $column_name : string => $column_value : mixed ] $commentRow */
+		/** @var array{'column_name' : string, 'column_value' : mixed} $commentRow */
 		$commentRow = [];
 
 		while ($commentRow = $getComments->fetch()) {
