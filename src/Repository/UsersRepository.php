@@ -35,20 +35,26 @@ class UsersRepository
 		
 		return $userQuery->fetch();
 	}
-	public static function inquireStatus(string $email): mixed|false
+	public static function inquireStatus(string $email): mixed
 	{
 		$userClosedQuery = PDO::instance()->prepare("SELECT * FROM users WHERE email=? AND user_closed=?");
 		$userClosedQuery->execute([$email, 'yes']);
 
 		return $userClosedQuery->fetch();
 	}
-	public static function validateUsername(string $username): void
+	public static function validateUsername(string $username): mixed
 	{
-		PDO::run("SELECT username FROM users WHERE username=?", [$username])->fetch();
+		$usernameExists = PDO::instance()->prepare("SELECT username FROM users WHERE username=?");
+		$usernameExists->execute([$username]);
+
+		return $usernameExists->fetch();
 	}	
-	public static function validateEmail(string $email): void
+	public static function validateEmail(string $email): mixed
 	{
-		PDO::run("SELECT email FROM users WHERE email=?", [$email])->fetch();
+		$emailExists = PDO::instance()->prepare("SELECT email FROM users WHERE email=?");
+		$emailExists->execute([$email]);
+
+		return $emailExists->fetch();
 	}
 	public static function getNumLikes(string $username): \Generator
 	{
@@ -62,7 +68,7 @@ class UsersRepository
 		$userLikes = PDO::instance()->prepare("UPDATE users SET num_likes=? WHERE username=?");
 		$userLikes->execute([$num_likes, $username]);
 	}
-	public static function aggregatePosts(int $num_post, string $username):void
+	public static function aggregatePosts(int $num_post, string $username): void
 	{
 		$userPosts = PDO::instance()->prepare("UPDATE users SET num_posts=? WHERE username=?");
 		$userPosts->execute([$num_post, $username]);

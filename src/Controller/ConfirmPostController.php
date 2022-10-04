@@ -38,7 +38,7 @@ Class ConfirmPostController
         //Like button
         if(isset($_POST['like_button'])) {
             $total_likes++;
-            $updateLikes = PostsRepository::updateLikes($total_likes, $post_id);
+            PostsRepository::updateLikes($total_likes, $post_id);
             $total_user_likes++;
             UsersRepository::aggregateLikes($total_user_likes, $user_liked);
             LikesRepository::persistEntity(new LikesEntity(
@@ -49,7 +49,7 @@ Class ConfirmPostController
         //Unlike button
         if(isset($_POST['unlike_button'])) {
             $total_likes--;
-            $updateUnlikes = PostsRepository::updateLikes($total_likes, $post_id);
+            PostsRepository::updateLikes($total_likes, $post_id);
             $total_user_likes--;
             UsersRepository::aggregateLikes($total_user_likes, $user_liked);
             LikesRepository::dislike($userLoggedIn, $post_id);

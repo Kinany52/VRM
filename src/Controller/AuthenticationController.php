@@ -121,12 +121,12 @@ Class AuthenticationController
                 //Generate username by concarenating first name and last name
                 $username = strtolower($fname . "_" . $lname);
                 $check_username_query = UsersRepository::validateUsername($username);
-        
                 $i = 0;
+
                 //If username exists add number to username
                 while (!empty($check_username_query)) {
                     $i++; //Add 1 to i
-                    $username = $username . "_" . $i;
+                    $username = $username . $i;
                     $check_username_query = UsersRepository::validateUsername($username);
                 }
         

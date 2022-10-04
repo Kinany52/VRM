@@ -123,7 +123,6 @@ class PostsRepository
 	{
 		$query = PDO::instance()->prepare("UPDATE posts SET likes=? WHERE id=?");
 		$query->execute([$likes, $id]);
-
 	}
 	public static function deletePost(mixed $deleted, int $id): void
 	{
