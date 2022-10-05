@@ -6,10 +6,17 @@ use DateTime;
 use App\Entity\PostsEntity;
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
+use PDOException;
 
 Class SubmitPostController
 {   
-    public function submitPost($body) {
+    /**
+     * @param mixed $body 
+     * @return void 
+     * @throws PDOException 
+     */
+    public function submitPost($body): void
+	{
 		$body = strip_tags($body); //removes html tags
 		$body = str_replace('\r\n', '\n', $body); //Allows new line character
 		$body = nl2br($body); //Replace new lines with line breaks

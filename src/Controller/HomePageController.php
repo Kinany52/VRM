@@ -5,10 +5,16 @@ namespace App\Controller;
 use App\Repository\UsersRepository;
 use App\Controller\SubmitPostController;
 use Core\Template;
+use Exception;
 
 Class HomepageController
 {
-    public function index() {
+    /**
+     * @return void 
+     * @throws Exception 
+     */
+    public function index(): void
+    {
         if(isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
 	        $user = UsersRepository::queryUser($userLoggedIn);

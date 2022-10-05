@@ -5,11 +5,22 @@ namespace App\Controller;
 use App\Entity\UsersEntity;
 use App\Repository\UsersRepository;
 use Core\Template;
+use PDOException;
+use Exception;
 
 Class AuthenticationController
-{
+{   
+    /**
+     * Array of error messages during authentication
+     * @var array<string> $error_array
+     */
     public array $error_array = [];
 
+    /**
+     * @return void 
+     * @throws PDOException 
+     * @throws Exception 
+     */
     public function authenticate(): void
     {
         if (isset($_POST['login_button'])) {

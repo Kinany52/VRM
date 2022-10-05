@@ -7,10 +7,18 @@ use App\Repository\LikesRepository;
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
 use Core\Template;
+use PDOException;
+use Exception;
 
 Class ConfirmPostController
 {
-    public function confirmPost() {
+    /**
+     * @return void 
+     * @throws PDOException 
+     * @throws Exception 
+     */
+    public function confirmPost(): void 
+    {
         if (isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
         }

@@ -8,10 +8,18 @@ use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
 use Core\Template;
 use DateTime;
+use PDOException;
+use Exception;
 
 Class CommentController
 {
-    public function frameComment() {
+    /**
+     * @return void 
+     * @throws PDOException 
+     * @throws Exception 
+     */
+    public function frameComment(): void
+    {
         if (isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
         }

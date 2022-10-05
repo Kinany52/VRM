@@ -4,7 +4,9 @@ namespace App\Controller;
 
 Class LogoutController
 {
-    public function logout() {
+    /** @return void  */
+    public function logout(): void
+    {
         session_destroy();
         header("Location: /auth");
     }

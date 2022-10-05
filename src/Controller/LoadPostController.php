@@ -6,10 +6,18 @@ use DateTime;
 use App\Repository\PostsRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\UsersRepository;
+use PDOException;
 
 class LoadPostController 
 {
-	public function loadPost($data, $limit) {
+	/**
+	 * @param array<int> $data 
+	 * @param int $limit 
+	 * @return void 
+	 * @throws PDOException 
+	 */
+	public function loadPost(array $data, int $limit): void 
+	{
 
 		$page = $data['page'];
 		$userLoggedIn = $_SESSION['username'];

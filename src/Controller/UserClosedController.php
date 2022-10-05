@@ -4,10 +4,18 @@ namespace App\Controller;
 
 use App\Repository\UsersRepository;
 use Core\Template;
+use PDOException;
+use Exception;
 
 Class UserClosedController
 {
-    public function index() {
+    /**
+     * @return void 
+     * @throws PDOException 
+     * @throws Exception 
+     */
+    public function index(): void
+    {
         if(isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
 	        $user = UsersRepository::queryUser($userLoggedIn);

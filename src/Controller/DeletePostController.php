@@ -4,11 +4,16 @@ namespace App\Controller;
 
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
+use PDOException;
 
 Class DeletePostController
 {
-    public function postDelete( ) {
-
+    /**
+     * @return void 
+     * @throws PDOException 
+     */
+    public function postDelete(): void 
+    {
         if(isset($_GET['post_id']))
 		$post_id = $_GET['post_id'];
 
