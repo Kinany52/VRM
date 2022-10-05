@@ -13,6 +13,7 @@ class LikesEntity extends AbstractEntity
     )
     {}
 
+    /** @return array<mixed> */
     public function _toArray(): array
     {
         return [$this->id, $this->username, $this->post_id];

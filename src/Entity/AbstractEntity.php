@@ -1,13 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Entity;
+
+use DateTime;
 
 abstract class AbstractEntity
 {
+    /** @return array<mixed> */
     abstract protected function _toArray(): array;
 
+    /**
+     * @param array<mixed> $attributes 
+     * @return array<mixed>
+     */
     protected function prepareAttributeForPersisting(array $attributes): array
     {
         return array_map(function($attribute) {
@@ -20,7 +25,8 @@ abstract class AbstractEntity
         $attributes);
     }
 
-    final public function toArray()
+    /** @return array<mixed> */
+    final public function toArray(): array
     {
         $attributes = $this->_toArray();
         return $this->prepareAttributeForPersisting($attributes);

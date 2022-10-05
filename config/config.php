@@ -2,7 +2,9 @@
 
 if (!function_exists("config")) {
 
-	function config() {
+	/** @return void  */
+	function config(): void 
+	{
 
 		$timezone = date_default_timezone_set("Europe/Berlin");
 
@@ -16,7 +18,9 @@ if (!function_exists("config")) {
 }
 
 if (!function_exists("bootstrap")) {
-	function bootstrap() {
+	/** @return void  */
+	function bootstrap(): void 
+	{
 		session_start();
 		ob_start();
 	}

@@ -13,14 +13,14 @@ class Template
     private $path;
 
     /**
-     * @var array
+     * @var array<string>
      */
     private $parameters = [];
 
     /**
      * Template constructor.
      * @param string $path
-     * @param array $parameters
+     * @param array<string> $parameters
      */
     public function __construct(string $path, array $parameters = [])
     {
@@ -30,7 +30,7 @@ class Template
 
     /**
      * @param string $view
-     * @param array $context
+     * @param array<mixed> $context
      * @return string
      * @throws \Exception
      */

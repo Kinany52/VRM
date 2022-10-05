@@ -2,18 +2,24 @@
 
 Namespace App\Library;
 
+use PDOStatement;
+use PDOException;
+
+/** @package App\Library */
 class PDO extends \PDO 
 {
+    /** @var \App\Library\PDO $instance */
     protected static $instance = null;
 
     protected function __construct() {
-        //var_export(func_get_args());
-        //die();
         parent::__construct(...func_get_args());
     }
-    protected function __clone() {}
+    /** @return void  */
+    protected function __clone(): void 
+    {}
 
-    public static function instance()
+    /** @return PDO  */
+    public static function instance(): PDO
     {
         if (self::$instance === null)
         {
@@ -30,12 +36,23 @@ class PDO extends \PDO
         return self::$instance;
     }
 
-    public static function __callStatic($method, $args)
+    /**
+     * @param mixed $method 
+     * @param array<mixed> $args 
+     * @return mixed 
+     */
+    public static function __callStatic(mixed $method, array $args): mixed
     {
         return call_user_func_array(array(self::instance(), $method), $args);
     }
 
-    public static function run($sql, $args = [])
+    /**
+     * @param mixed $sql 
+     * @param array<mixed> $args 
+     * @return PDOStatement|false 
+     * @throws PDOException 
+     */
+    public static function run(mixed $sql, array $args = []): PDOStatement|false
     {
         if (!$args)
         {
