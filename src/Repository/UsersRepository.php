@@ -60,10 +60,10 @@ class UsersRepository
 	}
 	/**
 	 * @param string|false $email 
-	 * @return array<mixed>
+	 * @return mixed
 	 * @throws PDOException 
 	 */
-	public static function inquireStatus(string|false $email): array
+	public static function inquireStatus(string|false $email): mixed
 	{
 		$userClosedQuery = PDO::instance()->prepare("SELECT * FROM users WHERE email=? AND user_closed=?");
 		$userClosedQuery->execute([$email, 'yes']);
@@ -72,10 +72,10 @@ class UsersRepository
 	}
 	/**
 	 * @param string $username 
-	 * @return array<mixed>
+	 * @return mixed
 	 * @throws PDOException 
 	 */
-	public static function validateUsername(string $username): array
+	public static function validateUsername(string $username): mixed
 	{
 		$usernameExists = PDO::instance()->prepare("SELECT username FROM users WHERE username=?");
 		$usernameExists->execute([$username]);
@@ -84,10 +84,10 @@ class UsersRepository
 	}	
 	/**
 	 * @param string|false $email 
-	 * @return array<mixed>
+	 * @return mixed
 	 * @throws PDOException 
 	 */
-	public static function validateEmail(string|false $email): array
+	public static function validateEmail(string|false $email): mixed
 	{
 		$emailExists = PDO::instance()->prepare("SELECT email FROM users WHERE email=?");
 		$emailExists->execute([$email]);

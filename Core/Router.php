@@ -19,7 +19,7 @@ class Router
     /**
      * Add a route to the routing table
      *
-     * @param string $route  The route URL
+     * @param array<mixed>|string $route  The route URL
      * @param array<mixed>  $params Parameters (controller, action, etc.)
      *
      * @return void
@@ -30,12 +30,15 @@ class Router
         $route = preg_replace('/\//', '\\/', $route);
 
         // Convert variables e.g. {controller}
+        /** @phpstan-ignore-next-line */
         $route = preg_replace('/\{([a-z-]+)\}/', '(?P<\1>[a-z-]+)', $route);
 
         // Convert variables with custom regular expressions e.g. {id:\d+}
+        /** @phpstan-ignore-next-line */
         $route = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $route);
 
         // Add start and end delimiters, and case insensitive flag
+        /** @phpstan-ignore-next-line */
         $route = '/^' . $route . '$/i';
 
         $this->routes[$route] = $params;
