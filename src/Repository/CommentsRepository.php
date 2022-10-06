@@ -8,14 +8,26 @@ use App\Library\PDO;
 use App\Entity\CommentsEntity;
 use ReflectionClass;
 use DateTime;
+use Generator;
+use PDOException;
 
 class CommentsRepository
 {
+	/**
+	 * @param CommentsEntity $CommentsEntity 
+	 * @return void 
+	 * @throws PDOException 
+	 */
 	public static function persistEntity(CommentsEntity $CommentsEntity): void
 	{
 		$insertComment = PDO::instance()->prepare("INSERT INTO comments VALUES (?, ?, ?, ?, ?, ?)");
  		$insertComment->execute($CommentsEntity->toArray());
 	}
+	/**
+	 * @param int $post_id 
+	 * @return int 
+	 * @throws PDOException 
+	 */
 	public static function getRowComments(int $post_id): int
 	{
 		$getComments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=? ORDER BY id ASC");
@@ -23,6 +35,11 @@ class CommentsRepository
 
 		return $getComments->rowCount();
 	}
+	/**
+	 * @param int $post_id 
+	 * @return Generator 
+	 * @throws PDOException 
+	 */
 	public static function getComments(int $post_id): \Generator
 	{
 		$getComments = PDO::instance()->prepare("SELECT * FROM comments WHERE post_id=? ORDER BY id ASC");

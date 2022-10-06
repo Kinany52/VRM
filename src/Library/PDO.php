@@ -42,7 +42,8 @@ class PDO extends \PDO
      * @return mixed 
      */
     public static function __callStatic(mixed $method, array $args): mixed
-    {
+    {   
+        /** @phpstan-ignore-next-line */
         return call_user_func_array(array(self::instance(), $method), $args);
     }
 

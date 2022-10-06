@@ -34,7 +34,7 @@ class Template
      * @return string
      * @throws \Exception
      */
-    public function render(string $view, array $context = []): string
+    public function render(string $view, array $context = []): string|false
     {
         if (!file_exists($file = $this->path.$view)) {
             throw new \Exception(sprintf('The file %s could not be found.', $view));
