@@ -4,7 +4,8 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "Core\\": "Core/"
+            "Core\\": "Core/",
+            "": "src/tempDir"
         },
         "files": ["config/config.php"]
     },

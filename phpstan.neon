@@ -1,6 +1,10 @@
 parameters:
-  level: 
+  level: 8
   paths:
+    - src
+    - Core
+    - Config
+    - public
   excludes_analyse:
   ignoreErrors:
     - '/Variable [\$a-zA-Z0-9\\_]+ might not be defined./'
@@ -9,3 +13,5 @@ parameters:
     - '/Parameter #1 [\$a-zA-Z0-9\\_]+ of function [a-zA-Z0-9\\_]+ is passed by reference, so it expects variables only./'
     - '/Cannot call method [a-zA-Z0-9\\_]+\(\) on [a-zA-Z0-9\|\\_]+./'
   earlyTerminatingMethodCalls:
+  excludePaths:
+    - src/tempDir
