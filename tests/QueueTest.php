@@ -4,68 +4,46 @@ use PHPUnit\Framework\TestCase;
 
 class QueueTest extends TestCase
 {
-    /*
-    //The following 3 commented out methods are the old, long version without making use of consumer/producer methods
-
-    public function testNewQueueIsEmpty()
-    {
-        $queue = new Queue;
+    protected $queue;
         
-        $this->assertEquals(0, $queue->getCount());        
+    protected function setUp(): void
+    {
+        $this->queue = new Queue;        
     }
     
+    protected function tearDown(): void
+    {
+        unset($this->queue);
+    }
+        
+    public function testNewQueueIsEmpty()
+    {
+        $this->assertEquals(0, $this->queue->getCount());
+    }
+
     public function testAnItemIsAddedToTheQueue()
     {
-        $queue = new Queue;
+        $this->queue->push('green');
         
-        $queue->push('green');
-        
-        $this->assertEquals(1, $queue->getCount());                        
-    }
-    
-    public function testAnItemIsRemovedFromTheQueue()
-    {
-        $queue = new Queue;
-        
-        $queue->push('green');
-        
-        $item = $queue->pop();
-        
-        $this->assertEquals(0, $queue->getCount());
-        
-        $this->assertEquals('green', $item);                                        
-    }
-    */
-    public function testNewQueueIsEmpty()
-    {
-        $queue = new Queue;
-        
-        $this->assertEquals(0, $queue->getCount());
-        
-        return $queue;        
+        $this->assertEquals(1, $this->queue->getCount());
     }
 
-    /**
-     * @depends testNewQueueIsEmpty
-     */    
-    public function testAnItemIsAddedToTheQueue(Queue $queue)
+    public function testAnItemIsRemovedFromTheQueue()
     {
-        $queue->push('green');
+        $this->queue->push('green');
+                
+        $item = $this->queue->pop();
         
-        $this->assertEquals(1, $queue->getCount());   
-        
-        return $queue;        
-    }
-    
-    /**
-     * @depends testAnItemIsAddedToTheQueue
-     */      
-    public function testAnItemIsRemovedFromTheQueue(Queue $queue)
-    {
-        $item = $queue->pop();
-        
-        $this->assertEquals(0, $queue->getCount());
+        $this->assertEquals(0, $this->queue->getCount());
         
         $this->assertEquals('green', $item);
     }
+
+    public function testAnItemIsRemovedFromTheFrontOfTheQueue()
+    {
+        $this->queue->push('first');
+        $this->queue->push('second');
+        
+        $this->assertEquals('first', $this->queue->pop());
+    }    
 }
