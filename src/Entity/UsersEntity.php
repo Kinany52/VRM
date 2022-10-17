@@ -23,9 +23,10 @@ class UsersEntity extends AbstractEntity
     )
     {}
     
-    public function toArray(): array
+    /** @return array<mixed> */
+    public function _toArray(): array
     {
-        return [$this->id, $this->first_name, $this->last_name, $this->username, $this->email, $this->password, $this->signup_date, $this->num_post, $this->num_likes, $this->user_closed];
+        return [$this->id, $this->first_name, $this->last_name, $this->username, $this->email, $this->password, $this->signup_date, $this->num_posts, $this->num_likes, $this->user_closed];
     }
         
 }

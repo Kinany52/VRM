@@ -1,23 +1,12 @@
-<?php
-
-require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-
-bootstrap();
-
-include("includes/form_handlers/register_handler.php");
-include("includes/form_handlers/login_handler.php");
-
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<title>Vendor Return Management</title>
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> <! --Prevents favicon error message in console.-->
-	<link rel="stylesheet" type="text/css" href="assets/css/register_style.css">
+	<link rel="stylesheet" type="text/css" href="./assets/css/register_style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script src="assets/js/register.js"></script>
+	<script src="./assets/js/register.js"></script>
 </head>
 <body>
 
@@ -49,7 +38,7 @@ include("includes/form_handlers/login_handler.php");
 			</div>	
 
 			<div id="first">	
-				<form action="register.php" method="POST">
+				<form action="<?php echo '/auth'; ?>" method="POST">
 					<input type="email" name="log_email" placeholder="Email Address" value="<?php
 					if (isset($_SESSION['log_email'])) {
 						echo $_SESSION['log_email'];
@@ -68,7 +57,7 @@ include("includes/form_handlers/login_handler.php");
 			<br>
 
 			<div id="second">
-				<form action="register.php" method="POST">
+				<form action="<?php echo '/auth'; ?>" method="POST">
 					<input type="text" name="reg_fname" placeholder="First Name" value="<?php
 					if (isset($_SESSION['reg_fname'])) {
 						echo $_SESSION['reg_fname'];

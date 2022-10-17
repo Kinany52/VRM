@@ -1,57 +1,26 @@
 <?php
 
-Namespace App\Att;
+namespace App\Controller;
 
-use App\Att\User;
 use DateTime;
-use App\Library\PDO;
-use App\Entity\PostsEntity;
 use App\Repository\PostsRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\UsersRepository;
+use PDOException;
 
-class Post 
+class LoadPostController 
 {
-	private $user_obj;
-	private $con;
-
-	public function __construct($con, $user) {
-		$this->con = PDO::instance();
-		$this->user_obj = new User(PDO::instance(), $user);
-	}
-
-	public function submitPost($body) {
-		$body = strip_tags($body); //removes html tags
-		$body = str_replace('\r\n', '\n', $body); //Allows new line character
-		$body = nl2br($body); //Replace new lines with line breaks
-
-		$check_empty = preg_replace('/\s+/', '', $body); //Deletes all spaces
-
-		if($check_empty != "") {
-
-
-			//Current date and time
-			$date_added = date("Y-m-d H:i:s");
-			//Get username
-			$added_by = $this->user_obj->getUsername();
-			//Insert post
-			PostsRepository::persistEntity(new PostsEntity(
-				date_added: $date_added, 
-				body: $body, 
-				added_by: $added_by, 
-				id: 0
-			));
-			//Update post count for user
-			$num_posts = $this->user_obj->getNumPosts();
-			$num_posts++;
-			UsersRepository::aggregatePosts($num_posts, $added_by);
-		}
-	}
-
-	public function loadPostsFriends($data, $limit) {
+	/**
+	 * @param array<int> $data 
+	 * @param int $limit 
+	 * @return void 
+	 * @throws PDOException 
+	 */
+	public function loadPost(array $data, int $limit): void 
+	{
 
 		$page = $data['page'];
-		$userLoggedIn = $this->user_obj->getUsername();
+		$userLoggedIn = $_SESSION['username'];
 		
 		if($page == 1)
 			$start = 0;
@@ -67,19 +36,15 @@ class Post
 			$num_iterations = 0; //Number of posts checked (Not necessarily posted)
 			$count = 1;
 
-			foreach (PostsRepository::getPosts('no') as $loadAnnouncements) {
+			foreach (PostsRepository::getPosts() as $loadAnnouncements) {
 			
 				$id = $loadAnnouncements->id;
-				
 				$body = $loadAnnouncements->body;
-				
 				$date_time = $loadAnnouncements->date_added;
-
 				$added_by = $loadAnnouncements->added_by;
 
 				if($num_iterations++ < $start)
 					continue;
-
 				
 				//Once 10 posts have been loaded, break
 				if($count > $limit) {
@@ -95,32 +60,21 @@ class Post
 				else
 					$delete_button = "";
 
-				/*
-					foreach (UsersRepository::authenticateFullname($added_by) as $user_details_query) {
-					$first_name = $user_details_query->first_name;
-					$last_name = $user_details_query->last_name;
-				}
-				*/
-				$user_details_query = PDO::instance()->prepare("SELECT first_name, last_name FROM users WHERE username=?");
-				$user_details_query->execute([$added_by]);
-				$user_row = $user_details_query->fetch();
-				$first_name = $user_row['first_name'];
-				$last_name = $user_row['last_name'];
-				
+				$user_details_query = UsersRepository::authenticateFullname($added_by);
+				$first_name = $user_details_query['first_name'];
+				$last_name = $user_details_query['last_name'];
 				?>
 				<script>
-					function toggle<?php echo $id; ?>() {
-
+					function toggle<?php echo $id; ?>() { 
 						var target = $(event.target);
 						if (!target.is("a")) {
-								var element = document.getElementById("toggleComment<?php echo $id; ?>");
+							var element = document.getElementById("toggleComment<?php echo $id; ?>");
 
-					 			if(element.style.display == "block")
-					 				element.style.display = "none";
-					 			else
-					 				element.style.display = "block";
+							if(element.style.display == "block")
+								element.style.display = "none";
+							else
+								element.style.display = "block";
 						}
-
 			 		}
 				</script>
 				<?php
@@ -128,16 +82,16 @@ class Post
 				$numComments = CommentsRepository::getRowComments($id);
 				//Timeframe
 				$date_time_now = date("Y-m-d H:i:s");
-				$start_date = new DateTime($date_time); //Time of post
+				$start_date = $date_time; //Time of post
 				$end_date = new DateTime($date_time_now); //Current time
 				$interval = $start_date->diff($end_date); //Difference between dates
 				if($interval->y >= 1) {
-					if($interval == 1)
+					if($interval->y == 1) 
 						$time_message = $interval->y . " year ago"; //1 year ago
 					else
 						$time_message = $interval->y . " years ago"; //1+ year ago
 				}
-				else if($interval-> m >= 1) {
+				else if($interval->m >= 1) {
 					if($interval->d == 0) {
 						$days = " ago";
 					}
@@ -188,52 +142,45 @@ class Post
 						$time_message = $interval->s . " seconds ago";
 					}
 				}
-
+				
 				$str .="<div class='status_post' onClick='javascrpt:toggle$id()'>
-									<div class='posted_by' style='color:#ACACAC;'>
-										<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
-										$delete_button
-									</div>
-									<div id='post_body'>
-											$body
-											<br>
-											<br>
-											<br>
-									</div>
-
-									<div class='newsfeedPostOptions'>
-											Comments($numComments)&nbsp;&nbsp;&nbsp;
-											<iframe src='like.php?post_id=$id' scrolling='no'></iframe>
-									</div>
+							<div class='posted_by' style='color:#ACACAC;'>
+								<a href='profile?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+								$delete_button
+							</div>
+							<div id='post_body'>
+									$body
+									<br>
+									<br>
+									<br>
+							</div>
+							<div class='newsfeedPostOptions'>
+									Comments($numComments)&nbsp;&nbsp;&nbsp;
+									<iframe src='/confirm_post?post_id=$id' scrolling='no'></iframe>
+							</div>
 						</div>
 						<div class='post_comment' id='toggleComment$id' style='display:none;'>
-							<iframe src='comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
+							<iframe src='/comment_frame?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
 						</div>
 						<hr>";
-
+				
 				?>
 				<script>
-
 					$(document).ready(function() {
-
 						$('#post<?php echo $id; ?>').on('click', function() {
 							bootbox.confirm("Are you sure you want to delete this announcement?", function(result) {
 
-								$.post("includes/form_handlers/delete_post.php?post_id=<?php echo $id; ?>", {result:result});
+								$.post("<?php echo '/delete_post?post_id=' . $id; ?>", {result:result});
 
 								if(result)
 									location.reload();
 
 							});
 						});
-
-
 					});
-
 				</script>
 				<?php
-
-
+				
 			}	//End while loop 
 
 			if($count > $limit)
@@ -242,10 +189,6 @@ class Post
 			else
 				$str .= "<input type='hidden' class='noMorePosts' value='true'><p style='text-align: centre;'> No more announcements to show! </p>";
 		}	
-
 		echo $str;
 	}
-
 }
-
-?>

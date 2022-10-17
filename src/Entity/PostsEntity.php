@@ -4,21 +4,26 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
+use DateTimeInterface;
+
 class PostsEntity extends AbstractEntity
 {
     public function __construct(
+        public int $id,
         public string $body,
         public string $added_by,
-        public mixed $date_added,
-        public int $id=0,
+        public DateTime $date_added,
         public string $deleted='no',
         public int $likes=0
     )
     {}
-
-    public function toArray(): array
+    
+    /** @return array<mixed> */
+    public function _toArray(): array
     {
-        return [$this->id, $this->body, $this->added_by, $this->date_added, $this->deleted, $this->likes];
+        $attributes = [$this->id, $this->body, $this->added_by, $this->date_added, $this->deleted, $this->likes];
+        return $this->prepareAttributeForPersisting($attributes);
     }
 }
 
