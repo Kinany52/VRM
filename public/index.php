@@ -1,5 +1,6 @@
 <?php
 
+use Core\Application;
 use Core\Router;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
@@ -7,20 +8,17 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendo
 bootstrap();
 
 $router = new Router();
+$application = new Application($router);
+$application->handleRequest($_SERVER);
 
-// Add the routes
-$router->add('', ['controller' => 'HomepageController', 'action' => 'index']);
-$router->add('auth', ['controller' => 'AuthenticationController', 'action' => 'authenticate']);
-$router->add('profile', ['controller' => 'ProfileController', 'action' => 'index']);
-$router->add('user_closed', ['controller' => 'UserClosedController', 'action' => 'index']);
-$router->add('delete_post', ['controller' => 'DeletePostController', 'action' => 'postDelete']);
-$router->add('ajax_load', ['controller' => 'AjaxLoadPostController', 'action' => 'loadPostAjax']);
-$router->add('confirm_post', ['controller' => 'ConfirmPostController', 'action' => 'confirmPost']);
-$router->add('comment_frame', ['controller' => 'CommentController', 'action' => 'frameComment']);
-$router->add('load_post', ['controller' => 'LoadPostController', 'action' => 'loadPost']);
-$router->add('submit_post', ['controller' => 'SubmitPostController', 'action' => 'submitPost']);
-$router->add('logged_out', ['controller' => 'LogoutController', 'action' => 'logout']);
-$router->add('{controller}/{action}');
-$router->add('{controller}/{id:\d+}/{action}');
+//echo 'Requested URL = "' . $_SERVER['QUERY_STRING'] . '"';
+//$uri = $_SERVER['REQUEST_URI'];
+//$status = $_SERVER;
+//var_dump($status);
 
-$router->dispatch($_SERVER['QUERY_STRING']);
+//$rata = http_response_code(404);
+//var_dump($rata);
+
+//$taki = new Application($router);
+//$jaki = $application->handleRequest($_SERVER);
+//$zaki = var_dump($taki);
