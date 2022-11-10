@@ -20,6 +20,7 @@ Class HomepageController
 	        $user = UsersRepository::queryUser($userLoggedIn);
         } else {
             header("Location: /auth");
+            return;
         }
         if(isset($_POST['post'])){
             $post = new SubmitPostController();

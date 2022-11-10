@@ -22,7 +22,7 @@ if (!function_exists("bootstrap")) {
 	function bootstrap(): void 
 	{
 		session_start();
-		ob_start();
+		// ob_start();
 	}
 }
 

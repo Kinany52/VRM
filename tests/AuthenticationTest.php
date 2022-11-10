@@ -3,6 +3,8 @@
 use Core\Router;
 use PHPUnit\Framework\TestCase;
 use Core\Application;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use PHPUnit\Framework\ExpectationFailedException;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -20,10 +22,37 @@ class AuthenticationTest extends TestCase
         $this->application = $application;
     }
 
+    /**
+     * @runInSeparateProcess
+     * @return void 
+     * @throws InvalidArgumentException 
+     * @throws ExpectationFailedException 
+     */
     public function testAuthenticationNeeded() : void 
     {
-        $response = $this->application->handleRequest($_SERVER['REDIRECT_STATUS']);
+        $request = ['QUERY_STRING' => ''];
 
-        $this->assertEquals(200, $response);
+        //ob_start();
+        //$this->application->handleRequest($request);
+        //$headers = headers_list();
+        $response = $this->application->handleRequest($request);
+
+         //ob_clean();
+// dd(headers_list());
+        // $ob_dumper = function(callable $executeMe): void
+        // {
+
+        //     ob_start();
+
+        //     $executeMe();
+        //     $output = ob_get_contents();
+        //     ob_flush();
+
+        //     dump($output);
+        // };
+
+        // $ob_dumper(fn() =>  $this->application->handleRequest($request));
+
+        $this->assertEquals('here we would like to see that we got header location', $response);
     }
 }
