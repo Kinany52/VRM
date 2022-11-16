@@ -9,6 +9,11 @@
         },
         "files": ["config/config.php"]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Sarmad Kinany",

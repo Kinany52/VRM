@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\UsersEntity;
 use App\Repository\UsersRepository;
+use Core\Http\Header;
+use Core\Http\Response;
 use Core\Template;
 use PDOException;
 use Exception;
@@ -21,7 +23,7 @@ Class AuthenticationController
      * @throws PDOException 
      * @throws Exception 
      */
-    public function authenticate(): void
+    public function authenticate(): Response
     {
         if (isset($_POST['login_button'])) {
             $email = filter_var($_POST['log_email'], FILTER_SANITIZE_EMAIL); //Sanitize email
@@ -38,7 +40,13 @@ Class AuthenticationController
                         UsersRepository::reactivateUser($email);
                     }
                     $_SESSION['username'] = $username;
-                    header("Location: /");
+                    return (new Response(302))->addHeader(
+                        new Header(
+                            'Location',
+                            '/'
+                        )
+                    );
+                    //header("Location: /");
             }
         }
 
@@ -162,8 +170,10 @@ Class AuthenticationController
         }
 
         $template = new Template('../src/View');
-        echo $template->render('AuthenticationView.php', [
+        $html =  $template->render('AuthenticationView.php', [
             'error_array' => $this->error_array
-        ]);   
+        ]);
+
+        return new Response(content: $html);
     }
 }

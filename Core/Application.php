@@ -2,18 +2,31 @@
 
 namespace Core;
 
+use Core\Http\Request;
+use Core\Http\Response;
 use Core\Router;
 
 class Application 
 {
-    public function __construct(protected Router $router) 
+    public function __construct(
+        protected Router $router,
+    )
     {
         $this->registerRoutes();
     }
 
-    public function handleRequest(array $request): void 
+    public function handleRequest(Request $request): Response
     {
-        $this->router->dispatch($request['QUERY_STRING']);
+        $response = $this->router->dispatch($request->getQueryString());
+
+        http_response_code($response->httpStatus);
+        foreach ($response->getHeaders() as $header) {
+            header($header->name . ': ' . $header->value);
+        }
+
+        echo $response->getContent();
+
+        return $response;
     }
 
     private function registerRoutes(): void

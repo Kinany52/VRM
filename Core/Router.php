@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Core\Http\Response;
+
 class Router
 {
     /**
@@ -99,9 +101,11 @@ class Router
      *
      * @return void
      */
-    public function dispatch($url): void
+    public function dispatch($url): Response
     {
         $url = $this->removeQueryStringVariables($url);
+
+        $badRequest = new Response(400);
 
         if ($this->match($url)) {
             $controller = $this->params['controller'];
@@ -116,17 +120,22 @@ class Router
                 $action = $this->convertToCamelCase($action);
 
                 if (is_callable([$controller_object, $action])) {
-                    $controller_object->$action();
+                    return $controller_object->$action();
 
                 } else {
-                    echo "Method $action (in controller $controller) not found";
+                    // do nothing -> return badRequest
+                    // return new Response(404,  "Method $action (in controller $controller) not found");
                 }
             } else {
-                echo "Controller class $controller not found";
+                // do nothing -> return badRequest
+                // echo "Controller class $controller not found";
             }
         } else {
-            echo 'No route matched.';
+            // do nothing -> return badRequest
+            // echo 'No route matched.';
         }
+
+        return $badRequest;
     }
 
     /**
