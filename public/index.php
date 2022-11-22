@@ -8,8 +8,9 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendo
 bootstrap();
 
 $router = new Router();
+$request = new \Core\Http\Request($_SERVER);
 $application = new Application($router);
-$application->handleRequest($_SERVER);
+$application->handleRequest($request);
 
 //echo 'Requested URL = "' . $_SERVER['QUERY_STRING'] . '"';
 //$uri = $_SERVER['REQUEST_URI'];

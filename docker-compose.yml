@@ -16,6 +16,7 @@ services:
             dockerfile: PHP.Dockerfile
         volumes:
             - ./:/app
+        working_dir: /app
         links:
             - mysql
     mysql:
@@ -26,12 +27,12 @@ services:
         volumes:
             - mysqldata:/var/lib/mysql
         ports:
-            - 3306:3306
+            - "3306:3306"
     phpmyadmin:
         image: phpmyadmin
         restart: always
         ports:
-          - 8080:80
+          - "8080:80"
         environment:
           - PMA_HOST='mysql'
           - MYSQL_ROOT_PASSWORD='pass' 
