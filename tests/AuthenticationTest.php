@@ -46,4 +46,27 @@ class AuthenticationTest extends TestCase
             $response->getHeaders()[0]
         );
     }
+
+    /**
+     * @runInSeparateProcess
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws ExpectationFailedException
+     */
+    public function testAuthentedUserCanSeePost(): void
+    {
+        $request = new Request(['QUERY_STRING' => '']);
+
+        $_SESSION['username'] = 'javier_varela';
+        //assigning existing user to authentication object, which is $_SESION to make application aware that it is dealing with authenticated user
+
+        ob_start();
+
+        $response = $this->application->handleRequest($request);
+
+        ob_get_contents();
+        ob_get_clean();
+
+        $this->assertEquals(200, $response->httpStatus);
+    }
 }

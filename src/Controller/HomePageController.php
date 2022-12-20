@@ -37,7 +37,7 @@ class HomepageController
             );
             //header("Location: /"); //Stops the form resubmitting on refresh (duplicate announcement prevention).
         }
-        $template = new Template('../src/View');
+        $template = new Template(__DIR__ . '/../View');
         return (new Response(
             content: $template->render('HomepageView.php', ['user' => $user])
         ))->addHeader(
