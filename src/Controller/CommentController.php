@@ -2,14 +2,16 @@
 
 namespace App\Controller;
 
+use DateTime;
+use Exception;
+use PDOException;
+use Core\Template;
+use Core\Http\Header;
+use Core\Http\Response;
 use App\Entity\CommentsEntity;
-use App\Repository\CommentsRepository;
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
-use Core\Template;
-use DateTime;
-use PDOException;
-use Exception;
+use App\Repository\CommentsRepository;
 
 Class CommentController
 {
@@ -18,13 +20,17 @@ Class CommentController
      * @throws PDOException 
      * @throws Exception 
      */
-    public function frameComment(): void
+    public function frameComment(): Response
     {
         if (isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
         }
         else {
-            header("Location: /auth");
+            return (new Response(302))->addHeader(
+                new Header(
+                    name: 'Location', value: '/auth'
+                )
+            );
         }
 
         //Get id of post
@@ -140,8 +146,10 @@ Class CommentController
         }
 
         $template = new Template('../src/View');
-        echo $template->render('CommentView.php', [
+        $html = $template->render('CommentView.php', [
             'post_id' => $post_id
         ]);
+
+        return new Response(content: $html);
     }
 }
