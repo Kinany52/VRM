@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use Exception;
+use PDOException;
+use Core\Template;
+use Core\Http\Header;
+use Core\Http\Response;
 use App\Entity\LikesEntity;
 use App\Repository\LikesRepository;
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
-use Core\Template;
-use PDOException;
-use Exception;
 
 Class ConfirmPostController
 {
@@ -17,13 +19,17 @@ Class ConfirmPostController
      * @throws PDOException 
      * @throws Exception 
      */
-    public function confirmPost(): void 
+    public function confirmPost(): Response 
     {
         if (isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
         }
         else {
-            header("Location: /auth");
+            return (new Response(302))->addHeader(
+                new Header(
+                    name: 'Location', value: '/auth'
+                )
+            );
         }
         
         //Get id of post
@@ -66,10 +72,12 @@ Class ConfirmPostController
         $num_rows = LikesRepository::getRowLikes($userLoggedIn, $post_id);
 
         $template = new Template('../src/View');
-        echo $template->render('ConfirmPostView.php', [
+        $html =  $template->render('ConfirmPostView.php', [
             'num_rows' => $num_rows,
             'post_id' => $post_id,
             'total_likes' => $total_likes
         ]);
+
+        return new Response(content: $html);
     }
 }

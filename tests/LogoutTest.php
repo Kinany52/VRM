@@ -31,7 +31,9 @@ class LogoutTest extends TestCase
      */
     public function testLoggedInUserCanLogout(): void
     {
-        $request = new Request(['QUERY_STRING' => '']);
+        $request = new Request(['QUERY_STRING' => 'logged_out']);
+
+        session_start();
 
         $response = $this->application->handleRequest($request);
 

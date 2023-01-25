@@ -16,6 +16,11 @@ use App\Repository\CommentsRepository;
 Class CommentController
 {
     /**
+     * @var int $post_id
+     */
+    public int $post_id = 0;
+
+    /**
      * @return void 
      * @throws PDOException 
      * @throws Exception 
@@ -35,14 +40,14 @@ Class CommentController
 
         //Get id of post
         if(isset($_GET['post_id'])) {
-            $post_id = $_GET['post_id'];
+            $this->post_id = $_GET['post_id'];
         }
-        foreach (PostsRepository::getPoster($post_id) as $poster) 
+        foreach (PostsRepository::getPoster($this->post_id) as $poster) 
         {
             $posted_to = $poster->added_by;
         }
 
-        if(isset($_POST['postComment' . $post_id])) {
+        if(isset($_POST['postComment' . $this->post_id])) {
             $post_body = $_POST['post_body'];
             $date_time_now = new DateTime();
         CommentsRepository::persistEntity(new CommentsEntity(
@@ -50,7 +55,7 @@ Class CommentController
             posted_by: $userLoggedIn, 
             posted_to: $posted_to, 
             date_added: $date_time_now, 
-            post_id: $post_id,
+            post_id: $this->post_id,
             id: 0
         ));
             echo "<p>Comment Posted! </p>";
@@ -58,10 +63,10 @@ Class CommentController
 
         //Load comments
 
-        $rowComments = CommentsRepository::getRowComments($post_id);
+        $rowComments = CommentsRepository::getRowComments($this->post_id);
         
         if ($rowComments !=0) {
-            foreach (CommentsRepository::getComments($post_id) as $loadComments) {
+            foreach (CommentsRepository::getComments($this->post_id) as $loadComments) {
                 $comment_body = $loadComments->post_body;
                 $posted_to = $loadComments->posted_to;
                 $posted_by = $loadComments->posted_by;
@@ -145,9 +150,9 @@ Class CommentController
             echo "<center><br><br>No Comment to Show!</center>";
         }
 
-        $template = new Template('../src/View');
+        $template = new Template(__DIR__ . '/../View');
         $html = $template->render('CommentView.php', [
-            'post_id' => $post_id
+            'post_id' => $this->post_id
         ]);
 
         return new Response(content: $html);

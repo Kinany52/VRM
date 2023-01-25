@@ -15,6 +15,10 @@ class Application
         $this->registerRoutes();
     }
 
+    /**
+     * @param Request $request 
+     * @return Response 
+     */
     public function handleRequest(Request $request): Response
     {
         $response = $this->router->dispatch($request->getQueryString());

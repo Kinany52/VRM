@@ -33,7 +33,7 @@ class CommentTest extends TestCase
      */
     public function testLoggedInUserCanMakeComment(): void
     {
-        $request = new Request(['QUERY_STRING' => '']);
+        $request = new Request(['QUERY_STRING' => 'comment_frame']);
 
         $_SESSION['username'] = 'john_bettiol';
 
@@ -55,9 +55,9 @@ class CommentTest extends TestCase
      */
     public function testLoggedInUserCanViewComments(): void
     {
-        $request = new Request(['QUERY_STRING' => '']);
+        $request = new Request(['QUERY_STRING' => 'comment_frame']);
 
-        $_SESSION['username'] = 'john_bettiol';
+        $_SESSION['username'] = 'wojciech_gula';
 
         ob_start();
 

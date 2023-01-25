@@ -170,7 +170,7 @@ Class AuthenticationController
         }
 
         $template = new Template('../src/View');
-        $html =  $template->render('AuthenticationView.php', [
+        $html = $template->render('AuthenticationView.php', [
             'error_array' => $this->error_array
         ]);
 
