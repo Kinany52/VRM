@@ -4,7 +4,8 @@
 		 bootstrap="vendor/autoload.php">
 	<testsuites>
 		<testsuite name="Test suite">
-			<directory>tests</directory>            
+			<directory>tests</directory>
+			<exclude>./tests/AbstractTest.php</exclude>           
 		</testsuite>                    
     </testsuites>    
 </phpunit>
