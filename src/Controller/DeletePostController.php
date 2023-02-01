@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
+use Core\Http\Response;
 use PDOException;
 
 Class DeletePostController
@@ -12,7 +13,7 @@ Class DeletePostController
      * @return void 
      * @throws PDOException 
      */
-    public function postDelete(): void 
+    public function postDelete(): Response 
     {
         if(isset($_GET['post_id']))
 		$post_id = $_GET['post_id'];
@@ -29,5 +30,6 @@ Class DeletePostController
                 UsersRepository::aggregatePosts($num_posts, $added_by);
             }
         }
+        return new Response(httpStatus: 200);
     }
 }
