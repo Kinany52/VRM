@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use App\Repository\UsersRepository;
-use Core\Template;
-use PDOException;
 use Exception;
+use PDOException;
+use Core\Template;
+use Core\Http\Header;
+use Core\Http\Response;
+use App\Repository\UsersRepository;
 
 Class ProfileController
 {
@@ -16,18 +18,22 @@ Class ProfileController
     public array $userArray = [];
 
     /**
-     * @return void 
+     * @return Response 
      * @throws PDOException 
      * @throws Exception 
      */
-    public function index(): void
+    public function index(): Response 
     {
 
         if(isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
 	        $user = UsersRepository::queryUser($userLoggedIn);
         } else {
-            header("Location: /auth");
+            return (new Response(302))->addHeader(
+                new Header(
+                    name: 'Location', value: '/auth'
+                )
+            );
         }
 
         if (isset($_GET['profile_username'])) {
@@ -36,13 +42,19 @@ Class ProfileController
         }
           
         if ($this->userArray['user_closed'] == 'yes') {
-              header("Location: /user_closed");
+            return (new Response(302))->addHeader(
+                new Header(
+                    name: 'Location', value: '/user_closed'
+                )
+            );
         }
         
         $template = new Template('../src/View');
-        echo $template->render('ProfileView.php', [
+        $html = $template->render('ProfileView.php', [
             'userArray' => $this->userArray,
             'user' => $user
         ]);
+
+        return new Response(content: $html);
     }
 }

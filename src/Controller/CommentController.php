@@ -21,7 +21,7 @@ Class CommentController
     public int $post_id = 0;
 
     /**
-     * @return void 
+     * @return Response 
      * @throws PDOException 
      * @throws Exception 
      */

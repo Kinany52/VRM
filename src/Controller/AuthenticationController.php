@@ -19,7 +19,7 @@ Class AuthenticationController
     public array $error_array = [];
 
     /**
-     * @return void 
+     * @return Response 
      * @throws PDOException 
      * @throws Exception 
      */

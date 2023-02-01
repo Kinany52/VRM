@@ -30,7 +30,7 @@ Class ConfirmPostController
     public int $total_likes = 0;
 
     /**
-     * @return void 
+     * @return Response 
      * @throws PDOException 
      * @throws Exception 
      */
@@ -87,7 +87,7 @@ Class ConfirmPostController
         $num_rows = LikesRepository::getRowLikes($userLoggedIn, $this->post_id);
 
         $template = new Template(__DIR__ . '/../View');
-        $html =  $template->render('ConfirmPostView.php', [
+        $html = $template->render('ConfirmPostView.php', [
             'num_rows' => $num_rows,
             'post_id' => $this->post_id,
             'total_likes' => $this->total_likes

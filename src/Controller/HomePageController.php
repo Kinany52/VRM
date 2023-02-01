@@ -12,7 +12,7 @@ use Exception;
 class HomepageController
 {
     /**
-     * @return void
+     * @return Response
      * @throws Exception
      */
     public function index(): Response
