@@ -68,5 +68,4 @@ class CommentTest extends TestCase
 
         $this->assertEquals(200, $response->httpStatus);
     }
-
 }

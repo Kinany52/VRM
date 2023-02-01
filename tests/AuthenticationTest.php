@@ -63,7 +63,7 @@ class AuthenticationTest extends TestCase
         ob_start();
 
         $response = $this->application->handleRequest($request);
-
+        
         ob_get_contents();
         ob_get_clean();
 
