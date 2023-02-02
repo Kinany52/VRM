@@ -16,7 +16,6 @@
 	</head>
 	
 	<body>
-
 		<div class="top_bar">
 			
 			<div class="logo">
@@ -33,19 +32,19 @@
 		<div class="wrapper">
 			<div class="profile_left">
 				<div class="profile_info">
-					<p><?php echo "Announcements: " . $userArray['num_posts']; ?></p>
-					<p><?php echo "Confirms: " . $userArray['num_likes']; ?></p>
+					<p><?php if (isset($userArray['num_posts'])) echo "Announcements: " . $userArray['num_posts']; ?></p>
+					<p><?php if (isset($userArray['num_likes'])) echo "Confirms: " . $userArray['num_likes']; ?></p>
 				</div>
 			</div>
 			
 			<div class="main_column column">
-				<?php echo 'Username: ' . $userArray['username']; ?>
+				<?php if (isset($userArray['username'])) echo 'Username: ' . $userArray['username']; ?>
 				<br>
-				<?php echo 'Contact person: ' . $userArray['first_name'] . " " . $userArray['last_name']; ?>
+				<?php if (isset($userArray['last_name'])) echo 'Contact person: ' . $userArray['first_name'] . " " . $userArray['last_name']; ?>
 				<br>
-				<?php echo 'Vendor ID: ' . '110' . $userArray['id']; ?>
+				<?php if (isset($userArray['id'])) echo 'Vendor ID: ' . '110' . $userArray['id']; ?>
 				<br>
-				<?php echo 'Registered since: ' . $userArray['signup_date']; ?>
+				<?php if (isset($userArray['signup_date'])) echo 'Registered since: ' . $userArray['signup_date']; ?>
 			</div>
 
     	</div>

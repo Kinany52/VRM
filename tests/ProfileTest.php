@@ -35,7 +35,14 @@ class ProfileTest extends TestCase
     {
         $request = new Request(['QUERY_STRING' => 'profile']);
 
+        $_SESSION['username'] = 'georgie_kinany';
+
+        ob_start();
+
         $response = $this->application->handleRequest($request);
+
+        ob_get_contents();
+        ob_get_clean();
 
         $this->assertEquals(200, $response->httpStatus);
     }

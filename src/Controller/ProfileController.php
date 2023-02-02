@@ -13,7 +13,7 @@ Class ProfileController
 {
     /**
      * Array of user data (here only username required)
-     * @var array<string> $userArray
+     * @var array<mixed> $userArray
      */
     public array $userArray = [];
 
@@ -25,7 +25,7 @@ Class ProfileController
     public function index(): Response 
     {
 
-        if(isset($_SESSION['username'])) {
+        if (isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
 	        $user = UsersRepository::queryUser($userLoggedIn);
         } else {
@@ -41,15 +41,17 @@ Class ProfileController
             $this->userArray = UsersRepository::queryUser($username);
         }
           
-        if ($this->userArray['user_closed'] == 'yes') {
+        if (isset($this->userArray['user_closed'])) {
+            if ($this->userArray['user_closed'] == 'yes') {
             return (new Response(302))->addHeader(
                 new Header(
                     name: 'Location', value: '/user_closed'
                 )
             );
+            }
         }
         
-        $template = new Template('../src/View');
+        $template = new Template(__DIR__ . '/../View');
         $html = $template->render('ProfileView.php', [
             'userArray' => $this->userArray,
             'user' => $user

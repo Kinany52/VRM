@@ -47,6 +47,12 @@ class DeletionTest extends TestCase
         $this->assertEquals(200, $response->httpStatus);
     }
 
+    /**
+     * @runInSeparateProcess
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws ExpectationFailedException
+     */  
     public function testAnnouncementCountAggregation(): void
     {
         $request = new Request(['QUERY_STRING' => 'delete_post']);
