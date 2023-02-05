@@ -28,8 +28,9 @@ Class DeletePostController
                 $num_posts = $userArray['num_posts'];
                 $num_posts--;
                 UsersRepository::aggregatePosts($num_posts, $added_by);
+                return new Response(httpStatus: 200);
             }
         }
-        return new Response(httpStatus: 200);
+        return new Response(httpStatus: 400);
     }
 }

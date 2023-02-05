@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UsersRepository;
+use Core\Http\Response;
 use Core\Template;
 use PDOException;
 use Exception;
@@ -10,11 +11,11 @@ use Exception;
 Class UserClosedController
 {
     /**
-     * @return void 
+     * @return Response
      * @throws PDOException 
      * @throws Exception 
      */
-    public function index(): void
+    public function index(): Response
     {
         if(isset($_SESSION['username'])) {
             $userLoggedIn = $_SESSION['username'];
@@ -24,8 +25,9 @@ Class UserClosedController
         }
 
         $template = new Template('../src/View');
-        echo $template->render('UserClosedView.php', [
+        $html = $template->render('UserClosedView.php', [
             'user' => $user
         ]);
+        return new Response(content: $html);
     }            
 }

@@ -6,16 +6,17 @@ use DateTime;
 use App\Entity\PostsEntity;
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
+use Core\Http\Response;
 use PDOException;
 
 Class SubmitPostController
 {   
     /**
      * @param mixed $body 
-     * @return void 
+     * @return Response 
      * @throws PDOException 
      */
-    public function submitPost($body): void
+    public function submitPost($body): Response
 	{
 		$body = strip_tags($body); //removes html tags
 		$body = str_replace('\r\n', '\n', $body); //Allows new line character
@@ -27,7 +28,6 @@ Class SubmitPostController
 			//Current date and time
 			$date_added = new DateTime();
 			//Get username
-
 			$added_by = $_SESSION['username'];
 			//Insert post
 			PostsRepository::persistEntity(new PostsEntity(
@@ -42,5 +42,6 @@ Class SubmitPostController
 			$num_posts++;
 			UsersRepository::aggregatePosts($num_posts, $added_by);
 		}
+		return new Response(httpStatus: 200);
 	}
 }
