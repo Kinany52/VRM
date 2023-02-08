@@ -34,12 +34,12 @@ class DeletionTest extends TestCase
     public function testAuthenticatedUserCandeleteSelfPost(): void
     {
         //post_id=163 is not deleted; post_id=124 is deleted
-        $request = new Request(['QUERY_STRING' => 'delete_post?post_id=124']);
+        $request = new Request(['QUERY_STRING' => '/delete_post?post_id=211']);
 
         $_SESSION['username'] = 'wojciech_gula';
 
         ob_start();
-
+    
         $response = $this->application->handleRequest($request);
 
         ob_get_contents();

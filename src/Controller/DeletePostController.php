@@ -31,6 +31,6 @@ Class DeletePostController
                 return new Response(httpStatus: 200);
             }
         }
-        return new Response(httpStatus: 400);
+        //return new Response(httpStatus: 400);
     }
 }
