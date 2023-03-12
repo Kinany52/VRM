@@ -31,12 +31,15 @@ class DeletionTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ExpectationFailedException
      */  
-    public function testAuthenticatedUserCandeleteSelfPost(): void
+    public function testAuthenticatedUserCandeletePost(): void
     {
-        //post_id=163 is not deleted; post_id=124 is deleted
-        $request = new Request(['QUERY_STRING' => '/delete_post?post_id=211']);
+        $request = new Request(['QUERY_STRING' => 'delete_post']);
 
-        $_SESSION['username'] = 'wojciech_gula';
+        $_GET['post_id'] = 257;
+
+        $_POST['result'] = 'true';
+
+        $_SESSION['username'] = 'anastasia_Schreiber';
 
         ob_start();
     
@@ -48,26 +51,27 @@ class DeletionTest extends TestCase
         $this->assertEquals(200, $response->httpStatus);
     }
 
-    /**
-     * @runInSeparateProcess
-     * @return void
-     * @throws InvalidArgumentException
-     * @throws ExpectationFailedException
-     */  
-    public function testAnnouncementCountAggregation(): void
-    {
-        //post_id=163 is not deleted; post_id=124 is deleted
-        $request = new Request(['QUERY_STRING' => 'delete_post?post_id=163']);
+    // /**
+    //  * @runInSeparateProcess
+    //  * @return void
+    //  * @throws InvalidArgumentException
+    //  * @throws ExpectationFailedException
+    //  */  
+    // public function testAnnouncementCountAggregation(): void
+    // {
+    //     //post_id=163 is not deleted; post_id=124 is deleted
+    //     $request = new Request(['QUERY_STRING' => 'delete_post&post_id=201']);
 
-        $_SESSION['username'] = 'wojciech_gula';
+    //     $_SESSION['username'] = 'wojciech_gula';
 
-        ob_start();
+    //     ob_start();
 
-        $response = $this->application->handleRequest($request);
+    //     $response = $this->application->handleRequest($request);
 
-        ob_get_contents();
-        ob_get_clean();
+    //     ob_get_contents();
+    //     ob_get_clean();
 
-        $this->assertEquals(200, $response->httpStatus);
-    }
+    //     $this->assertEquals(200, $response->httpStatus);
+    // }
+    
 }

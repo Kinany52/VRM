@@ -25,6 +25,7 @@
         "symfony/var-dumper": "6.0.x-dev",
         "phpstan/phpstan": "1.8.x-dev",
         "phpunit/phpunit": "^9",
-        "mockery/mockery": "^1.5"
+        "mockery/mockery": "^1.5",
+        "pcov/clobber": "^2.0.3"
     }
 }

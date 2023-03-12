@@ -167,4 +167,17 @@ class PostsRepository
 		$query = PDO::instance()->prepare("UPDATE posts SET deleted=? WHERE id=?");
 		$query->execute([$deleted, $id]);
 	}
+
+	/**
+	 * @param int $id 
+	 * @return mixed 
+	 * @throws PDOException 
+	 */
+	public static function validatePost(int $id): mixed
+	{
+		$postExists = PDO::instance()->prepare("SELECT id FROM posts WHERE id=?");
+		$postExists->execute([$id]);
+
+		return $postExists->fetch();
+	}
 }

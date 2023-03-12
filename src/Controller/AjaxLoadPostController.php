@@ -17,6 +17,6 @@ Class AjaxLoadPostController
         $limit = 10; //Number of posts to be loaded per call
         $posts = new LoadPostController();
         $posts->loadPost($_REQUEST, $limit);
-        return new Response(httpStatus: 200);
+        return new Response();
     }
 }

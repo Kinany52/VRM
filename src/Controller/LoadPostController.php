@@ -56,7 +56,7 @@ class LoadPostController
 
 				if($userLoggedIn == $added_by)
 
-					$delete_button = "<button class='delete_button btn-danger' id='post$id'>X</button>";
+					$delete_button = "<button class='delete_button btn-danger' data-post-id='$id' id='post$id'>X</button>";
 				else
 					$delete_button = "";
 
@@ -167,7 +167,7 @@ class LoadPostController
 				?>
 				<script>
 					$(document).ready(function() {
-						$('#post<?php echo $id; ?>').on('click', function() {
+						$('.delete_button[data-post-id="<?php echo $id; ?>"]').on('click', function() {
 							bootbox.confirm("Are you sure you want to delete this announcement?", function(result) {
 
 								$.post("<?php echo '/delete_post?post_id=' . $id; ?>", {result:result});
@@ -179,9 +179,10 @@ class LoadPostController
 						});
 					});
 				</script>
+
 				<?php
 				
-			}	//End while loop 
+			}	//End of foreach loop 
 
 			if($count > $limit)
 				$str .= "<input type='hidden' class='nextPage' value='" . ($page + 1) . "'>
