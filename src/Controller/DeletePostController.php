@@ -15,10 +15,8 @@ Class DeletePostController
      */
     public function postDelete(): Response 
     {   
-        
         if(isset($_GET['post_id']))
 		$postId = $_GET['post_id'];
-        //$postId = 2023;
         
         if(isset($_POST['result'])) {
             if($_POST['result'] == 'true') {
@@ -37,10 +35,8 @@ Class DeletePostController
                     UsersRepository::aggregatePosts($numPosts, $addedBy);
                     return new Response(httpStatus: 200);
                 } else {
-                    //echo 'Invalid post cannot be deleted.';
                     return new Response(httpStatus: 400);
                 }
-                
             }
         }
         /*
