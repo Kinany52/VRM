@@ -33,8 +33,7 @@ Class SubmitPostController
 			PostsRepository::persistEntity(new PostsEntity(
 				date_added: $date_added, 
 				body: $body, 
-				added_by: $added_by, 
-				id: 0
+				added_by: $added_by,
 			));
 			//Update post count for user
 			$userArray = UsersRepository::queryUser($added_by);

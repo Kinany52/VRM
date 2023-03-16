@@ -23,7 +23,7 @@ Class DeletePostController
                 //Validate post
                 $postCheck = PostsRepository::validatePost($postId);
                 if ($postCheck !== false)
-                {
+                {   
                     //Set post as deleted
                     PostsRepository::deletePost('yes', $postId);
                     //Update post count for user

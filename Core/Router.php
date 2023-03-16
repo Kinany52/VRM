@@ -96,10 +96,8 @@ class Router
     /**
      * Dispatch the route, creating the controller object and running the
      * action method
-     *
      * @param string $url The route URL
-     *
-     * @return void
+     * @return Response
      */
     public function dispatch($url): Response
     {

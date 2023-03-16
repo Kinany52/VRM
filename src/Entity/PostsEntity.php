@@ -10,10 +10,11 @@ use DateTimeInterface;
 class PostsEntity extends AbstractEntity
 {
     public function __construct(
-        public int $id,
+       
         public string $body,
         public string $added_by,
         public DateTime $date_added,
+        public ?int $id = null,
         public string $deleted='no',
         public int $likes=0
     )

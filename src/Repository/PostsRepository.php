@@ -18,10 +18,33 @@ class PostsRepository
 	 * @return void 
 	 * @throws PDOException 
 	 */
-	public static function persistEntity(PostsEntity $PostsEntity): void
+	public static function persistEntity(PostsEntity $PostsEntity): int
 	{
-		$insertPost = PDO::instance()->prepare("INSERT INTO posts VALUES(?, ?, ?, ?, ?, ?)");
-		$insertPost->execute($PostsEntity->toArray());
+		$insertPost = PDO::instance()->prepare(
+			<<<SQL
+INSERT INTO posts(
+body,
+added_by,
+date_added,
+deleted,
+likes
+)
+ VALUES(?, ?, ?, ?, ?)
+SQL
+		);
+
+		try {
+	PDO::instance()->beginTransaction();		
+			$data = $PostsEntity->toArray();
+			array_shift($data);
+			$insertPost->execute($data);
+			PDO::instance()->commit();
+			return (int)PDO::instance()->lastInsertId();
+		} catch (\Throwable $t) {
+			dump($t);
+PDO::instance()->rollBack();
+throw $t;
+		}
 	}
 	/**
 	 * @param mixed $deleted 
