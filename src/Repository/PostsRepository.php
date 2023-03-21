@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Library\PDO;
-use App\Entity\PostsEntity;
-use ReflectionClass;
 use DateTime;
 use Generator;
+use Throwable;
 use PDOException;
+use App\Library\PDO;
+use ReflectionClass;
+use App\Entity\PostsEntity;
 
 class PostsRepository
 {
 	/**
 	 * @param PostsEntity $PostsEntity 
-	 * @return void 
+	 * @return int 
 	 * @throws PDOException 
 	 */
 	public static function persistEntity(PostsEntity $PostsEntity): int
@@ -32,18 +33,14 @@ likes
  VALUES(?, ?, ?, ?, ?)
 SQL
 		);
-
-		try {
-	PDO::instance()->beginTransaction();		
+		try {	
 			$data = $PostsEntity->toArray();
 			array_shift($data);
 			$insertPost->execute($data);
-			PDO::instance()->commit();
 			return (int)PDO::instance()->lastInsertId();
-		} catch (\Throwable $t) {
-			dump($t);
-PDO::instance()->rollBack();
-throw $t;
+		} catch (Throwable $th) {
+			dump($th);
+			throw $th;
 		}
 	}
 	/**

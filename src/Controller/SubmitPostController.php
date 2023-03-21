@@ -36,11 +36,11 @@ Class SubmitPostController
 				added_by: $added_by,
 			));
 			//Update post count for user
-			$userArray = UsersRepository::queryUser($added_by);
-			$num_posts = $userArray['num_posts'];
+			$user = UsersRepository::queryUser($added_by);
+			$num_posts = $user['num_posts'];
 			$num_posts++;
 			UsersRepository::aggregatePosts($num_posts, $added_by);
+			return new Response(httpStatus: 200);
 		}
-		return new Response(httpStatus: 200);
 	}
 }
