@@ -13,9 +13,9 @@ Class ProfileController
 {
     /**
      * Array of user data (here only username required)
-     * @var array<mixed> $userArray
+     * @var array<mixed> $profileUser
      */
-    public array $userArray = [];
+    public array $profileUser = [];
 
     /**
      * @return Response 
@@ -37,12 +37,12 @@ Class ProfileController
         }
 
         if (isset($_GET['profile_username'])) {
-            $username = $_GET['profile_username'];
-            $this->userArray = UsersRepository::queryUser($username);
+            $profileUsername = $_GET['profile_username'];
+            $this->profileUser = UsersRepository::queryUser($profileUsername);
         }
           
-        if (isset($this->userArray['user_closed'])) {
-            if ($this->userArray['user_closed'] == 'yes') {
+        if (isset($this->profileUser['user_closed'])) {
+            if ($this->profileUser['user_closed'] == 'yes') {
             return (new Response(302))->addHeader(
                 new Header(
                     name: 'Location', value: '/user_closed'
@@ -53,7 +53,7 @@ Class ProfileController
         
         $template = new Template(__DIR__ . '/../View');
         $html = $template->render('ProfileView.php', [
-            'userArray' => $this->userArray,
+            'profileUser' => $this->profileUser,
             'user' => $user
         ]);
 

@@ -33,9 +33,11 @@ class ProfileTest extends TestCase
      */
     public function testViewProfilePageOfSelectedUser(): void
     {
-        $request = new Request(['QUERY_STRING' => 'profile?profile_username=john_bettiol']);
+        $request = new Request(['QUERY_STRING' => 'profile']);
 
         $_SESSION['username'] = 'georgie_kinany';
+
+        $_GET['profile_username'] = 'john_bettiol';
 
         ob_start();
 
