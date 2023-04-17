@@ -35,7 +35,7 @@ class CommentTest extends TestCase
     {
         $request = new Request(['QUERY_STRING' => 'comment_frame']);
 
-        $_SESSION['username'] = 'john_bettiol';
+        $_SESSION['username'] = 'john_b';
 
         ob_start();
 

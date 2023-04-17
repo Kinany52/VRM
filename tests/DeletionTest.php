@@ -5,30 +5,15 @@ declare(strict_types=1);
 namespace Tests;
 
 use DateTime;
-use Core\Router;
-use Core\Application;
 use Core\Http\Request;
 use App\Entity\PostsEntity;
-use PHPUnit\Framework\TestCase;
 use App\Repository\PostsRepository;
 use App\Repository\UsersRepository;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
-class DeletionTest extends TestCase
+class DeletionTest extends AbstractTest
 {
-    protected Router $router;
-    protected Application $application;
-
-    protected function setUp(): void
-    {   
-        $router = new Router();
-        $this->router = $router;
-
-        $application = new Application($router);
-        $this->application = $application;
-    }
-
     /**
      * @runInSeparateProcess
      * @return void
@@ -67,12 +52,7 @@ class DeletionTest extends TestCase
 
         $_SESSION['username'] = $fixture['added_by'];
 
-        ob_start();
-    
-        $response = $this->application->handleRequest($request);
-
-        ob_get_contents();
-        ob_get_clean();
+        $response = $this->performRequest($request);
 
         $this->assertEquals(200, $response->httpStatus);
     } 
